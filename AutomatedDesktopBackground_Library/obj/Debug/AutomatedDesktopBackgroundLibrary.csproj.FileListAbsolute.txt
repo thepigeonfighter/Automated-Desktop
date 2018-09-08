@@ -1,0 +1,12 @@
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.csproj.CoreCompileInputs.cache
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Debug\Newtonsoft.Json.dll
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Debug\Newtonsoft.Json.xml
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.csproj.CopyComplete
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Debug\AutomatedDesktopBackgroundLibrary.dll
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Debug\AutomatedDesktopBackgroundLibrary.pdb
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.dll
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.pdb
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Debug\Quartz.dll
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Debug\Quartz.pdb
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Debug\Quartz.xml
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.csprojAssemblyReference.cache
