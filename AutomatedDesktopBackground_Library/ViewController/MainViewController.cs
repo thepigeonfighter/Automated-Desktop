@@ -17,6 +17,10 @@ namespace AutomatedDesktopBackgroundLibrary
         public MainViewController() {
 
             GlobalConfig.EventSystem.DownloadCompleteEvent += EventSystem_DownloadCompleteEvent;
+            if(GetCurrentWallPaperFromFile().Id !=-1 && GlobalConfig.CurrentWallpaper == null)
+            {
+                GlobalConfig.CurrentWallpaper = GetCurrentWallPaperFromFile();
+            }
         }
 
 
@@ -91,6 +95,51 @@ namespace AutomatedDesktopBackgroundLibrary
             {
                  await Task.Run(()=>GlobalConfig.JobManager.StopCollectionChange());
             }
+        }
+        public bool SetImageAsFavorite()
+        {
+            if (GlobalConfig.CurrentWallpaper != null)
+            {
+                fileManager.LikeImage(GlobalConfig.CurrentWallpaper);
+                return true;
+            }
+            else
+            {
+                ImageModel currentWallpaper = GetCurrentWallPaperFromFile();
+                if(currentWallpaper.Id != -1)
+                {
+                    fileManager.LikeImage(currentWallpaper);
+                    return true;
+                }
+            }
+            return false;
+        }
+        public async Task SetImageAsHated()
+        {
+            if (GlobalConfig.CurrentWallpaper != null)
+            {
+              await Task.Run(()=>  fileManager.HateImage(GlobalConfig.CurrentWallpaper));
+            }
+            else
+            {
+                ImageModel currentWallpaper = GetCurrentWallPaperFromFile();
+                if (currentWallpaper.Id != -1)
+                {
+                    await Task.Run(()=>fileManager.HateImage(currentWallpaper));
+                }
+            }
+        }
+        public bool IsFavorited()
+        {
+            List<ImageModel> favImages = fileManager.GetAllFavoritedImages();
+            foreach(ImageModel i in favImages)
+            {
+                if(i.Name == GlobalConfig.CurrentWallpaper.Name)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
     }

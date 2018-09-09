@@ -16,6 +16,7 @@ namespace AutomatedDesktopBackgroundLibrary
         public event EventHandler<string> StartedDownloadingEvent;
         public event EventHandler<string> ConfigSettingChangedEvent;
         public event EventHandler<string> UpdateBackgroundEvent;
+        public event EventHandler<string> ImageHatingHasCompleted;
         public void InvokePercentChangeEvent(int percentage)
         {
             DownloadPercentageEvent?.Invoke(this, percentage );
@@ -51,6 +52,10 @@ namespace AutomatedDesktopBackgroundLibrary
         public void InvokeUpdateBackroundEvent()
         {
             UpdateBackgroundEvent?.Invoke(this, "Updating background");
+        }
+        public void InvokeImageHatingCompleteEvent()
+        {
+            ImageHatingHasCompleted?.Invoke(this, "Image has been removed");
         }
     }
 }

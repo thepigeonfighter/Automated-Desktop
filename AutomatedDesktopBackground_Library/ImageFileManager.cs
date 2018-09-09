@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
@@ -57,17 +58,22 @@ namespace AutomatedDesktopBackgroundLibrary
                 //Find interest that is supposed to be removed
                 InterestModel interestToRemove = interests.FirstOrDefault(x => x.Name == interest);
                 if(interestToRemove == null) { throw new Exception("There is no interest by that name!"); }
-                // Finds all the images that are not associated with the interest that is about to be removed
-                List<ImageModel> imagesToKeep = ImagesNotAssociatedToInterestId(interestToRemove.Id);
-                List<ImageModel> favoriteImages = GetAllFavoriteImages().Where(x => x.InterestId == interestToRemove.Id).ToList();
-                favoriteImages?.ForEach(x => imagesToKeep.Add(x));
+                // Finds all the images 
+                List<ImageModel> allImages = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.ImageFile);
+                // Notes that the images associated with the interest about to be removed are no longer downloaded
+                List<ImageModel> imagesAboutToBeRemoved = allImages.Where(x => x.InterestId == interestToRemove.Id).ToList();
+                List<ImageModel> favoriteImages = GetAllFavoriteImages();
+                //This removes any images that have been favorited from the list of images that will be deleted. 
+                favoriteImages.ForEach(x => imagesAboutToBeRemoved.Remove(x));
+                imagesAboutToBeRemoved.ForEach(x => x.IsDownloaded = false);
+
                 //If there are any images to save it will save it replacing that save file
-                if (imagesToKeep.Count > 0)
+                if (allImages.Count > 0)
                 {
-                    TextConnectorProcessor.SaveToTextFile(imagesToKeep, GlobalConfig.ImageFile);
+                    TextConnectorProcessor.SaveToTextFile(allImages, GlobalConfig.ImageFile);
                 }
                 //If there aren't any images that are to be kept it deletes the entire image.csv file
-                else if (imagesToKeep.Count == 0)
+                else if (allImages.Count == 0)
                 {
                     File.Delete(GlobalConfig.ImageFile);
                 }
@@ -92,18 +98,35 @@ namespace AutomatedDesktopBackgroundLibrary
                 Directory.Delete($@"{GlobalConfig.FileSavePath}\{interest}", true);
             }
         }
-        
+        /// <summary>
+        /// Returns a page number for a source download based on the amount of previous images downloaded
+        /// </summary>
+        /// <param name="interestName"></param>
+        /// <returns></returns>
         public int GetNewPageQuerry(string interestName)
         {
             int newPageNumber = 1;
             if (InterestExists(interestName))
             {
+                int interestId = GetInterestIdByInterestName(interestName);
                 List<ImageModel> images = GetAllImagesByInterestName(interestName);
-                if (images.Count > 1)
+                
+                if (images.Count > 0)
                 {
+                    newPageNumber = images.Count;
+                    //This makes sure to add any photos that have been downloaded before in other folders
+                    List<ImageModel> anyHatedImagesWithThisId = GetAllHatedImages().Where(x => x.InterestId == interestId).ToList();
+                    List<ImageModel> anyFavoritedImagesWithThisId = GetAllFavoriteImages().Where(x => x.InterestId == interestId).ToList();
+                    anyHatedImagesWithThisId?.ForEach(x => newPageNumber++);
+                    anyFavoritedImagesWithThisId?.ForEach(x => newPageNumber++);
                     //This cycles through all the images that are available on the image database that we are using
-                    newPageNumber = (images.Count / 10) +1;
+                    //The reason for dividing by 10 is because that is how many results we get per querry
+                    //That number could and probably should be changed but if we ever get less than 
+                    //10 results it should indicate that it is the last page of results
+                    newPageNumber = (newPageNumber/ 10) +1;
                 }
+
+                
             }
             return newPageNumber;
         }
@@ -113,14 +136,90 @@ namespace AutomatedDesktopBackgroundLibrary
         }
         public void LikeImage(ImageModel image)
         {
+
+            DirectoryInfo directoryInfo =  Directory.CreateDirectory(GlobalConfig.FullFilePath("Favorited Images"));
+            File.Copy(image.FileDir, $@"{directoryInfo.FullName}/{image.Name}");
             TextConnectorProcessor.CreateEntry(image, GlobalConfig.FavoritesFile);
         }
-        /*
-         * if you want to get results out of a task you overload the method with the vars you want effected
-         * i.e. to get a progress report it would like like async Task Function(IProgress<ProgressModel> progress)
-         * Then you can call an event that is associated with that var i.e. progress.Report() that would then load the changed 
-         * data
-         */
+        public List<ImageModel> GetAllHatedImages()
+        {
+            return TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.HatedFile);
+        }
+        public async Task HateImage(ImageModel image)
+        {
+            List<ImageModel> images = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.ImageFile);
+            
+            
+            //If there are at least two photos still downloaded than pick a random photo
+            //Then delete the picture that is hated then save the new list of leftover images
+            if (images.Count > 1)
+            {
+
+                foreach (ImageModel i in images.ToArray())
+                {
+                    if (i.Id == image.Id)
+                    {
+                        images.Remove(i);
+                        break;
+                    }
+                }
+                
+                images.ToList();
+                TextConnectorProcessor.SaveToTextFile(images, GlobalConfig.ImageFile);
+                image.IsDownloaded = false;
+                TextConnectorProcessor.CreateEntry(image, GlobalConfig.HatedFile);
+                BackGroundPicker backGroundPicker = new BackGroundPicker();
+                backGroundPicker.PickRandomBackground();
+                await Task.Run(()=>DeleteImageAsync(image.FileDir));
+            }
+            else
+            {
+                //If there is only
+                MessageBox.Show("There is only one photo left in your collection. You must download more photos before deleting this photo.");
+            }
+        }
+        private async Task DeleteImageAsync(string url)
+        {
+            bool fileReady = false;
+            int timeOut = 100;
+            int tries = 0;
+            while(!fileReady && tries < timeOut)
+            {
+                fileReady = IsFileReady(url);
+                tries++;
+                if(fileReady && File.Exists(url))
+                {
+                     File.Delete(url);
+                    GlobalConfig.EventSystem.InvokeImageHatingCompleteEvent();
+                }
+                else if (!File.Exists(url))
+                {
+                    GlobalConfig.EventSystem.InvokeImageHatingCompleteEvent();
+                    break;
+                }
+                await Task.Delay(500);
+            }
+            if(tries> timeOut) { MessageBox.Show("Deleting an image timed out"); }
+        }
+        public static bool IsFileReady(string filename)
+        {
+            // If the file can be opened for exclusive access it means that the file
+            // is no longer locked by another process.
+            try
+            {
+                using (FileStream inputStream = File.Open(filename, FileMode.Open, FileAccess.Read, FileShare.None))
+                    return inputStream.Length > 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+        public List<ImageModel> GetAllFavoritedImages()
+        {
+            return TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.FavoritesFile);
+        }
+
 
     }
 }

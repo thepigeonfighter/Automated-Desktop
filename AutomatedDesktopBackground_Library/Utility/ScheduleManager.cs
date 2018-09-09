@@ -10,7 +10,7 @@ namespace AutomatedDesktopBackgroundLibrary.Scheduler
     {
         private static DateTime BackgroundSetAt = new DateTime(2008,1,1);
         private static DateTime CollectionChangedAt = new DateTime(2008, 1, 1);
-        private static TimeSpan BackgroundRefreshSettings = new TimeSpan(0, 0, 30);
+        private static TimeSpan BackgroundRefreshSettings = new TimeSpan(0, 5, 0);
         private static TimeSpan CollectionRefreshSettings = new TimeSpan(2,0,0);
         private static DateTime NextBackgroundChangeAt = new DateTime(2008, 1, 1);
         private static DateTime NextCollectionChangeAt = new DateTime(2008, 1, 1);

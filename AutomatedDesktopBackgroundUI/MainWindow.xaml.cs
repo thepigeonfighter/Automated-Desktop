@@ -93,6 +93,7 @@ namespace AutomatedDesktopBackgroundUI
             interestListBox.SelectedValuePath = "Name";
             interestListBox.ItemsSource = viewController.interests;
             EventSystem_ConfigSettingChangedEvent(this, "");
+            EventSystem_UpdateBackgroundEvent(this, "");
             if (viewController.GetCurrentWallPaperFromFile().Id != -1 )
             {
                 currentImageLabel.Content = $"Current image is {viewController.GetCurrentWallPaperFromFile().Name}";
@@ -166,6 +167,12 @@ namespace AutomatedDesktopBackgroundUI
             GlobalConfig.EventSystem.DownloadPercentageEvent += EventSystem_DownloadPercentageEvent;
             GlobalConfig.EventSystem.ConfigSettingChangedEvent += EventSystem_ConfigSettingChangedEvent;
             GlobalConfig.EventSystem.UpdateBackgroundEvent += EventSystem_UpdateBackgroundEvent;
+            GlobalConfig.EventSystem.ImageHatingHasCompleted += EventSystem_ImageHatingHasCompleted;
+        }
+
+        private void EventSystem_ImageHatingHasCompleted(object sender, string e)
+        {
+            this.Dispatcher.Invoke(() => HateImageButton.IsEnabled = true);
         }
 
         private  void EventSystem_UpdateBackgroundEvent(object sender, string e)
@@ -177,6 +184,17 @@ namespace AutomatedDesktopBackgroundUI
                 this.Dispatcher.Invoke(() =>
                 currentImageLabel.Content = $"Current image is {currentWallpaper.Name}"
                 );
+                if (viewController.IsFavorited())
+                {
+                    this.Dispatcher.Invoke(() =>
+                    FavoriteImageButton.IsEnabled = false
+                    );
+                }else
+                {
+                    this.Dispatcher.Invoke(() =>
+                    FavoriteImageButton.IsEnabled = true
+                    );
+                }
             }
         }
 
@@ -244,6 +262,22 @@ namespace AutomatedDesktopBackgroundUI
             amountImagesDownloadedLabel.Content = "";
             amountImagesDownloadedLabel.Visibility = Visibility.Hidden;
             downloadProgressBar.Visibility = Visibility.Hidden;
+        }
+
+        private void FavoriteAImage_Click(object sender, RoutedEventArgs e)
+        {
+           bool sucess =  viewController.SetImageAsFavorite();
+            if(sucess)
+            {
+                FavoriteImageButton.IsEnabled = false;
+            }
+        }
+
+        private void HateImage_Click(object sender, RoutedEventArgs e)
+        {
+
+            this.Dispatcher.Invoke(()=>viewController.SetImageAsHated());
+            this.Dispatcher.Invoke(() => HateImageButton.IsEnabled = false);
         }
     }
     

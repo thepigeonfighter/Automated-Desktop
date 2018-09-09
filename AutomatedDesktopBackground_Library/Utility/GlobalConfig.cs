@@ -75,6 +75,16 @@ namespace AutomatedDesktopBackgroundLibrary
             {
             }
         }
+        public static string HatedFile
+        {
+            get
+            {
+                return FullFilePath("Hated.csv");
+            }
+            private set
+            {
+            }
+        }
         private static bool _backgroundUpdating = false;
         public static bool BackGroundUpdating
         {

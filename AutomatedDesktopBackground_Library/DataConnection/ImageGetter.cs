@@ -16,8 +16,9 @@ namespace AutomatedDesktopBackgroundLibrary
     /// </summary>
     public class ImageGetter
     {
-        //TODO make this int customizable 
+       
         public int ExpectedDownloadAmount { get; set; }
+        private ImageFileManager fileManager = new ImageFileManager();
         List<ImageModel> images = new List<ImageModel>();
         string mainQuery;
         public void  GetImage(string imageUrl , string folderName)
@@ -49,15 +50,30 @@ namespace AutomatedDesktopBackgroundLibrary
         private void DownloadFile(string imageUrl, string folderName)
         {
             string filename = GetFilleName(imageUrl)+".JPEG";
-
-            using (WebClient wc = new WebClient())
+            bool isHated = false;
+            List<ImageModel> hatedImages = fileManager.GetAllHatedImages();
+            //This checks to make sure that we haven't previously marked the image
+            //as hated before we download it
+            foreach(ImageModel i in hatedImages.ToArray())
             {
-                wc.DownloadProgressChanged += wc_DownloadProgressChanged;
-                wc.DownloadFileCompleted += wc_DownloadFileCompleted;
-                wc.DownloadFileAsync(new Uri(imageUrl), $"{GlobalConfig.FileSavePath}/{folderName}/{filename}");
-               
+                if(i.Name == filename)
+                {
+                    isHated = true;
+                    //This ensures that to download doesn't become out of sync 
+                    ExpectedDownloadAmount--;
+                }
             }
-           CreateImageModel($"{GlobalConfig.FileSavePath}/{folderName}/{filename}", filename);
+            if (!isHated)
+            {
+                using (WebClient wc = new WebClient())
+                {
+                    wc.DownloadProgressChanged += wc_DownloadProgressChanged;
+                    wc.DownloadFileCompleted += wc_DownloadFileCompleted;
+                    wc.DownloadFileAsync(new Uri(imageUrl), $"{GlobalConfig.FileSavePath}/{folderName}/{filename}");
+
+                }
+                CreateImageModel($"{GlobalConfig.FileSavePath}/{folderName}/{filename}", filename);
+            }
         }
         private void CreateImageModel(string filePath, string name)
         {
@@ -65,7 +81,6 @@ namespace AutomatedDesktopBackgroundLibrary
             imageModel.FileDir = filePath;
             imageModel.Name = name;
             images.Add(imageModel);
-            //TextConnectorProcessor.CreateEntry(imageModel, filePath);
 
         }
 
@@ -114,25 +129,30 @@ namespace AutomatedDesktopBackgroundLibrary
         }
         private void SubmitChanges()
         {
-            List<InterestModel> models = TextConnectorProcessor.LoadFromTextFile<InterestModel>(GlobalConfig.FullFilePath("Interests.csv"));
-            int interestId = models.FirstOrDefault(x => x.Name == mainQuery).Id;
-            //This sets every image in this ground to have an associated interestId
-            images.ForEach(x => x.InterestId = interestId);
-            List<ImageModel> existingImages = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.ImageFile);
-            int currentId = 1;
-            if(existingImages.Count > 0)
+            if (images.Count > 0)
             {
-                currentId = existingImages.Max(x => x.Id) + 1;
+
+                int interestId = fileManager.GetInterestIdByInterestName(mainQuery);
+                //This sets every image in this ground to have an associated interestId
+                images.ForEach(x => x.InterestId = interestId);
+                List<ImageModel> existingImages = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.ImageFile);
+                int currentId = 1;
+                if (existingImages.Count > 0)
+                {
+                    currentId = existingImages.Max(x => x.Id) + 1;
+                }
+                foreach (ImageModel i in images)
+                {
+                    i.IsDownloaded = true;
+                    i.Id = currentId;
+                    currentId++;
+                }
+
+                existingImages.ForEach(x => images.Add(x));
+                TextConnectorProcessor.SaveToTextFile(images, GlobalConfig.ImageFile);
+                images.Clear();
+                MessageBox.Show("Images succesfully downloaded");
             }
-            foreach(ImageModel i in images)
-            {
-                i.Id = currentId;
-                currentId++;
-            }
-            existingImages.ForEach(x => images.Add(x));
-            TextConnectorProcessor.SaveToTextFile(images, GlobalConfig.ImageFile);
-            images.Clear();
-            MessageBox.Show("File succesfully downloaded");
         }
 
 

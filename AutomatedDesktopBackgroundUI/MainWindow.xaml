@@ -26,9 +26,8 @@
         <Button x:Name="startBackgroundRefreshButton_Copy" Content="Start" HorizontalAlignment="Left" Margin="685,94,0,0" VerticalAlignment="Top" Width="75" Click="startBackgroundRefreshButton_Copy_Click"/>
         <Button x:Name="startCollectionRefreshButton_Copy" Content="Start" HorizontalAlignment="Left" Margin="685,122,0,0" VerticalAlignment="Top" Width="75" />
         <Label x:Name="currentImageLabel" Content="Current Image" HorizontalAlignment="Left" Margin="24,88,0,0" VerticalAlignment="Top" Width="336"/>
-        <Button Content="Love it!
-" HorizontalAlignment="Left" Margin="176,126,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button Content="Hate It!" HorizontalAlignment="Left" Margin="292,126,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="FavoriteImageButton" Content="Love it!" HorizontalAlignment="Left" Margin="176,126,0,0" VerticalAlignment="Top" Width="75" Click="FavoriteAImage_Click"/>
+        <Button x:Name="HateImageButton" Content="Hate It!" HorizontalAlignment="Left" Margin="292,126,0,0" VerticalAlignment="Top" Width="75" Click="HateImage_Click"/>
 
     </Grid>
 </Window>
