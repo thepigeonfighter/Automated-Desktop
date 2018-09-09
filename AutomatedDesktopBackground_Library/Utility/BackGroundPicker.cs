@@ -8,11 +8,16 @@ using System.ComponentModel;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
+    /// <summary>
+    /// Picks a random image from the entire library of downloaded images
+    /// </summary>
     public class BackGroundPicker
     {
        public void PickRandomBackground()
         {
             List<ImageModel> images = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.ImageFile);
+            List<ImageModel> favImages = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.FavoritesFile);
+            favImages?.ForEach(x => images.Add(x));
             if (images.Count > 0)
             {
                 Random r = new Random();
