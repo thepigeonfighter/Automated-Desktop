@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,7 +16,7 @@ namespace AutomatedDesktopBackgroundLibrary
     /// </summary>
     public class ImageFileManager
     {
-        private  bool InterestExists(string interestName)
+        public bool InterestExists(string interestName)
         {
             string filePath = $"{GlobalConfig.FullFilePath(interestName)}";
             if (Directory.Exists(filePath))
@@ -47,12 +48,12 @@ namespace AutomatedDesktopBackgroundLibrary
             images = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.ImageFile).Where(x => x.InterestId != id).ToList();
             return images;
         }
-       public void RemoveImagesByInterest(string interest)
+       public async Task RemoveImagesByInterestAsync(string interest)
         {
             List<InterestModel> interests = TextConnectorProcessor.LoadFromTextFile<InterestModel>(GlobalConfig.InterestFile);
             //This makes sure that there are at least going to be one more interest before
             //Deciding which ones to save
-            if (interests.Count > 1)
+            if (interests.Count > 0)
             {
                 //Make Sure interest list is up to date
                 //Find interest that is supposed to be removed
@@ -79,23 +80,21 @@ namespace AutomatedDesktopBackgroundLibrary
                 }
                 //Then it removes the interest
                 interests.Remove(interestToRemove);
-                TextConnectorProcessor.SaveToTextFile(interests.ToList(), GlobalConfig.InterestFile);
-            }
-            //Else if there is only one interest left we know that this is the
-            // interest that the user is wanting to remove in which case 
-            // we will delete the entire file
-            else if (interests.Count == 1)
-            {
-                interests.Clear();
-                File.Delete(GlobalConfig.InterestFile);
-                File.Delete(GlobalConfig.ImageFile);
+                if (interests.Count == 0)
+                {
+                    File.Delete(GlobalConfig.InterestFile);
+                }
+                else
+                {
+                    TextConnectorProcessor.SaveToTextFile(interests.ToList(), GlobalConfig.InterestFile);
+                }
             }
             //This deletes the entire folder of photos that is associated with the
             // interest 
             if (Directory.Exists($@"{GlobalConfig.FileSavePath}\{interest}"))
             {
-                //TODO make sure folder is not in use before deleting 
-                Directory.Delete($@"{GlobalConfig.FileSavePath}\{interest}", true);
+                 await Task.Run(()=>DeleteDirectoryAsync(interest));
+                
             }
         }
         /// <summary>
@@ -138,12 +137,30 @@ namespace AutomatedDesktopBackgroundLibrary
         {
 
             DirectoryInfo directoryInfo =  Directory.CreateDirectory(GlobalConfig.FullFilePath("Favorited Images"));
-            File.Copy(image.FileDir, $@"{directoryInfo.FullName}/{image.Name}");
+            if (File.Exists(image.FileDir))
+            {
+                File.Copy(image.FileDir, $@"{directoryInfo.FullName}/{image.Name}");
+            }
+            else
+            {
+                using (WebClient wc = new WebClient())
+                {
+
+                    wc.DownloadFileAsync(new Uri(image.DownloadPath), image.FileDir);
+
+
+                }
+                File.Copy(image.FileDir, $@"{directoryInfo.FullName}/{image.Name}");
+            }
             TextConnectorProcessor.CreateEntry(image, GlobalConfig.FavoritesFile);
         }
         public List<ImageModel> GetAllHatedImages()
         {
             return TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.HatedFile);
+        }
+        private async Task DeleteDirectoryAsync(string interest)
+        {
+            await Task.Run(() => Directory.Delete($@"{GlobalConfig.FileSavePath}\{interest}",true));
         }
         public async Task HateImage(ImageModel image)
         {
@@ -215,6 +232,7 @@ namespace AutomatedDesktopBackgroundLibrary
                 return false;
             }
         }
+
         public List<ImageModel> GetAllFavoritedImages()
         {
             return TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.FavoritesFile);

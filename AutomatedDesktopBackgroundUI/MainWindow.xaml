@@ -11,10 +11,10 @@
         <Label x:Name="header" Content="Automated Desktop Background" HorizontalAlignment="Left" Margin="176,21,0,0" VerticalAlignment="Top" FontFamily="MS Gothic" FontSize="36" Foreground="#FF535252"/>
         <TextBox x:Name="queryTextBox" HorizontalAlignment="Left" Height="27" Margin="395,146,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="242"/>
         <Button x:Name="querySearchButton" Content="Add Interest" HorizontalAlignment="Left" Margin="463,178,0,0" VerticalAlignment="Top" Width="126" RenderTransformOrigin="0.387,-0.45" Click="querySearchButton_Click"/>
-        <ListBox x:Name="interestListBox" HorizontalAlignment="Left" Height="215" Margin="24,162,0,0" VerticalAlignment="Top" Width="205"/>
+        <ListBox x:Name="interestListBox" HorizontalAlignment="Left" Height="215" Margin="24,162,0,0" VerticalAlignment="Top" Width="205" SelectionChanged="interestListBox_SelectionChanged"/>
         <Label Content="Interests" HorizontalAlignment="Left" Margin="24,126,0,0" VerticalAlignment="Top" Width="74" FontSize="14"/>
-        <Button x:Name="removeInterestButton" Content="Remove Interest" HorizontalAlignment="Left" Margin="51,382,0,0" VerticalAlignment="Top" Width="152" Click="removeInterestButton_Click"/>
-        <Button x:Name="downloadButton" Content="Download New Collection" HorizontalAlignment="Left" Margin="430,237,0,0" VerticalAlignment="Top" Width="190" Height="46" Click="downloadButton_Click" ToolTip="Downloads a new collection of images associated with the selected interest"/>
+        <Button x:Name="removeInterestButton" ToolTip="Removes any images that are associated with this interest unless they have been marked as favorite." Content="Remove Interest" HorizontalAlignment="Left" Margin="51,382,0,0" VerticalAlignment="Top" Width="152" Click="removeInterestButton_Click"/>
+        <Button x:Name="downloadButton" Content="Download New Collection" ToolTip="Select an interest from the interest list to download a new collection." HorizontalAlignment="Left" Margin="430,237,0,0" VerticalAlignment="Top" Width="190" Height="46" Click="downloadButton_Click" />
         <ProgressBar x:Name="downloadProgressBar" HorizontalAlignment="Left" Height="14" Margin="425,303,0,0" VerticalAlignment="Top" Width="175"/>
         <Label x:Name="amountImagesDownloadedLabel" Content="" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="47" Height="23" Margin="600,294,0,0"/>
         <Button x:Name="settingsButton" Content="Settings" HorizontalAlignment="Left" Margin="430,332,0,0" VerticalAlignment="Top" Width="190" Height="29" Click="settingsButton_Click"/>
@@ -24,10 +24,10 @@
         <Button x:Name="stopBackgroundRefreshButton" Content="Stop" HorizontalAlignment="Left" Margin="590,94,0,0" VerticalAlignment="Top" Width="75" Click="stopBackgroundRefreshButton_Click"/>
         <Button x:Name="stopCollectionRefreshButton" Content="Stop" HorizontalAlignment="Left" Margin="590,121,0,0" VerticalAlignment="Top" Width="75" Click="stopCollectionRefreshButton_Click"/>
         <Button x:Name="startBackgroundRefreshButton_Copy" Content="Start" HorizontalAlignment="Left" Margin="685,94,0,0" VerticalAlignment="Top" Width="75" Click="startBackgroundRefreshButton_Copy_Click"/>
-        <Button x:Name="startCollectionRefreshButton_Copy" Content="Start" HorizontalAlignment="Left" Margin="685,122,0,0" VerticalAlignment="Top" Width="75" />
+        <Button x:Name="startCollectionRefreshButton_Copy" Content="Start" HorizontalAlignment="Left" Margin="685,122,0,0" VerticalAlignment="Top" Width="75" Click="startCollectionRefreshButton_Copy_Click" />
         <Label x:Name="currentImageLabel" Content="Current Image" HorizontalAlignment="Left" Margin="24,88,0,0" VerticalAlignment="Top" Width="336"/>
-        <Button x:Name="FavoriteImageButton" Content="Love it!" HorizontalAlignment="Left" Margin="176,126,0,0" VerticalAlignment="Top" Width="75" Click="FavoriteAImage_Click"/>
-        <Button x:Name="HateImageButton" Content="Hate It!" HorizontalAlignment="Left" Margin="292,126,0,0" VerticalAlignment="Top" Width="75" Click="HateImage_Click"/>
+        <Button x:Name="FavoriteImageButton" ToolTip="Marks the image as a favorite so it will not be removed even if the image is removed." Content="Love it!" HorizontalAlignment="Left" Margin="176,126,0,0" VerticalAlignment="Top" Width="75" Click="FavoriteAImage_Click"/>
+        <Button x:Name="HateImageButton" ToolTip="Deletes an image and bans the image from being downloaded again in the future" Content="Hate It!" HorizontalAlignment="Left" Margin="292,126,0,0" VerticalAlignment="Top" Width="75" Click="HateImage_Click"/>
 
     </Grid>
 </Window>

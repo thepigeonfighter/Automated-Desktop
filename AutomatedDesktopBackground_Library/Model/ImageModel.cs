@@ -13,5 +13,6 @@ namespace AutomatedDesktopBackgroundLibrary
         public string Name { get; set; }
         public int InterestId { get; set; }
         public bool IsDownloaded { get; set; }
+        public string  DownloadPath { get; set; }
     }
 }

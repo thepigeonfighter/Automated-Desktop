@@ -53,6 +53,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionRefresher.cs" />
+    <Compile Include="CollectionRefreshJob.cs" />
     <Compile Include="Utility\ChangeBackgroundJob.cs" />
     <Compile Include="DataConnection\APIManager.cs" />
     <Compile Include="DataConnection\IDataRequest.cs" />

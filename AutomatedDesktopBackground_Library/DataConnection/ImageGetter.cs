@@ -16,16 +16,29 @@ namespace AutomatedDesktopBackgroundLibrary
     /// </summary>
     public class ImageGetter
     {
-       
+       /// <summary>
+       /// The amount of downloads that the class expects to process
+       /// </summary>
         public int ExpectedDownloadAmount { get; set; }
+        /// <summary>
+        /// The amount of downloads that were originally requested
+        /// </summary>
+        private int totalDownloadsRequested;
+        /// <summary>
+        /// A list of any requests that resulted in an error. 
+        /// </summary>
+        private List<int> errorIndex = new List<int>();
         private ImageFileManager fileManager = new ImageFileManager();
         List<ImageModel> images = new List<ImageModel>();
         string mainQuery;
-        public void  GetImage(string imageUrl , string folderName)
+        bool userRequested = false;
+        public void  GetImage(string imageUrl , string folderName, bool isUserRequested)
         {
+            totalDownloadsRequested = ExpectedDownloadAmount;
             Directory.CreateDirectory($"{GlobalConfig.FileSavePath}/{folderName}");
             mainQuery = folderName;
             DownloadFile(imageUrl,folderName);
+            userRequested = isUserRequested;
         }
 
         /// <summary>
@@ -65,22 +78,27 @@ namespace AutomatedDesktopBackgroundLibrary
             }
             if (!isHated)
             {
+                
                 using (WebClient wc = new WebClient())
                 {
+                    
                     wc.DownloadProgressChanged += wc_DownloadProgressChanged;
                     wc.DownloadFileCompleted += wc_DownloadFileCompleted;
-                    wc.DownloadFileAsync(new Uri(imageUrl), $"{GlobalConfig.FileSavePath}/{folderName}/{filename}");
+                    wc.DownloadFileAsync(new Uri( imageUrl), $"{GlobalConfig.FileSavePath}/{folderName}/{filename}");
+
 
                 }
-                CreateImageModel($"{GlobalConfig.FileSavePath}/{folderName}/{filename}", filename);
+                CreateImageModel($"{GlobalConfig.FileSavePath}/{folderName}/{filename}", filename,imageUrl);
             }
         }
-        private void CreateImageModel(string filePath, string name)
+        private void CreateImageModel(string filePath, string name, string downloadPath)
         {
             ImageModel imageModel = new ImageModel();
             imageModel.FileDir = filePath;
             imageModel.Name = name;
+            imageModel.DownloadPath = downloadPath;
             images.Add(imageModel);
+
 
         }
 
@@ -91,11 +109,10 @@ namespace AutomatedDesktopBackgroundLibrary
         /// <param name="e"></param>
         private void wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            // In case you don't have a progressBar Log the value instead 
-            // Console.WriteLine(e.ProgressPercentage);
-            // progressBar1.Value = e.ProgressPercentage;
-            // e.ProgressPercentage
-            GlobalConfig.EventSystem.InvokePercentChangeEvent( e.ProgressPercentage);
+            if (userRequested)
+            {
+                GlobalConfig.EventSystem.InvokePercentChangeEvent(e.ProgressPercentage);
+            }
         }
 
         private void wc_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
@@ -104,26 +121,34 @@ namespace AutomatedDesktopBackgroundLibrary
 
             if (e.Cancelled)
             {
-                MessageBox.Show("The download has been cancelled");
-                GlobalConfig.EventSystem.InvokeDownloadImageEvent(false);
-                return;
+                
+                if (userRequested)
+                {
+                    GlobalConfig.EventSystem.InvokeDownloadImageEvent(false);
+                    MessageBox.Show("The download has been cancelled");
+                }
             }
 
             if (e.Error != null) // We have an error! Retry a few times, then abort.
             {
-                MessageBox.Show("An error ocurred while trying to download file");
-                GlobalConfig.EventSystem.InvokeDownloadImageEvent(false);
-                return;
+                errorIndex.Add(totalDownloadsRequested - ExpectedDownloadAmount );
+                if (userRequested)
+                {
+                    GlobalConfig.EventSystem.InvokeDownloadImageEvent(false);
+                }
             }
             ExpectedDownloadAmount--;
             if(ExpectedDownloadAmount == 0)
             {
                 SubmitChanges();
-                GlobalConfig.EventSystem.InvokeDownloadCompleteEvent(true);
+                if (userRequested)
+                {
+                    GlobalConfig.EventSystem.InvokeDownloadCompleteEvent(true);
+                }
             }
             else
             {
-                GlobalConfig.EventSystem.InvokeDownloadImageEvent(true);
+                if (userRequested) { GlobalConfig.EventSystem.InvokeDownloadImageEvent(true); };
             }
            // MessageBox.Show("File succesfully downloaded");
         }
@@ -147,11 +172,50 @@ namespace AutomatedDesktopBackgroundLibrary
                     i.Id = currentId;
                     currentId++;
                 }
+                if(errorIndex.Count > 0)
+                {
+                    //This loops through any errors if we encountered any errors it deletes the file and 
+                    //adjust the save list to not show any images that failed to download
+                    
+                    for(int i = 0; i < errorIndex.Count; i++)
+                    {
+                        int index = errorIndex[i];
+                        ImageModel corruptedImage = images[index];
+                        corruptedImage.IsDownloaded = false;
 
-                existingImages.ForEach(x => images.Add(x));
-                TextConnectorProcessor.SaveToTextFile(images, GlobalConfig.ImageFile);
-                images.Clear();
-                MessageBox.Show("Images succesfully downloaded");
+                    }
+
+                    foreach(ImageModel i in images)
+                    {
+                        if(!i.IsDownloaded)
+                        {
+                            string filePath = i.FileDir;
+                            if(File.Exists(filePath))
+                            {
+                                File.Delete(filePath);
+                            }
+
+                        }
+                    }
+                    images = images.Where(x => x.IsDownloaded == true).ToList();
+                }
+                if (images.Count > 0)
+                {
+                    existingImages.ForEach(x => images.Add(x));
+                    TextConnectorProcessor.SaveToTextFile(images, GlobalConfig.ImageFile);
+                    images.Clear();
+                }
+                if (userRequested)
+                {
+                    if (errorIndex.Count == 0)
+                    {
+                        MessageBox.Show("Download Complete!");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Encountered {errorIndex.Count} errors in download process, corrupted files have been deleted and download is complete");
+                    }
+                }
             }
         }
 

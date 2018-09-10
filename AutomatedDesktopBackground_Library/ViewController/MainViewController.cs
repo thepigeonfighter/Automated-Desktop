@@ -51,10 +51,10 @@ namespace AutomatedDesktopBackgroundLibrary
 
             TextConnectorProcessor.SaveToTextFile(interests.ToList(), GlobalConfig.InterestFile);
         }
-        public void RemoveInterest(string interest)
+        public async Task RemoveInterest(string interest)
         {
             //TODO make sure this checks that the current image being displayed is trying to be deleted
-            fileManager.RemoveImagesByInterest(interest);
+            await Task.Run(()=>fileManager.RemoveImagesByInterestAsync(interest));
             RefreshInterestList();
         }
 
@@ -69,7 +69,7 @@ namespace AutomatedDesktopBackgroundLibrary
             if (!IsDownloading)
             {
                 GlobalConfig.EventSystem.InvokeStartedDownloadingEvent();
-                manager.GetImagesBySearch(query, 1);
+                manager.GetImagesBySearch(query, true);
                 IsDownloading = true;
                 
             }
@@ -81,19 +81,19 @@ namespace AutomatedDesktopBackgroundLibrary
         }
         public async Task  StartBackGroundRefresh()
         {      
-          await Task.Run(()=> GlobalConfig.JobManager.UpdateBackGroundAsync());
+          await Task.Run(()=> GlobalConfig.JobManager.StartBackgroundUpdatingAsync());
         }
         public async Task StopBackGroundRefresh()
         {
             
-            await Task.Run(()=> GlobalConfig.JobManager.StopBackgroundChange());
+            await Task.Run(()=> GlobalConfig.JobManager.StopBackgroundUpdatingAsync());
 
         }
         public async Task StopCollectionChange()
         {
             if (GlobalConfig.CollectionUpdating)
             {
-                 await Task.Run(()=>GlobalConfig.JobManager.StopCollectionChange());
+                 await Task.Run(()=>GlobalConfig.JobManager.StopCollectionUpdatingAsync());
             }
         }
         public bool SetImageAsFavorite()
@@ -140,6 +140,15 @@ namespace AutomatedDesktopBackgroundLibrary
                 }
             }
             return false;
+        }
+        public bool InterestExists(string interest)
+        {
+            
+            return fileManager.InterestExists(interest);
+        }
+        public async Task StartCollectionRefresh()
+        {
+            await Task.Run(() => GlobalConfig.JobManager.StartCollectionUpdatingAsync());
         }
 
     }

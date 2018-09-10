@@ -38,8 +38,8 @@ namespace AutomatedDesktopBackgroundLibrary.Scheduler
         }
         private static  async void ResetBackgroundSettings()
         {
-            await Task.Run(()=> GlobalConfig.JobManager.StopScheduler());
-            await Task.Run(()=>GlobalConfig.JobManager.UpdateBackGroundAsync());
+            await Task.Run(()=> GlobalConfig.JobManager.StopSchedulerAsync());
+            await Task.Run(()=>GlobalConfig.JobManager.StartBackgroundUpdatingAsync());
         }
 
         public static TimeModel  GetReadableForm(TimeSpan time)

@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace AutomatedDesktopBackgroundUI
 {
@@ -78,9 +79,9 @@ namespace AutomatedDesktopBackgroundUI
     
         private void removeInterestButton_Click(object sender, RoutedEventArgs e)
         {
-            viewController.RemoveInterest(interestListBox.SelectedValue.ToString());
-            interestListBox.ItemsSource = viewController.interests;
-            interestListBox.Items.Refresh();
+            this.Dispatcher.Invoke(()=>viewController.RemoveInterest(interestListBox.SelectedValue.ToString()));
+            this.Dispatcher.Invoke(() => interestListBox.ItemsSource = viewController.interests);
+            this.Dispatcher.Invoke(() => interestListBox.Items.Refresh());                    
         }
         private void WireListBox()
         {
@@ -94,6 +95,8 @@ namespace AutomatedDesktopBackgroundUI
             interestListBox.ItemsSource = viewController.interests;
             EventSystem_ConfigSettingChangedEvent(this, "");
             EventSystem_UpdateBackgroundEvent(this, "");
+            downloadButton.IsEnabled = false;
+            removeInterestButton.IsEnabled = false;
             if (viewController.GetCurrentWallPaperFromFile().Id != -1 )
             {
                 currentImageLabel.Content = $"Current image is {viewController.GetCurrentWallPaperFromFile().Name}";
@@ -105,8 +108,16 @@ namespace AutomatedDesktopBackgroundUI
         {
             if (!string.IsNullOrEmpty(queryTextBox.Text))
             {
-                viewController.AddInterest(queryTextBox.Text);
-                queryTextBox.Text = "";
+                if (!viewController.InterestExists(queryTextBox.Text))
+                {
+
+                    viewController.AddInterest(queryTextBox.Text);
+                    queryTextBox.Text = "";
+                }
+                else
+                {
+                    queryTextBox.Text = "";
+                }
             }
             viewController.RefreshInterestList();
             interestListBox.ItemsSource = viewController.interests;
@@ -278,6 +289,27 @@ namespace AutomatedDesktopBackgroundUI
 
             this.Dispatcher.Invoke(()=>viewController.SetImageAsHated());
             this.Dispatcher.Invoke(() => HateImageButton.IsEnabled = false);
+        }
+
+        private void interestListBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            if (interestListBox.SelectedValue != null)
+            {
+                downloadButton.IsEnabled = true;
+                removeInterestButton.IsEnabled = true;
+
+                queryTextBox.Text = interestListBox.SelectedValue.ToString();
+            }else
+            {
+                downloadButton.IsEnabled = false;
+                removeInterestButton.IsEnabled = false;
+            }
+        }
+
+        private void startCollectionRefreshButton_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            this.Dispatcher.Invoke(()=>
+            viewController.StartCollectionRefresh());
         }
     }
     

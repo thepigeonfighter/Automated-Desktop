@@ -25,7 +25,7 @@ namespace AutomatedDesktopBackgroundLibrary
            return  $"{baseUrl}search/photos?page={pageAmount}&query={query}&orientation=landscape&{authorizationKey}";
 
         }
-        private void SendRequest(string url)
+        private void SendRequest(string url, bool isUserRequest)
         {
             RootObject response = null;
             List<string> imageResults = new List<string>();
@@ -48,7 +48,7 @@ namespace AutomatedDesktopBackgroundLibrary
                 }
                 foreach(Result r in response.results)
                 {
-                    imageGetter.GetImage(r.urls.full,mainQuery);               
+                    imageGetter.GetImage(r.urls.full,mainQuery, isUserRequest);               
                 }
                 
             }
@@ -68,13 +68,13 @@ namespace AutomatedDesktopBackgroundLibrary
                 return result.Content.ReadAsStreamAsync().Result;
             }
         }
-        public void GetImagesBySearch(string query, int pageAmount)
+        public void GetImagesBySearch(string query,bool isUserRequested)
         {
 
             mainQuery = query;
             int pageNumber = fileManager.GetNewPageQuerry(query);
             string url = UrlBuilder(query, pageNumber);
-            SendRequest(url);
+            SendRequest(url, isUserRequested);
         }
 
     }
