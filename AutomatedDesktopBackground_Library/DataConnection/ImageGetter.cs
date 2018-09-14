@@ -31,14 +31,24 @@ namespace AutomatedDesktopBackgroundLibrary
         private ImageFileManager fileManager = new ImageFileManager();
         List<ImageModel> images = new List<ImageModel>();
         string mainQuery;
-        bool userRequested = false;
-        public void  GetImage(string imageUrl , string folderName, bool isUserRequested)
+        bool isUserRequested = false;
+        public void  GetImage(string imageUrl , string folderName, bool userRequested)
         {
             totalDownloadsRequested = ExpectedDownloadAmount;
-            Directory.CreateDirectory($"{GlobalConfig.FileSavePath}/{folderName}");
-            mainQuery = folderName;
-            DownloadFile(imageUrl,folderName);
-            userRequested = isUserRequested;
+            string downloadPath = Directory.CreateDirectory($"{GlobalConfig.FileSavePath}/{folderName}").FullName;
+            mainQuery = folderName;        
+                DownloadFile(imageUrl, downloadPath);
+       
+
+            isUserRequested = userRequested;
+        }
+        public void GetImageLocal(string imageUrl, string downloadPath, bool userRequested)
+        {
+            totalDownloadsRequested = ExpectedDownloadAmount;
+            string dirPath = Path.GetDirectoryName(downloadPath);
+            Directory.CreateDirectory(dirPath);
+            DownloadFileLocal(imageUrl, downloadPath);
+            isUserRequested = userRequested;
         }
 
         /// <summary>
@@ -57,11 +67,25 @@ namespace AutomatedDesktopBackgroundLibrary
 
             return filename;
         }
+        private void DownloadFileLocal(string imageUrl, string downloadPath)
+        {
+
+                using (WebClient wc = new WebClient())
+                {
+
+                    wc.DownloadProgressChanged += wc_DownloadProgressChanged;
+                    wc.DownloadFileCompleted += wc_DownloadFileCompleted;
+                    wc.DownloadFileAsync(new Uri(imageUrl), downloadPath);
+
+                }
+
+        }
         /// <summary>
         /// Download a file asynchronously in the desktop path, show the download progress and save it with the original filename.
         /// </summary>
-        private void DownloadFile(string imageUrl, string folderName)
+        private void DownloadFile(string imageUrl, string downloadPath)
         {
+            
             string filename = GetFilleName(imageUrl)+".JPEG";
             bool isHated = false;
             List<ImageModel> hatedImages = fileManager.GetAllHatedImages();
@@ -78,17 +102,18 @@ namespace AutomatedDesktopBackgroundLibrary
             }
             if (!isHated)
             {
-                
+                string path = $@"{downloadPath}\{filename}";
                 using (WebClient wc = new WebClient())
                 {
                     
                     wc.DownloadProgressChanged += wc_DownloadProgressChanged;
-                    wc.DownloadFileCompleted += wc_DownloadFileCompleted;
-                    wc.DownloadFileAsync(new Uri( imageUrl), $"{GlobalConfig.FileSavePath}/{folderName}/{filename}");
+                    wc.DownloadFileCompleted += wc_DownloadFileCompleted;                  
+                    wc.DownloadFileAsync(new Uri( imageUrl),path);
 
 
                 }
-                CreateImageModel($"{GlobalConfig.FileSavePath}/{folderName}/{filename}", filename,imageUrl);
+                    CreateImageModel(path, filename, imageUrl);
+                
             }
         }
         private void CreateImageModel(string filePath, string name, string downloadPath)
@@ -109,7 +134,7 @@ namespace AutomatedDesktopBackgroundLibrary
         /// <param name="e"></param>
         private void wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            if (userRequested)
+            if (isUserRequested)
             {
                 GlobalConfig.EventSystem.InvokePercentChangeEvent(e.ProgressPercentage);
             }
@@ -122,33 +147,42 @@ namespace AutomatedDesktopBackgroundLibrary
             if (e.Cancelled)
             {
                 
-                if (userRequested)
+                if (isUserRequested)
                 {
-                    GlobalConfig.EventSystem.InvokeDownloadImageEvent(false);
+
+                    GlobalConfig.EventSystem.InvokeDownloadImageEvent("Download Cancelled");
                     MessageBox.Show("The download has been cancelled");
                 }
             }
 
             if (e.Error != null) // We have an error! Retry a few times, then abort.
             {
+
                 errorIndex.Add(totalDownloadsRequested - ExpectedDownloadAmount );
-                if (userRequested)
+                if (isUserRequested)
                 {
-                    GlobalConfig.EventSystem.InvokeDownloadImageEvent(false);
+                    GlobalConfig.EventSystem.InvokeDownloadImageEvent("!");
                 }
             }
             ExpectedDownloadAmount--;
             if(ExpectedDownloadAmount == 0)
             {
-                SubmitChanges();
-                if (userRequested)
+                
+                if (isUserRequested)
                 {
+                    string message = $"{totalDownloadsRequested}/{totalDownloadsRequested}";
+                    GlobalConfig.EventSystem.InvokeDownloadImageEvent(message);
                     GlobalConfig.EventSystem.InvokeDownloadCompleteEvent(true);
                 }
+                SubmitChanges();
             }
             else
             {
-                if (userRequested) { GlobalConfig.EventSystem.InvokeDownloadImageEvent(true); };
+                if (isUserRequested) {
+                    int downloadsComplete = -(ExpectedDownloadAmount - totalDownloadsRequested);
+                    string message = $"{downloadsComplete}/{totalDownloadsRequested}";
+                    GlobalConfig.EventSystem.InvokeDownloadImageEvent(message);
+                };
             }
            // MessageBox.Show("File succesfully downloaded");
         }
@@ -204,8 +238,9 @@ namespace AutomatedDesktopBackgroundLibrary
                     existingImages.ForEach(x => images.Add(x));
                     TextConnectorProcessor.SaveToTextFile(images, GlobalConfig.ImageFile);
                     images.Clear();
+                    
                 }
-                if (userRequested)
+                if (isUserRequested)
                 {
                     if (errorIndex.Count == 0)
                     {
@@ -214,6 +249,7 @@ namespace AutomatedDesktopBackgroundLibrary
                     else
                     {
                         MessageBox.Show($"Encountered {errorIndex.Count} errors in download process, corrupted files have been deleted and download is complete");
+                        errorIndex.Clear();
                     }
                 }
             }

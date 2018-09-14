@@ -54,10 +54,29 @@ namespace AutomatedDesktopBackgroundLibrary
             }
             if(response == null)
             {
-                throw new Exception("No results found for this image");
+                throw new Exception("There was an error with the web server");
             }
            
                        
+        }
+        public  LiteImageResponseModel GetLiteImageResponse(string query)
+        {
+            string url = UrlBuilder(query, 0);
+            RootObject response = null;
+            List<string> imageResults = new List<string>();
+            using (StreamReader sr = new StreamReader(GetResponseStream(url)))
+            {
+
+                string responses = sr.ReadToEnd();
+                response = JsonConvert.DeserializeObject<RootObject>(responses);
+
+
+            }
+            LiteImageResponseModel imageResponseModel = new LiteImageResponseModel();
+            imageResponseModel.TotalPages = response.total_pages;
+            imageResponseModel.TotalResults = response.total;
+            return imageResponseModel;
+
         }
         private Stream GetResponseStream(string url)
         {
@@ -68,13 +87,21 @@ namespace AutomatedDesktopBackgroundLibrary
                 return result.Content.ReadAsStreamAsync().Result;
             }
         }
-        public void GetImagesBySearch(string query,bool isUserRequested)
+        public void GetImagesBySearch(string query,bool userRequested)
         {
 
             mainQuery = query;
-            int pageNumber = fileManager.GetNewPageQuerry(query);
-            string url = UrlBuilder(query, pageNumber);
-            SendRequest(url, isUserRequested);
+            bool isCollectionDownloaded = fileManager.IsCollectionDownloaded(query);
+            if (!isCollectionDownloaded)
+            {
+                int pageNumber = fileManager.GetNewPageQuerry(query);
+                string url = UrlBuilder(query, pageNumber);
+                SendRequest(url, userRequested);
+            }
+            else
+            {
+                LocalImageGetter.GetLocalImages(query, userRequested);
+            }
         }
 
     }

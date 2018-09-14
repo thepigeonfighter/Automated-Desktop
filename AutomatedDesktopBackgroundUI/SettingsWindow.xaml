@@ -13,12 +13,12 @@
         <Label Content="Collection Refresh Frequency" HorizontalAlignment="Left" Margin="203,251,0,0" VerticalAlignment="Top" Width="227" FontSize="16" FontWeight="Bold"/>
         <TextBox x:Name="collectionTextBox" HorizontalAlignment="Left" Height="23" Margin="255,287,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" PreviewTextInput="CheckIfNumber"/>
         <ComboBox x:Name="collectionComboBox" HorizontalAlignment="Left" Margin="468,287,0,0" VerticalAlignment="Top" Width="142"/>
-        <Button x:Name="changeBackgroundButton" Content="Change Current Background" HorizontalAlignment="Left" Margin="331,347,0,0" VerticalAlignment="Top" Width="168" Height="33" Click="changeBackgroundButton_Click"/>
+        <Button x:Name="changeBackgroundButton" Content="Change Current Background" HorizontalAlignment="Left" Margin="70,364,0,0" VerticalAlignment="Top" Width="168" Height="33" Click="changeBackgroundButton_Click"/>
         <Button x:Name="backgroundRefreshButton" Content="Change" HorizontalAlignment="Left" Margin="350,219,0,0" VerticalAlignment="Top" Width="120" Height="27" Click="backgroundRefreshButton_Click"/>
         <Button x:Name="collectionRefreshButton" Content="Change" HorizontalAlignment="Left" Margin="350,315,0,0" VerticalAlignment="Top" Width="120" Height="27" RenderTransformOrigin="0.55,0.091" Click="collectionRefreshButton_Click"/>
         <Label Content="File Save Path" HorizontalAlignment="Left" Margin="213,20,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
-        <TextBox x:Name="filePathTextBox" HorizontalAlignment="Left" Height="23" Margin="255,51,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="244"/>
-        <Button x:Name="saveFilePathButton" Content="Change" HorizontalAlignment="Left" Margin="350,79,0,0" VerticalAlignment="Top" Width="120" Height="27" Click="saveFilePathButton_Click" />
+        <Button x:Name="resetApplicationButton" Content="Reset Application" HorizontalAlignment="Left" Margin="557,364,0,0" VerticalAlignment="Top" Width="168" Height="28" Click="resetApplicationButton_Click" Background="#FFE41B1B"/>
+        <Label x:Name="fileSavePathLabel" Content="" HorizontalAlignment="Left" Margin="223,56,0,0" VerticalAlignment="Top" Width="502"/>
 
     </Grid>
 </Window>

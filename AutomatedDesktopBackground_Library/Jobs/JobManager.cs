@@ -21,41 +21,39 @@ namespace AutomatedDesktopBackgroundLibrary
   
         public  async Task StartBackgroundUpdatingAsync()
         {
-            
-            if (!GlobalConfig.BackGroundUpdating)
+
+
+            try
             {
-                try
-                {
-                    NameValueCollection prop = new NameValueCollection
+                NameValueCollection prop = new NameValueCollection
                 {
                     {"quartz.serializer.type", "binary" }
                 };
-                    StdSchedulerFactory factory = new StdSchedulerFactory(prop);
-                    scheduler = await Task.Run(()=>factory.GetScheduler());
-                    await scheduler.Start();
-                    IJobDetail jobDetail = JobBuilder.Create<ChangeBackgroundJob>().WithIdentity(BackgroundJob).Build();
-                    int refreshRate =(int) Math.Round( Scheduler.ScheduleManager.BackgroundRefreshSetting().TotalSeconds);
-                    ITrigger trigger = TriggerBuilder.Create().WithIdentity(BackgroundJob).StartNow().WithSimpleSchedule(x =>
-                     x.WithIntervalInSeconds(refreshRate).RepeatForever()).Build();
-                    await Task.Run(()=>scheduler.ScheduleJob(jobDetail, trigger));
-                   
-                    GlobalConfig.BackGroundUpdating = true;
-                }
-                catch (SchedulerException se)
-                {
-                    throw new Exception(se.ToString());
-                }
+                StdSchedulerFactory factory = new StdSchedulerFactory(prop);
+                scheduler = await Task.Run(() => factory.GetScheduler());
+                await scheduler.Start();
+                IJobDetail jobDetail = JobBuilder.Create<ChangeBackgroundJob>().WithIdentity(BackgroundJob).Build();
+                int refreshRate = (int)Math.Round(Scheduler.ScheduleManager.BackgroundRefreshSetting().TotalSeconds);
+                ITrigger trigger = TriggerBuilder.Create().WithIdentity(BackgroundJob).StartNow().WithSimpleSchedule(x =>
+                 x.WithIntervalInSeconds(refreshRate).RepeatForever()).Build();
+                await Task.Run(() => scheduler.ScheduleJob(jobDetail, trigger));
+
 
             }
-        }
+            catch (SchedulerException se)
+            {
+                throw new Exception(se.ToString());
+            }
+
+            }
+        
         public async Task StartCollectionUpdatingAsync()
         {
 
-            if (!GlobalConfig.CollectionUpdating)
-            {
+    
                 try
                 {
-                    NameValueCollection prop = new NameValueCollection
+            NameValueCollection prop = new NameValueCollection
                 {
                     {"quartz.serializer.type", "binary" }
                 };
@@ -68,22 +66,19 @@ namespace AutomatedDesktopBackgroundLibrary
                      x.WithIntervalInSeconds(refreshRate).RepeatForever()).Build();
                     await Task.Run(() => scheduler.ScheduleJob(jobDetail, trigger));
 
-                    GlobalConfig.CollectionUpdating = true;
                 }
                 catch (SchedulerException se)
                 {
                     throw new Exception(se.ToString());
                 }
 
-            }
+            
         }
 
         public async Task StopSchedulerAsync()
         {
             if (scheduler != null)
             {
-                GlobalConfig.BackGroundUpdating = false;
-                GlobalConfig.CollectionUpdating = false;
                 await Task.Run(()=>scheduler.Shutdown());
             }
         }
@@ -94,7 +89,6 @@ namespace AutomatedDesktopBackgroundLibrary
             if (await Task.Run(() =>scheduler.CheckExists(key)))
             {
                 await Task.Run(()=>scheduler.DeleteJob(key));
-                GlobalConfig.BackGroundUpdating = false;
                 
             }
             else throw new Exception("Job not found!");
@@ -104,7 +98,6 @@ namespace AutomatedDesktopBackgroundLibrary
             JobKey key = JobKey.Create(CollectionsJob);
             if (await Task.Run(()=>scheduler.CheckExists(key)))
             {
-                GlobalConfig.CollectionUpdating = false;
                 await Task.Run(()=>scheduler.DeleteJob(key));
             }
             else throw new Exception("Job not found!");

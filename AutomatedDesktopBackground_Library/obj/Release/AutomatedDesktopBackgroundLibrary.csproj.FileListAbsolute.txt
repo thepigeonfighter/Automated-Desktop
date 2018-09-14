@@ -1,0 +1,12 @@
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Release\AutomatedDesktopBackgroundLibrary.dll
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Release\AutomatedDesktopBackgroundLibrary.pdb
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Release\Newtonsoft.Json.dll
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Release\Quartz.dll
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Release\Newtonsoft.Json.xml
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Release\Quartz.pdb
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Release\Quartz.xml
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Release\AutomatedDesktopBackgroundLibrary.csprojAssemblyReference.cache
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Release\AutomatedDesktopBackgroundLibrary.csproj.CoreCompileInputs.cache
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Release\AutomatedDesktopBackgroundLibrary.csproj.CopyComplete
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Release\AutomatedDesktopBackgroundLibrary.dll
+C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Release\AutomatedDesktopBackgroundLibrary.pdb

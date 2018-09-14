@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -14,10 +15,19 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             return !_regex.IsMatch(text);
         }
-        public void ChangeDesktopBackground()
+        public bool ChangeDesktopBackground()
         {
-            BackGroundPicker backGroundPicker = new BackGroundPicker();
-            backGroundPicker.PickRandomBackground();
+            List<ImageModel> images = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.ImageFile);
+            if (images.Count > 0)
+            {
+                BackGroundPicker backGroundPicker = new BackGroundPicker();
+                backGroundPicker.PickRandomBackground();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         public GlobalConfig.TimeSettings ConvertStringToTime(string time)
         {
@@ -69,6 +79,23 @@ namespace AutomatedDesktopBackgroundLibrary
             TimeSpan ts =  ScheduleManager.BackgroundRefreshSetting();
             return ScheduleManager.GetReadableForm(ts);
         }
-       
+        /*
+        public void ChangeFileDirectory(string fileDir)
+        {
+            string SourcePath = GlobalConfig.FileSavePath.ToString();
+            string DestinationPath = fileDir;
+            //Now Create all of the directories
+            foreach (string dirPath in Directory.GetDirectories(SourcePath, "*",
+                SearchOption.AllDirectories))
+                Directory.CreateDirectory(dirPath.Replace(SourcePath, DestinationPath));
+
+            //Copy all the files & Replaces any files with the same name
+            foreach (string newPath in Directory.GetFiles(SourcePath, "*.*",
+                SearchOption.AllDirectories))
+                
+                File.Copy(newPath, newPath.Replace(SourcePath, DestinationPath), true);
+            GlobalConfig.FileSavePath = fileDir;
+        }
+       */
     }
 }

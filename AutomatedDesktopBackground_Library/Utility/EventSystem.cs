@@ -10,20 +10,22 @@ namespace AutomatedDesktopBackgroundLibrary
     {
 
         public event EventHandler<int> DownloadPercentageEvent;
-        public event EventHandler<bool> DownloadedImageEvent;
+        public event EventHandler<string> DownloadedImageEvent;
         public event EventHandler<bool> DownloadCompleteEvent;
         public event EventHandler<string> ResultNotFoundEvent;
         public event EventHandler<string> StartedDownloadingEvent;
-        public event EventHandler<string> ConfigSettingChangedEvent;
         public event EventHandler<string> UpdateBackgroundEvent;
-        public event EventHandler<string> ImageHatingHasCompleted;
+        public event EventHandler<string> ImageHatingHasCompletedEvent;
+        public event EventHandler<string> ApplicationResetEvent;
         public void InvokePercentChangeEvent(int percentage)
         {
+
             DownloadPercentageEvent?.Invoke(this, percentage );
         }
-        public void InvokeDownloadImageEvent(bool success)
+        public void InvokeDownloadImageEvent( string progess)
         {
-            DownloadedImageEvent?.Invoke(this, success);
+
+            DownloadedImageEvent?.Invoke(this, progess );
         }
         public void InvokeDownloadCompleteEvent(bool sucess)
         {
@@ -37,14 +39,7 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             StartedDownloadingEvent?.Invoke(this,"Download Started");
         }
-        /// <summary>
-        ///This should only be called in the property "Set" value. Otherwise it will result in a double call
-        ///It triggers an event when important configuration settings are changed
-        /// </summary>
-        public void InvokeConfigSettingChanged()
-        {
-            ConfigSettingChangedEvent?.Invoke(this, "A Global Config Setting was changed");
-        }
+
         /// <summary>
         /// This should only be called in the property "Set" value. Otherwise it will result in a double call
         /// It triggers an event everytime the current background changes
@@ -55,7 +50,11 @@ namespace AutomatedDesktopBackgroundLibrary
         }
         public void InvokeImageHatingCompleteEvent()
         {
-            ImageHatingHasCompleted?.Invoke(this, "Image has been removed");
+            ImageHatingHasCompletedEvent?.Invoke(this, "Image has been removed");
+        }
+        public void InvokeApplicationResetEvent()
+        {
+            ApplicationResetEvent?.Invoke(this, "Application was reset");
         }
     }
 }

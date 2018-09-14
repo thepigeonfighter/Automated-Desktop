@@ -8,8 +8,12 @@ using System.IO;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
+    public enum PageRefreshState { BGOnly, ColOnly, BGAndCol, None}
+    public enum ButtonCommands { StartCollections, StartBackground, StopCollections,StopBackground, SetToStartState}
     public class MainViewController 
     {
+        public event EventHandler<string> OnPageStateChange;
+        public PageRefreshState refreshState;
         APIManager manager = new APIManager();
         ImageFileManager fileManager = new ImageFileManager();
         public BindingList<InterestModel> interests = new BindingList<InterestModel>();
@@ -17,12 +21,72 @@ namespace AutomatedDesktopBackgroundLibrary
         public MainViewController() {
 
             GlobalConfig.EventSystem.DownloadCompleteEvent += EventSystem_DownloadCompleteEvent;
+            GlobalConfig.EventSystem.ApplicationResetEvent += EventSystem_ApplicationResetEvent;
             if(GetCurrentWallPaperFromFile().Id !=-1 && GlobalConfig.CurrentWallpaper == null)
             {
                 GlobalConfig.CurrentWallpaper = GetCurrentWallPaperFromFile();
             }
+            
         }
+        /// <summary>
+        /// Sets the state of the page to give a blueprint for what buttons should be enabled
+        /// </summary>
+        /// <param name="command"></param>
+        public void SetPageState(ButtonCommands command)
+        {
+            switch (command)
+            {
+                case ButtonCommands.StartCollections:
+                    if (refreshState == PageRefreshState.None)
+                    {
+                        refreshState = PageRefreshState.ColOnly;
+                    }
+                    else
+                    {
+                        refreshState = PageRefreshState.BGAndCol;
+                    }
+                    break;
+                case ButtonCommands.StartBackground:
+                    if (refreshState == PageRefreshState.None)
+                    {
+                        refreshState = PageRefreshState.BGOnly;
+                    }
+                    else
+                    {
+                        refreshState = PageRefreshState.BGAndCol;
+                    }
+                    break;
+                case ButtonCommands.StopCollections:
+                    if(refreshState == PageRefreshState.ColOnly)
+                    {
+                        refreshState = PageRefreshState.None;
+                    }
+                    else
+                    {
+                        refreshState = PageRefreshState.BGOnly;
+                    }
+                    break;
+                case ButtonCommands.StopBackground:
+                    if (refreshState == PageRefreshState.BGOnly)
+                    {
+                        refreshState = PageRefreshState.None;
+                    }
+                    else
+                    {
+                        refreshState = PageRefreshState.ColOnly;
+                    }
+                    break;
+                case ButtonCommands.SetToStartState:
+                    refreshState = PageRefreshState.None;
+                    break;
+            }
 
+            OnPageStateChange?.Invoke(this, "Page is changing");
+        }
+        private void EventSystem_ApplicationResetEvent(object sender, string e)
+        {
+            RefreshInterestList();
+        }
 
         public ImageModel GetCurrentWallPaperFromFile()
         {
@@ -38,18 +102,11 @@ namespace AutomatedDesktopBackgroundLibrary
             IsDownloading = false;
         }
 
-        public void AddInterest(string interest)
-        {
-            RefreshInterestList();
-            int id = 1;
-            if (interests.Count > 0)
-            {
-                id = interests.Max(x => x.Id) + 1;
-            }
-            InterestModel newInterest = new InterestModel() { Name = interest, Id = id };
-            interests.Add(newInterest);
-
-            TextConnectorProcessor.SaveToTextFile(interests.ToList(), GlobalConfig.InterestFile);
+        public async Task AddInterest(string interest)
+        {       
+                List<InterestModel> results = await Task.Run(()=>InterestHelper.CreateInterest(interest));
+                interests = new BindingList<InterestModel>(results);
+               
         }
         public async Task RemoveInterest(string interest)
         {
@@ -74,28 +131,53 @@ namespace AutomatedDesktopBackgroundLibrary
                 
             }
         }
-
+        public bool AreAnyImagesDownloaded()
+        {
+            List<ImageModel> images = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.ImageFile);
+            if (images.Count > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         public void CloseProgram()
         {
             WindowManager.CloseRootWindow();
         }
-        public async Task  StartBackGroundRefresh()
-        {      
-          await Task.Run(()=> GlobalConfig.JobManager.StartBackgroundUpdatingAsync());
+        #region Background and Collection Controls
+        public async Task StartCollectionRefresh()
+        {
+            if (refreshState == PageRefreshState.None || refreshState == PageRefreshState.BGOnly)
+            {
+                await Task.Run(() => GlobalConfig.JobManager.StartCollectionUpdatingAsync());
+            }
+        }
+        public async Task StartBackGroundRefresh( )
+        {
+            if (refreshState == PageRefreshState.None || refreshState == PageRefreshState.ColOnly)
+            {
+                await Task.Run(() => GlobalConfig.JobManager.StartBackgroundUpdatingAsync());
+            }
+
         }
         public async Task StopBackGroundRefresh()
         {
-            
-            await Task.Run(()=> GlobalConfig.JobManager.StopBackgroundUpdatingAsync());
-
+            if (refreshState != PageRefreshState.None || refreshState != PageRefreshState.ColOnly)
+            {
+                await Task.Run(() => GlobalConfig.JobManager.StopBackgroundUpdatingAsync());
+            }
         }
         public async Task StopCollectionChange()
         {
-            if (GlobalConfig.CollectionUpdating)
+            if (refreshState != PageRefreshState.None || refreshState != PageRefreshState.BGOnly)
             {
-                 await Task.Run(()=>GlobalConfig.JobManager.StopCollectionUpdatingAsync());
+                await Task.Run(() => GlobalConfig.JobManager.StopCollectionUpdatingAsync());
             }
         }
+        #endregion
         public bool SetImageAsFavorite()
         {
             if (GlobalConfig.CurrentWallpaper != null)
@@ -146,9 +228,11 @@ namespace AutomatedDesktopBackgroundLibrary
             
             return fileManager.InterestExists(interest);
         }
-        public async Task StartCollectionRefresh()
+
+        public int GetTotalImagesByInterestName(string interestName)
         {
-            await Task.Run(() => GlobalConfig.JobManager.StartCollectionUpdatingAsync());
+            InterestModel interest = interests.FirstOrDefault(x => x.Name == interestName);
+            return interest.TotalImages;
         }
 
     }

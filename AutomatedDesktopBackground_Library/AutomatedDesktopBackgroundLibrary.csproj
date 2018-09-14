@@ -53,17 +53,23 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CollectionRefresher.cs" />
-    <Compile Include="CollectionRefreshJob.cs" />
-    <Compile Include="Utility\ChangeBackgroundJob.cs" />
+    <Compile Include="DataConnection\LocalImageGetter.cs" />
+    <Compile Include="DataStorageManager.cs" />
+    <Compile Include="InterenetConnectionChecker.cs" />
+    <Compile Include="InterestHelper.cs" />
+    <Compile Include="Jobs\CollectionRefresher.cs" />
+    <Compile Include="Jobs\CollectionRefreshJob.cs" />
+    <Compile Include="Jobs\ChangeBackgroundJob.cs" />
     <Compile Include="DataConnection\APIManager.cs" />
     <Compile Include="DataConnection\IDataRequest.cs" />
-    <Compile Include="EventSystem.cs" />
-    <Compile Include="ImageFileManager.cs" />
-    <Compile Include="Utility\JobManager.cs" />
-    <Compile Include="Utility\ScheduleManager.cs" />
+    <Compile Include="LiteImageResponseModel.cs" />
+    <Compile Include="StringExtensions.cs" />
+    <Compile Include="Utility\EventSystem.cs" />
+    <Compile Include="DataConnection\ImageFileManager.cs" />
+    <Compile Include="Jobs\JobManager.cs" />
+    <Compile Include="Jobs\ScheduleManager.cs" />
     <Compile Include="Model\TimeModel.cs" />
-    <Compile Include="Utility\BackGroundPicker.cs" />
+    <Compile Include="Jobs\BackGroundPicker.cs" />
     <Compile Include="Utility\GlobalConfig.cs" />
     <Compile Include="Model\IData.cs" />
     <Compile Include="DataConnection\ImageGetter.cs" />
@@ -83,7 +89,7 @@
     <Compile Include="ResponseClasses\User.cs" />
     <Compile Include="ViewController\SettingsViewController.cs" />
     <Compile Include="DataConnection\TextConnectorProcessor.cs" />
-    <Compile Include="Utility\WallpaperSetter.cs" />
+    <Compile Include="Jobs\WallpaperSetter.cs" />
     <Compile Include="WindowManager.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -107,7 +107,9 @@ namespace AutomatedDesktopBackgroundLibrary
             int newPageNumber = 1;
             if (InterestExists(interestName))
             {
-                int interestId = GetInterestIdByInterestName(interestName);
+                InterestModel interest = TextConnectorProcessor.LoadFromTextFile<InterestModel>(GlobalConfig.InterestFile).FirstOrDefault(x=>x.Name == interestName);
+                
+                int interestId = interest.Id;
                 List<ImageModel> images = GetAllImagesByInterestName(interestName);
                 
                 if (images.Count > 0)
@@ -123,11 +125,29 @@ namespace AutomatedDesktopBackgroundLibrary
                     //That number could and probably should be changed but if we ever get less than 
                     //10 results it should indicate that it is the last page of results
                     newPageNumber = (newPageNumber/ 10) +1;
+                    if(images.Count == interest.TotalImages) { newPageNumber ++; }
                 }
 
                 
             }
             return newPageNumber;
+        }
+        public bool IsCollectionDownloaded(string interestName)
+        {
+            List<InterestModel> interests = TextConnectorProcessor.LoadFromTextFile<InterestModel>(GlobalConfig.InterestFile);
+            
+            InterestModel selectedInterest = interests.FirstOrDefault(x => x.Name == interestName);
+            interests.Remove(selectedInterest);
+            if(selectedInterest!= null)
+            {
+                int currentPage = GetNewPageQuerry(selectedInterest.Name);
+                if(currentPage > selectedInterest.TotalPages)
+                {
+                    return true;
+                }
+                return false;
+            }
+            return false;
         }
         private List<ImageModel> GetAllFavoriteImages()
         {
@@ -137,9 +157,13 @@ namespace AutomatedDesktopBackgroundLibrary
         {
 
             DirectoryInfo directoryInfo =  Directory.CreateDirectory(GlobalConfig.FullFilePath("Favorited Images"));
+            string newPath = $@"{directoryInfo.FullName}/{image.Name}";
             if (File.Exists(image.FileDir))
             {
-                File.Copy(image.FileDir, $@"{directoryInfo.FullName}/{image.Name}");
+               
+                File.Copy(image.FileDir, newPath );
+                RemoveImageEntry(image);
+                image.FileDir = newPath;
             }
             else
             {
@@ -147,12 +171,21 @@ namespace AutomatedDesktopBackgroundLibrary
                 {
 
                     wc.DownloadFileAsync(new Uri(image.DownloadPath), image.FileDir);
-
+                    File.Copy(image.FileDir, newPath);
+                    RemoveImageEntry(image);
+                    image.FileDir = newPath;
 
                 }
-                File.Copy(image.FileDir, $@"{directoryInfo.FullName}/{image.Name}");
+               
             }
             TextConnectorProcessor.CreateEntry(image, GlobalConfig.FavoritesFile);
+        }
+        private void RemoveImageEntry(ImageModel imageToRemove)
+        {
+            List<ImageModel> allImages = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.ImageFile);
+            ImageModel selectedImage = allImages.First(x=>x.FileDir == imageToRemove.FileDir);
+            allImages.Remove(selectedImage);
+            TextConnectorProcessor.SaveToTextFile(allImages, GlobalConfig.ImageFile);
         }
         public List<ImageModel> GetAllHatedImages()
         {

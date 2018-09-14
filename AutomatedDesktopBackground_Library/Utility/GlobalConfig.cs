@@ -8,8 +8,9 @@ namespace AutomatedDesktopBackgroundLibrary
 {
     public static class GlobalConfig
     {
-        static GlobalConfig()
+        public static bool IsConnected()
         {
+            return InterenetConnectionChecker.CheckConnection();
         }
         private static ImageModel _currentBackground;
         public static ImageModel CurrentWallpaper {
@@ -23,11 +24,14 @@ namespace AutomatedDesktopBackgroundLibrary
                 EventSystem.InvokeUpdateBackroundEvent();
             }
         }
-        public static object FileSavePath
+        public static string FileSavePath
         {
             get
             {
-                return Directory.CreateDirectory(Path.Combine(Path.GetPathRoot(Environment.CurrentDirectory),@"data\DesktopBackgrounds")).FullName;
+                string baseUrl = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+                string fullUrl =  baseUrl+@"\DesktopBackgrounds";
+                return Directory.CreateDirectory(fullUrl).FullName;
+                
             }
             set { FileSavePath = value; }
         }
@@ -85,30 +89,6 @@ namespace AutomatedDesktopBackgroundLibrary
             {
             }
         }
-        private static bool _backgroundUpdating = false;
-        public static bool BackGroundUpdating
-        {
-            get {
-                return _backgroundUpdating;
-            }
-            set {
-                _backgroundUpdating = value;
-                EventSystem.InvokeConfigSettingChanged();
-               
-            }
-        }
-        private static bool _collectionUpdating = false;
-        public static bool CollectionUpdating
-        {
-            get { return _collectionUpdating; }
-            set
-            {
-                _collectionUpdating = value;
-                EventSystem.InvokeConfigSettingChanged();
-              
-            }
-
-        } 
         /// <summary>
         /// Use this method to add a file to the root directory
         /// </summary>

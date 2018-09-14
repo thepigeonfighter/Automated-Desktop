@@ -15,17 +15,17 @@ namespace AutomatedDesktopBackgroundLibrary
     {
        public void PickRandomBackground()
         {
-            List<ImageModel> images = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.ImageFile);
+            List<ImageModel> downloadedImages = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.ImageFile).Where(x=> x.IsDownloaded == true).ToList();
             List<ImageModel> favImages = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.FavoritesFile);
-            favImages?.ForEach(x => images.Add(x));
-            if (images.Count > 0)
+            favImages?.ForEach(x => downloadedImages.Add(x));
+            if (downloadedImages.Count > 0)
             {
                 Random r = new Random();
 
-                ImageModel randomImage = images[r.Next(images.Count)];
-                images.Clear();
-                images.Add(randomImage);
-                TextConnectorProcessor.SaveToTextFile(images, GlobalConfig.CurrentWallpaperFile);
+                ImageModel randomImage = downloadedImages[r.Next(downloadedImages.Count)];
+                downloadedImages.Clear();
+                downloadedImages.Add(randomImage);
+                TextConnectorProcessor.SaveToTextFile(downloadedImages, GlobalConfig.CurrentWallpaperFile);
                 GlobalConfig.CurrentWallpaper = randomImage;
                 WallpaperSetter.Set(randomImage.FileDir, WallpaperSetter.Style.Stretched);
             }

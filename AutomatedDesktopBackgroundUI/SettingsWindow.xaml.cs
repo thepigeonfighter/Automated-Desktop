@@ -1,5 +1,6 @@
 ﻿using AutomatedDesktopBackgroundLibrary;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 
@@ -26,7 +27,7 @@ namespace AutomatedDesktopBackgroundUI
             backgroundCombobox.ItemsSource = timeSettings;
             collectionComboBox.ItemsSource = timeSettings;
             SetTimes();
-            filePathTextBox.Text = GlobalConfig.FileSavePath.ToString();
+            fileSavePathLabel.Content = GlobalConfig.FileSavePath.ToString();
         }
 
         private void backgroundRefreshButton_Click(object sender, RoutedEventArgs e)
@@ -48,7 +49,11 @@ namespace AutomatedDesktopBackgroundUI
 
         private void changeBackgroundButton_Click(object sender, RoutedEventArgs e)
         {
-            viewController.ChangeDesktopBackground();
+            
+            if(!viewController.ChangeDesktopBackground())
+            {
+                MessageBox.Show("No images are downloaded please download images before attempting to change the wallpaper.");
+            }
         }
 
         private void CheckIfNumber(object sender ,TextCompositionEventArgs e )
@@ -57,13 +62,6 @@ namespace AutomatedDesktopBackgroundUI
 
         }
 
-        private void saveFilePathButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(filePathTextBox.Text))
-            {
-                GlobalConfig.FileSavePath = filePathTextBox.Text;
-            }
-        }
         private void SetTimes()
         {
             TimeModel backgroundTime = viewController.CurrentBackgroundRefreshRate();
@@ -74,6 +72,14 @@ namespace AutomatedDesktopBackgroundUI
             backgroundCombobox.SelectedIndex = backgroundIndex;
             collectionTextBox.Text = collectionTime.Amount.ToString();
             collectionComboBox.SelectedIndex = collectionIndex;
+        }
+
+        private void resetApplicationButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            Directory.Delete(GlobalConfig.FileSavePath.ToString(),true);
+            resetApplicationButton.IsEnabled = false;
+            GlobalConfig.EventSystem.InvokeApplicationResetEvent();
         }
     }
 }

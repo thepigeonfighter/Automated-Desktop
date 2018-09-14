@@ -13,18 +13,7 @@ namespace AutomatedDesktopBackgroundLibrary
 {
     public static class TextConnectorProcessor
     {
-
-        public static string FullFilePath(this string fileName)
-        {
-            //To change the file path change the value in the app config file
-            return $"{GlobalConfig.FileSavePath}\\{fileName}";
-        }
-        /// <summary>
-        /// Returns the file as a list of strings
-        /// </summary>
-        /// <param name="file"></param>
-        /// <returns></returns>
-         public static List<string> LoadFileAsStrings(this string file)
+         private  static List<string> LoadFileAsStrings(this string file)
         {
             if(!File.Exists(file) )
             {
@@ -197,8 +186,49 @@ namespace AutomatedDesktopBackgroundLibrary
             }
             return output;
         }
-        private const FileOptions DefaultOptions = FileOptions.Asynchronous | FileOptions.SequentialScan;
+        public static void DeleteEntry<T>( T objectToDelete, string filePath) where T: class, new()
+        {
+            List<T> items = LoadFromTextFile<T>(filePath);
+            
+            Type t = objectToDelete.GetType();
+            PropertyInfo prop = t.GetProperty("Id");
+            int Id = (int) prop.GetValue(objectToDelete);
+            
+            foreach(T i in items)
+            {
+                Type temp = i.GetType();
+                PropertyInfo tempProp = t.GetProperty("Id");
+                int tempId = (int)prop.GetValue(objectToDelete);
+                if(tempId == Id)
+                {
+                    objectToDelete = i;
+                    break;
+                }
+            }
 
+            items.Remove(objectToDelete);
+            if (items.Count > 0)
+            {
+                SaveToTextFile(items, filePath);
+            }
+            else
+            {
+                File.Delete(filePath);
+            }
+            
 
+        }
+        public static void UpdateEntry<T>(T oldEntry, T newEntry, string filePath) where T : class, new()
+        {
+            DeleteEntry(oldEntry, filePath);
+            CreateEntry(newEntry, filePath);
+        }
+        public static void UpdateCollection<T>(List<T> oldEntries, List<T> newEntries, string filePath) where T: class, new()
+        {
+            for(int i =0; i < oldEntries.Count; i++)
+            {
+                UpdateEntry(oldEntries[i], newEntries[i], filePath);
+            }
+        }
     }
 }
