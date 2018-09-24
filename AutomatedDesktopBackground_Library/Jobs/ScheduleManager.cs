@@ -47,16 +47,16 @@ namespace AutomatedDesktopBackgroundLibrary.Scheduler
         {
             if(time.Days>0)
             {
-                return new TimeModel() { Amount = time.Days, TimeSetting = GlobalConfig.TimeSettings.Days };
+                return new TimeModel() { Amount = time.Days, TimeSetting = TimeSettings.Days };
                 //return days
             } else if(time.Hours>0)
             {
-                return new TimeModel() { Amount = time.Hours, TimeSetting = GlobalConfig.TimeSettings.Hours };
+                return new TimeModel() { Amount = time.Hours, TimeSetting = TimeSettings.Hours };
                 // return hour format
             }
             else
             {
-                return new TimeModel() { Amount = time.Minutes, TimeSetting = GlobalConfig.TimeSettings.Minutes };
+                return new TimeModel() { Amount = time.Minutes, TimeSetting = TimeSettings.Minutes };
                 //return minute format
             }
             

@@ -1,40 +1,66 @@
 ﻿using AutomatedDesktopBackgroundLibrary;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
-
+using AutomatedDesktopBackgroundLibrary.StringExtensions;
 namespace AutomatedDesktopBackgroundUI
 {
     /// <summary>
     /// Interaction logic for SettingsWindow.xaml
     /// </summary>
-    public partial class SettingsWindow : Window
+    public partial class SettingsWindow : Window 
     {
         List<string> timeSettings = new List<string>();
         SettingsViewController viewController = new SettingsViewController();
+        private string path;
         public SettingsWindow()
         {
+            string contents = Properties.Resources.ReadMe;
+             path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
+            path = Path.Combine(path, "ReadMe.txt");  
+            if(File.Exists(path))
+            {
+                File.Delete(path);
+            }
+            FileStream fileStream = new FileStream(path, FileMode.CreateNew);
+            using (StreamWriter sw = new StreamWriter(fileStream))
+            {
+                sw.Write(contents);
+            }
+            this.Closing += SettingsWindow_Closing;
             InitializeComponent();
             WireupLists();
         }
+
+        private void SettingsWindow_Closing(object sender, CancelEventArgs e)
+        {
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+
         private void WireupLists()
         {
-            timeSettings.Add(GlobalConfig.TimeSettings.Days.ToString());
-            timeSettings.Add(GlobalConfig.TimeSettings.Minutes.ToString());
-            timeSettings.Add(GlobalConfig.TimeSettings.Hours.ToString());
+            timeSettings.Add(TimeSettings.Days.ToString());
+            timeSettings.Add(TimeSettings.Minutes.ToString());
+            timeSettings.Add(TimeSettings.Hours.ToString());
 
             backgroundCombobox.ItemsSource = timeSettings;
             collectionComboBox.ItemsSource = timeSettings;
             SetTimes();
-            fileSavePathLabel.Content = GlobalConfig.FileSavePath.ToString();
+            fileSavePathLabel.Content = StringExtensions.GetApplicationDirectory();
         }
 
         private void backgroundRefreshButton_Click(object sender, RoutedEventArgs e)
         {
             string amount = backgroundRefreshTextBox.Text;
             string timeType = backgroundCombobox.SelectedValue.ToString();
-            GlobalConfig.TimeSettings ts = viewController.ConvertStringToTime(timeType);
+            TimeSettings ts = viewController.ConvertStringToTime(timeType);
             viewController.ChangeBackgroundRefreshRate(amount, ts);
         }
 
@@ -42,7 +68,7 @@ namespace AutomatedDesktopBackgroundUI
         {
             string amount = collectionTextBox.Text;
             string timeType = collectionComboBox.SelectedValue.ToString();
-            GlobalConfig.TimeSettings ts = viewController.ConvertStringToTime(timeType);
+            TimeSettings ts = viewController.ConvertStringToTime(timeType);
             viewController.ChangeCollectionRefreshRate(amount, ts);
 
         }
@@ -77,9 +103,18 @@ namespace AutomatedDesktopBackgroundUI
         private void resetApplicationButton_Click(object sender, RoutedEventArgs e)
         {
 
-            Directory.Delete(GlobalConfig.FileSavePath.ToString(),true);
+            viewController.ResetApplication();
             resetApplicationButton.IsEnabled = false;
-            GlobalConfig.EventSystem.InvokeApplicationResetEvent();
+           
         }
+
+        private void openInstructionsButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+           // string path1 = @"C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\ReadMe.txt";
+            Process.Start("notepad.exe", path);
+        }
+
+        
     }
 }

@@ -2,42 +2,45 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-
+using AutomatedDesktopBackgroundLibrary.Utility;
+using AutomatedDesktopBackgroundLibrary.StringExtensions;
 namespace AutomatedDesktopBackgroundLibrary
 {
-	/// <summary>
-	/// Need to get this to a place where it can track which images are currently and then pick a new list of images in a cycle 
-	/// So far the bool entireCollection downloaded has been sucessfully set up but the all images associated by interest is a little goofy right now for some reason 
-	/// </summary>
-	public class LocalImageGetter
+	public class LocalImageGetter:ImageFileUpdater
 	{
-		private static   List<ImageModel> GetLocalImagesToDownload(string interestName)
+        private IFileCollection _fileCollection;
+        public LocalImageGetter(IFileCollection fileCollection)
+        {
+            _fileCollection = fileCollection;
+        }
+		private List<ImageModel> GetLocalImagesToDownload(string interestName)
 		{
 			List<ImageModel> output = new List<ImageModel>();
-			InterestModel interest = TextConnectorProcessor.LoadFromTextFile<InterestModel>(GlobalConfig.InterestFile).First(x=> x.Name == interestName);
+            InterestModel interest = interestName.GetInterestByName();
+            int defaultCollectionSize = 10;
             //On first time through this sets the entirecollectiondownloaded flag to true
             if(!interest.EntireCollectionDownloaded)
             {
                 UpdateInterest(interest);
             }
-			List<ImageModel> allImages = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.ImageFile);
+            List<ImageModel> allImages = _fileCollection.AllImages;
 			List<ImageModel> allImagesAssociatedByInterest = allImages.Where(x => x.InterestId == interest.Id).ToList();
+            //Removes the images we are about to manipulate so that we do not create duplicate records
 			allImagesAssociatedByInterest.ForEach(x => allImages.Remove(x));
 		    allImagesAssociatedByInterest = allImagesAssociatedByInterest.OrderBy(x => x.Id).ToList();
 			int lastPhotoIndex = GetIndexOfLastDownloadedPhoto(allImagesAssociatedByInterest);
-			UpdateImageFile(allImagesAssociatedByInterest);
+            //Sets all the image's IsDownloaded value to false
+			SetIsDownloadedToFalse(allImagesAssociatedByInterest);
             //if we are at the end of the collection we will start downloading from the begining of the collection               
             if (lastPhotoIndex >= allImagesAssociatedByInterest.Count - 1)
             {
                 //If the collection is bigger than ten we download the first ten 
-                if (allImagesAssociatedByInterest.Count > 10)
+                if (allImagesAssociatedByInterest.Count > defaultCollectionSize)
                 {
-                    List<ImageModel> imagesToBeDownloaded = allImagesAssociatedByInterest.GetRange(0, 10);
+                    List<ImageModel> imagesToBeDownloaded = allImagesAssociatedByInterest.GetRange(0, defaultCollectionSize);
                     foreach (ImageModel i in imagesToBeDownloaded)
                     {
+                        //Remove the duplicate values from the list
                         allImagesAssociatedByInterest.Remove(i);
                         i.IsDownloaded = true;
                         output.Add(i);
@@ -49,21 +52,22 @@ namespace AutomatedDesktopBackgroundLibrary
                 else
                 {
 
-                    foreach (ImageModel i in allImagesAssociatedByInterest)
+                    foreach (ImageModel i in allImagesAssociatedByInterest )
                     {
-                        allImagesAssociatedByInterest.Remove(i);
+                      //  allImagesAssociatedByInterest.Remove(i);
                         i.IsDownloaded = true;
                         output.Add(i);
                     }
                 }
             }
-            //If we can download ten photos without getting to the end upf the list
+            //If we can download ten photos without getting to the end of the list
             //Then we will do it 
-            else if (lastPhotoIndex + 10 < allImagesAssociatedByInterest.Count)
+            else if (lastPhotoIndex + defaultCollectionSize < allImagesAssociatedByInterest.Count)
             {
-                List<ImageModel> imagesToBeDownloaded = allImagesAssociatedByInterest.GetRange(lastPhotoIndex, 10);
+                List<ImageModel> imagesToBeDownloaded = allImagesAssociatedByInterest.GetRange(lastPhotoIndex, defaultCollectionSize);
                 foreach (ImageModel i in imagesToBeDownloaded)
                 {
+                    //removes the duplicate values from the list
                     allImagesAssociatedByInterest.Remove(i);
                     i.IsDownloaded = true;
                     output.Add(i);
@@ -76,6 +80,12 @@ namespace AutomatedDesktopBackgroundLibrary
             {
                 int imagesLeftInCollection = allImagesAssociatedByInterest.Count - lastPhotoIndex;
                 List<ImageModel> imagesToBeDownloaded = allImagesAssociatedByInterest.GetRange(lastPhotoIndex, imagesLeftInCollection);
+                if (imagesToBeDownloaded.Count < defaultCollectionSize)
+                {
+                    int imagesNeededToCompleteSet = defaultCollectionSize - imagesToBeDownloaded.Count;
+                    List<ImageModel> extraImages = allImagesAssociatedByInterest.GetRange(0, imagesNeededToCompleteSet);
+                    extraImages.ForEach(x => imagesToBeDownloaded.Add(x));
+                }
                 foreach (ImageModel i in imagesToBeDownloaded)
                 {
                     allImagesAssociatedByInterest.Remove(i);
@@ -87,27 +97,23 @@ namespace AutomatedDesktopBackgroundLibrary
             }
 				allImagesAssociatedByInterest.ForEach(x => allImages.Add(x));
             allImages = allImages.OrderBy(x => x.Id).ToList();
-				TextConnectorProcessor.SaveToTextFile(allImages, GlobalConfig.ImageFile);
+            DataKeeper.OverwriteImageFile(allImages);
 			
 			
 			return output;
 		}
-		private static void UpdateImageFile(List<ImageModel> images)
-		{
-			List<ImageModel> updatedImages = new List<ImageModel>();
-			foreach(ImageModel i in images)
-			{
-				i.IsDownloaded = false;
-                File.Delete(i.FileDir);
-				updatedImages.Add(i);
-			}
-			TextConnectorProcessor.UpdateCollection(images, updatedImages, GlobalConfig.ImageFile);
-		}
 		private static int GetIndexOfLastDownloadedPhoto(List<ImageModel> images)
 		{
-			int lastPhotoId = images.Where(x => x.IsDownloaded == true).Max(x => x.Id);
-			int lastPhotoIndex = images.FindIndex(x => x.Id == lastPhotoId);
-			return lastPhotoIndex;
+            try
+            {
+                int lastPhotoId = images.Where(x => x.IsDownloaded == true).Max(x => x.Id);
+                int lastPhotoIndex = images.FindIndex(x => x.Id == lastPhotoId);
+                return lastPhotoIndex;
+            }
+            catch
+            {
+                return 0;
+            }
 		}
 		private static InterestModel UpdateInterest(InterestModel interest)
 		{
@@ -115,7 +121,7 @@ namespace AutomatedDesktopBackgroundLibrary
 
 			updatedInterest.EntireCollectionDownloaded = true;
 
-			TextConnectorProcessor.UpdateEntry(interest, updatedInterest, GlobalConfig.InterestFile);
+            DataKeeper.UpdateInterest(updatedInterest);
 
 			return updatedInterest;
 		}
@@ -125,12 +131,19 @@ namespace AutomatedDesktopBackgroundLibrary
             imageGetter.ExpectedDownloadAmount = imagesToDownload.Count;
 			foreach(ImageModel i in imagesToDownload)
 			{
-				imageGetter.GetImageLocal(i.DownloadPath, i.FileDir, userRequested);
+				imageGetter.GetImageLocal(i.Url, i.LocalUrl, userRequested);
 			}
 		}
-		public static void GetLocalImages(string interestName, bool userRequested)
+        private  List<ImageModel> RemoveAnyHatedImage(List<ImageModel> images)
+        {
+            List<ImageModel> hatedImages = _fileCollection.HatedImages;
+            hatedImages.ForEach(x => images.Remove(x));
+            return images;
+        }
+		public void GetLocalImages(string interestName, bool userRequested)
 		{
 			List<ImageModel> imagesToDownload = GetLocalImagesToDownload(interestName);
+            imagesToDownload = RemoveAnyHatedImage(imagesToDownload);
 			DownloadImages(imagesToDownload, userRequested);
 		}
 	

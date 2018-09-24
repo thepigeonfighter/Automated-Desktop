@@ -78,5 +78,26 @@ namespace AutomatedDesktopBackgroundUI.Properties {
                 return ((System.Drawing.Icon)(obj));
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Getting Started
+        ///
+        ///Main Window controls
+        ///
+        ///Adding an interest
+        ///To get started type an &quot;interest&quot; into the querry box and then click add interest. This will add it to the box on the left of the screen.
+        ///
+        ///Downloading a Collection
+        ///Select that interest and with it selected click the download new collection this will start downloading a group of photos
+        ///related to that interest. 
+        ///
+        ///Removing an Interest
+        ///Clicking the &quot;Remove Interest&quot; button will delete the selected interest from the database as well as any do [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string ReadMe {
+            get {
+                return ResourceManager.GetString("ReadMe", resourceCulture);
+            }
+        }
     }
 }

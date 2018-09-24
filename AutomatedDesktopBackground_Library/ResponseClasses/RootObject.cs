@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AutomatedDesktopBackgroundLibrary.ResponseClasses
 {
 
-    public class RootObject
+    public class RootObject :IRootObject
     {
         public int total { get; set; }
         public int total_pages { get; set; }

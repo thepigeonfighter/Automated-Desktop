@@ -11,12 +11,13 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using AutomatedDesktopBackgroundUI.Properties;
+using AutomatedDesktopBackgroundLibrary.StringExtensions;
 namespace AutomatedDesktopBackgroundUI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IDisposable
+    public partial class MainWindow : Window
     {
 
         MainViewController viewController = new MainViewController();
@@ -72,10 +73,10 @@ namespace AutomatedDesktopBackgroundUI
             ADIcon.Visible = false;
         }
     
-        private async void removeInterestButton_Click(object sender, RoutedEventArgs e)
+        private void removeInterestButton_Click(object sender, RoutedEventArgs e)
         {
 
-            await  viewController.RemoveInterest(interestListView.SelectedValue.ToString());
+             viewController.RemoveInterest(interestListView.SelectedValue.ToString());
             interestListView.ItemsSource = viewController.interests;
             interestListView.Items.Refresh();
 
@@ -86,7 +87,6 @@ namespace AutomatedDesktopBackgroundUI
             amountImagesDownloadedLabel.Visibility = Visibility.Hidden;
             downloadProgressBar.Visibility = Visibility.Hidden;
             queryTextBox.Text = "";
-            viewController.RefreshInterestList();
             interestListView.ItemsSource = viewController.interests;
             interestListView.SelectedValuePath = "Name";
             EventSystem_UpdateBackgroundEvent(this, "");
@@ -95,10 +95,11 @@ namespace AutomatedDesktopBackgroundUI
             HateImageButton.IsEnabled = false;
             LikeImageButton.IsEnabled = false;
             queryTextBox.KeyUp += QueryTextBox_KeyUp;
-            if (viewController.GetCurrentWallPaperFromFile().Id != -1 )
+            if (viewController.GetCurrentWallPaper() != null )
             {
-                currentImageLabel.Content = $"Current image is {viewController.GetCurrentWallPaperFromFile().Name}";
+                currentImageLabel.Content = $"Current image is {viewController.GetCurrentWallPaper().Name}";
             }
+
         }
 
         private void QueryTextBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
@@ -129,7 +130,7 @@ namespace AutomatedDesktopBackgroundUI
                         queryTextBox.Text = "";
                     }
                 }
-                viewController.RefreshInterestList();
+
 
                 interestListView.ItemsSource = viewController.interests;
                 interestListView.Items.Refresh();
@@ -148,7 +149,7 @@ namespace AutomatedDesktopBackgroundUI
             {
                 if (GlobalConfig.IsConnected())
                 {
-                    int totalImages = viewController.GetTotalImagesByInterestName(interestListView.SelectedValue.ToString());
+                    int totalImages = viewController.GetInterestTotalImages(interestListView.SelectedValue.ToString());
                     if (totalImages > 0)
                     {
                         viewController.DownloadNewCollection(interestListView.SelectedValue.ToString());
@@ -159,7 +160,7 @@ namespace AutomatedDesktopBackgroundUI
                     else
                     {
                         downloadButton.IsEnabled = false;
-                        System.Windows.MessageBox.Show("There are no images associated with that interest, please remove and try a different interest");
+                        System.Windows.MessageBox.Show("There are no images associated with that interest, please remove and try a different interest, Sent from MainWindow.cs");
                     }
                 }
                 else
@@ -243,8 +244,8 @@ namespace AutomatedDesktopBackgroundUI
 
         private void EventSystem_ApplicationResetEvent(object sender, string e)
         {
-            viewController.RefreshInterestList();
             interestListView.ItemsSource = viewController.interests;
+            viewController.SetPageState(ButtonCommands.SetToStartState);
             currentImageLabel.Content = "";
             interestListView.Items.Refresh();
         }
@@ -256,10 +257,9 @@ namespace AutomatedDesktopBackgroundUI
 
         private  void EventSystem_UpdateBackgroundEvent(object sender, string e)
         {
-            if (GlobalConfig.CurrentWallpaper != null)
+            ImageModel currentWallpaper = viewController.GetCurrentWallPaper();
+            if (currentWallpaper.Name != "Unknown")
             {
-                ImageModel currentWallpaper = GlobalConfig.CurrentWallpaper;
-                
                 this.Dispatcher.Invoke(() =>
                 currentImageLabel.Content = $"Current image is {currentWallpaper.Name}"
                 );
@@ -269,13 +269,15 @@ namespace AutomatedDesktopBackgroundUI
                     this.Dispatcher.Invoke(() =>
                     LikeImageButton.IsEnabled = false
                     );
-                }else
+                }
+                else
                 {
                     this.Dispatcher.Invoke(() =>
                     LikeImageButton.IsEnabled = true
                     );
                 }
             }
+            
         }
 
         private void CheckPageState(object sender, string  e)
@@ -316,45 +318,26 @@ namespace AutomatedDesktopBackgroundUI
 
         private void EventSystem_DownloadPercentageEvent(object sender, int e)
         {
-            downloadProgressBar.Value = e;
+            this.Dispatcher.Invoke(()=>downloadProgressBar.Value = e);
         }
 
         private void EventSystem_DownloadedImageEvent(object sender, string e)
         {
-
-            /*
-            if (!string.IsNullOrEmpty(amountImagesDownloadedLabel.Content.ToString()))
-            {
-                string content = amountImagesDownloadedLabel.Content.ToString();
-                string number = content[0].ToString();
-                int currentAmount = int.Parse(number) + 1;
-                string newMessage = $"{currentAmount}/10";
-                amountImagesDownloadedLabel.Content =newMessage;
-            }
-            else
-            {
-                amountImagesDownloadedLabel.Content = "1/10";
-            }
-            */
-            amountImagesDownloadedLabel.Content = e;
-            
+            this.Dispatcher.Invoke(()=>amountImagesDownloadedLabel.Content = e);          
         }
 
         private void EventSystem_DownloadCompleteEvent(object sender, bool e)
         {
-            downloadButton.IsEnabled = true;
-            amountImagesDownloadedLabel.Content = "";
-            amountImagesDownloadedLabel.Visibility = Visibility.Hidden;
-            downloadProgressBar.Visibility = Visibility.Hidden;
+            this.Dispatcher.Invoke(()=> downloadButton.IsEnabled = true);
+            this.Dispatcher.Invoke(()=>amountImagesDownloadedLabel.Content = "");
+            this.Dispatcher.Invoke(()=>amountImagesDownloadedLabel.Visibility = Visibility.Hidden);
+            this.Dispatcher.Invoke(()=>downloadProgressBar.Visibility = Visibility.Hidden);
         }
 
         private void FavoriteAImage_Click(object sender, RoutedEventArgs e)
         {
-           bool sucess =  viewController.SetImageAsFavorite();
-            if(sucess)
-            {
-                LikeImageButton.IsEnabled = false;
-            }
+            this.Dispatcher.Invoke(()=>viewController.SetImageAsFavorite());
+            this.Dispatcher.Invoke(()=>LikeImageButton.IsEnabled = false);     
         }
 
         private void HateImage_Click(object sender, RoutedEventArgs e)
@@ -387,10 +370,6 @@ namespace AutomatedDesktopBackgroundUI
             }
         }
 
-        public void Dispose()
-        {
-            ADIcon.Dispose();
-        }
         private void BGUpdating(bool status)
         {
             if(status)

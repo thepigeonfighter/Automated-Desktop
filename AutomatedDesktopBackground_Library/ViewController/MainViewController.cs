@@ -5,29 +5,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using AutomatedDesktopBackgroundLibrary.StringExtensions;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
-    public enum PageRefreshState { BGOnly, ColOnly, BGAndCol, None}
-    public enum ButtonCommands { StartCollections, StartBackground, StopCollections,StopBackground, SetToStartState}
-    public class MainViewController 
+    public class MainViewController:IFileListener
     {
         public event EventHandler<string> OnPageStateChange;
         public PageRefreshState refreshState;
+        private IFileCollection _fileCollection = new FileCollection();
         APIManager manager = new APIManager();
-        ImageFileManager fileManager = new ImageFileManager();
-        public BindingList<InterestModel> interests = new BindingList<InterestModel>();
+        public BindingList<InterestModel> interests;// = new BindingList<InterestModel>();
         private bool IsDownloading = false;
         public MainViewController() {
 
             GlobalConfig.EventSystem.DownloadCompleteEvent += EventSystem_DownloadCompleteEvent;
             GlobalConfig.EventSystem.ApplicationResetEvent += EventSystem_ApplicationResetEvent;
-            if(GetCurrentWallPaperFromFile().Id !=-1 && GlobalConfig.CurrentWallpaper == null)
-            {
-                GlobalConfig.CurrentWallpaper = GetCurrentWallPaperFromFile();
-            }
+            DataKeeper.RegisterFileListener(this);
+            DataKeeper.UpdateAllLists();
             
+            interests = new BindingList<InterestModel>( DataKeeper.GetFileSnapShot().AllInterests);
+            interests.RaiseListChangedEvents = true;
+
         }
+      
         /// <summary>
         /// Sets the state of the page to give a blueprint for what buttons should be enabled
         /// </summary>
@@ -85,39 +86,55 @@ namespace AutomatedDesktopBackgroundLibrary
         }
         private void EventSystem_ApplicationResetEvent(object sender, string e)
         {
-            RefreshInterestList();
+            Task.Run(() => GlobalConfig.JobManager.StopSchedulerAsync());
+            interests.Clear();
         }
 
-        public ImageModel GetCurrentWallPaperFromFile()
+        public ImageModel GetCurrentWallPaper()
         {
-            if (File.Exists(GlobalConfig.CurrentWallpaperFile))
+            ImageModel fakeImage = new ImageModel() { Name = "Unknown" };
+            ImageModel currentWallpaper = _fileCollection.CurrentWallpaper;
+            if (currentWallpaper != null)
             {
-                return TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.CurrentWallpaperFile).First();
+                return currentWallpaper;
             }
-            ImageModel noImage = new ImageModel() { Id = -1 };
-            return noImage;
+            return fakeImage;
         }
         private void EventSystem_DownloadCompleteEvent(object sender, bool e)
         {
             IsDownloading = false;
         }
-
+        //TODO build a interest builder maybe
         public async Task AddInterest(string interest)
-        {       
-                List<InterestModel> results = await Task.Run(()=>InterestHelper.CreateInterest(interest));
-                interests = new BindingList<InterestModel>(results);
+        {
+            List<InterestModel> existinginterests = _fileCollection.AllInterests;
+
+            int newId = 1;
+            if (existinginterests.Count > 0)
+            {
+              newId = existinginterests.Max(x => x.Id) + 1;
+            }  
+            InterestModel newInterest = new InterestModel();
+            IRootObject response =await  manager.GetResults(interest);
+            newInterest.Name = interest;
+            newInterest.TotalImages = response.total;
+            newInterest.TotalPages = response.total_pages;
+            newInterest.Id = newId;
+            existinginterests.Add(newInterest);
+            DataKeeper.AddInterest(newInterest);
+            interests = new BindingList<InterestModel>(existinginterests);
                
         }
-        public async Task RemoveInterest(string interest)
+        public void RemoveInterest(string interest)
         {
-            //TODO make sure this checks that the current image being displayed is trying to be deleted
-            await Task.Run(()=>fileManager.RemoveImagesByInterestAsync(interest));
-            RefreshInterestList();
+            InterestModel interestToDelete = interest.GetInterestByName();
+            DataKeeper.DeleteInterest(interestToDelete);
+            interests.Remove(interests.First(x => x.Name == interest));
         }
 
-        public void RefreshInterestList()
+        private void RefreshInterestList()
         {
-           var tempList = TextConnectorProcessor.LoadFromTextFile <InterestModel>( GlobalConfig.InterestFile);
+           var tempList = _fileCollection.AllInterests;
             interests = new BindingList<InterestModel>(tempList);
         }
         public void DownloadNewCollection(string query)
@@ -126,14 +143,14 @@ namespace AutomatedDesktopBackgroundLibrary
             if (!IsDownloading)
             {
                 GlobalConfig.EventSystem.InvokeStartedDownloadingEvent();
-                manager.GetImagesBySearch(query, true);
+                Task.Run(()=> manager.GetImagesBySearch(query, true));
                 IsDownloading = true;
                 
             }
         }
         public bool AreAnyImagesDownloaded()
         {
-            List<ImageModel> images = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.ImageFile);
+            List<ImageModel> images = _fileCollection.AllImages;
             if (images.Count > 0)
             {
                 return true;
@@ -178,45 +195,27 @@ namespace AutomatedDesktopBackgroundLibrary
             }
         }
         #endregion
-        public bool SetImageAsFavorite()
+        public void SetImageAsFavorite()
         {
-            if (GlobalConfig.CurrentWallpaper != null)
-            {
-                fileManager.LikeImage(GlobalConfig.CurrentWallpaper);
-                return true;
-            }
-            else
-            {
-                ImageModel currentWallpaper = GetCurrentWallPaperFromFile();
-                if(currentWallpaper.Id != -1)
-                {
-                    fileManager.LikeImage(currentWallpaper);
-                    return true;
-                }
-            }
-            return false;
+            ImageModel currentImage = _fileCollection.CurrentWallpaper;
+            DataKeeper.AddFavoriteImage(currentImage);
+              
         }
-        public async Task SetImageAsHated()
+        public void SetImageAsHated()
         {
-            if (GlobalConfig.CurrentWallpaper != null)
-            {
-              await Task.Run(()=>  fileManager.HateImage(GlobalConfig.CurrentWallpaper));
-            }
-            else
-            {
-                ImageModel currentWallpaper = GetCurrentWallPaperFromFile();
-                if (currentWallpaper.Id != -1)
-                {
-                    await Task.Run(()=>fileManager.HateImage(currentWallpaper));
-                }
-            }
+            ImageModel currentImage = _fileCollection.CurrentWallpaper;
+            DataKeeper.AddHatedImage(currentImage);
+            
+
         }
         public bool IsFavorited()
         {
-            List<ImageModel> favImages = fileManager.GetAllFavoritedImages();
-            foreach(ImageModel i in favImages)
+
+            List<ImageModel> favImages = _fileCollection.FavoriteImages;
+            ImageModel currentImage = _fileCollection.CurrentWallpaper;
+            foreach (ImageModel i in favImages)
             {
-                if(i.Name == GlobalConfig.CurrentWallpaper.Name)
+                if(i.Name == currentImage.Name)
                 {
                     return true;
                 }
@@ -225,15 +224,29 @@ namespace AutomatedDesktopBackgroundLibrary
         }
         public bool InterestExists(string interest)
         {
-            
-            return fileManager.InterestExists(interest);
+            if(interest.GetInterestByName() != null)
+            {
+                return true;
+            }
+            return false;
         }
 
-        public int GetTotalImagesByInterestName(string interestName)
+        public int GetInterestTotalImages(string interestName)
         {
-            InterestModel interest = interests.FirstOrDefault(x => x.Name == interestName);
-            return interest.TotalImages;
-        }
+            InterestModel interest = _fileCollection.AllInterests.FirstOrDefault(x => x.Name == interestName);
+            int totalImages = 0;
+            if (interest != null)
+            {
 
+                totalImages = interest.TotalImages;
+            }
+            return totalImages;
+        }
+        
+        public void OnFileUpdate()
+        {
+           _fileCollection = DataKeeper.GetFileSnapShot();
+            RefreshInterestList();
+        }
     }
 }

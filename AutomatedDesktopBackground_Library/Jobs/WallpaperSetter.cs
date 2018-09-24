@@ -22,6 +22,8 @@ namespace AutomatedDesktopBackgroundLibrary
             Stretched
         }
 
+       // This is for downloading images straight from the web and setting as desktop i am commenting it out so i don't accidentally use it
+        /*
         public static void Set(Uri uri, Style style)
         {
             System.IO.Stream s = new System.Net.WebClient().OpenRead(uri.ToString());
@@ -55,12 +57,12 @@ namespace AutomatedDesktopBackgroundLibrary
                 SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
             Scheduler.ScheduleManager.OnBackgroundChange(DateTime.Now);
         }
+        */
         public static void Set(string url, Style style)
         {
             System.Drawing.Image img = System.Drawing.Image.FromFile(url);
             string tempPath = Path.Combine(Path.GetTempPath(), "wallpaper.bmp");
             img.Save(tempPath, System.Drawing.Imaging.ImageFormat.Bmp);
-
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
             if (style == Style.Stretched)
             {

@@ -128,7 +128,9 @@
       <Name>AutomatedDesktopBackgroundLibrary</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\readme.txt" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Images\Icon.ico" />
   </ItemGroup>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
-    public class InterestModel:IData
+    public class InterestModel:ISaveable
     {
         public int Id { get; set; }
         public string Name { get; set; }

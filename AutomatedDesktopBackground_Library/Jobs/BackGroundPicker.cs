@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.ComponentModel;
+using System.IO;
+using System.Windows;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
@@ -15,25 +17,44 @@ namespace AutomatedDesktopBackgroundLibrary
     {
        public void PickRandomBackground()
         {
-            List<ImageModel> downloadedImages = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.ImageFile).Where(x=> x.IsDownloaded == true).ToList();
-            List<ImageModel> favImages = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.FavoritesFile);
-            favImages?.ForEach(x => downloadedImages.Add(x));
-            if (downloadedImages.Count > 0)
+            if (!GlobalConfig.InCollectionRefresh)
             {
-                Random r = new Random();
 
-                ImageModel randomImage = downloadedImages[r.Next(downloadedImages.Count)];
-                downloadedImages.Clear();
-                downloadedImages.Add(randomImage);
-                TextConnectorProcessor.SaveToTextFile(downloadedImages, GlobalConfig.CurrentWallpaperFile);
-                GlobalConfig.CurrentWallpaper = randomImage;
-                WallpaperSetter.Set(randomImage.FileDir, WallpaperSetter.Style.Stretched);
+                    Random r = new Random();
+
+                    ImageModel randomImage = GetImage();
+                    DataKeeper.UpdateWallpaper(randomImage);
+                    WallpaperSetter.Set(randomImage.LocalUrl, WallpaperSetter.Style.Stretched);
+                    
+            }
+
+        }
+        private ImageModel GetImage()
+        {
+            IFileCollection fileCollection = DataKeeper.GetFileSnapShot();
+            ImageModel randomImage = new ImageModel();
+            if (fileCollection.AllImages.Count > 1)
+            {
+                IFilteredFileResult results = fileCollection.GetAllDownloadedImages();
+                List<ImageModel> downloadedImages = results.GetResults().ConvertAll(x => (ImageModel)x);
+                ImageModel currentWallper = fileCollection.CurrentWallpaper;
+                //Gets the instance not the copy
+                if (currentWallper != null)
+                {
+                    ImageModel imageThatIsWallpaper = downloadedImages.FirstOrDefault(x => x.LocalUrl == currentWallper.LocalUrl);
+                    //To ensure we aren't setting the wallpaper to ths same file
+                    downloadedImages.Remove(imageThatIsWallpaper);
+                }
+
+                Random r = new Random();
+               randomImage = downloadedImages[r.Next(downloadedImages.Count)];
+                return randomImage;
             }
             else
             {
-                throw new Exception("There are no images downloaded, Please Download some images and try again");
+                throw  new Exception("No Images Downloaded");
             }
-
+            
         }
         
     }
