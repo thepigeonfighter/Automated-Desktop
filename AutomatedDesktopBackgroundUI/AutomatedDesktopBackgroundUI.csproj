@@ -68,6 +68,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="RootWindow.xaml.cs">
       <DependentUpon>RootWindow.xaml</DependentUpon>
     </Compile>
@@ -128,7 +129,9 @@
       <Name>AutomatedDesktopBackgroundLibrary</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\readme.txt" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Images\Icon.ico" />
   </ItemGroup>

@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
-using System.ComponentModel;
+using System.IO;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
@@ -13,28 +9,28 @@ namespace AutomatedDesktopBackgroundLibrary
     /// </summary>
     public class BackGroundPicker
     {
-       public void PickRandomBackground()
+        public void PickRandomBackground()
         {
-            List<ImageModel> downloadedImages = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.ImageFile).Where(x=> x.IsDownloaded == true).ToList();
-            List<ImageModel> favImages = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.FavoritesFile);
-            favImages?.ForEach(x => downloadedImages.Add(x));
-            if (downloadedImages.Count > 0)
+            if (!GlobalConfig.InCollectionRefresh)
             {
-                Random r = new Random();
-
-                ImageModel randomImage = downloadedImages[r.Next(downloadedImages.Count)];
-                downloadedImages.Clear();
-                downloadedImages.Add(randomImage);
-                TextConnectorProcessor.SaveToTextFile(downloadedImages, GlobalConfig.CurrentWallpaperFile);
-                GlobalConfig.CurrentWallpaper = randomImage;
-                WallpaperSetter.Set(randomImage.FileDir, WallpaperSetter.Style.Stretched);
+                string imageUrl = GetImageFileDir();
+                DataKeeper.UpdateWallpaper(imageUrl);
+                WallpaperSetter.Set(imageUrl, WallpaperSetter.Style.Stretched);
             }
-            else
-            {
-                throw new Exception("There are no images downloaded, Please Download some images and try again");
-            }
-
         }
-        
+
+        private string GetImageFileDir()
+        {
+            string[] directories = Directory.GetDirectories(StringExtensions.StringExtensions.GetApplicationDirectory());
+            List<string> imageFilePaths = new List<string>();
+            foreach (string dir in directories)
+            {
+                string[] fileDir = Directory.GetFiles(dir, "*.jpeg");
+                imageFilePaths.AddRange(fileDir);
+            }
+            Random r = new Random();
+            string imageUrl = imageFilePaths[r.Next(0, imageFilePaths.Count)];
+            return imageUrl;
+        }
     }
 }

@@ -1,33 +1,49 @@
-﻿using System;
+﻿using AutomatedDesktopBackgroundLibrary.StringExtensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.IO;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
-    public enum PageRefreshState { BGOnly, ColOnly, BGAndCol, None}
-    public enum ButtonCommands { StartCollections, StartBackground, StopCollections,StopBackground, SetToStartState}
-    public class MainViewController 
+    public class MainViewController : IFileListener
     {
         public event EventHandler<string> OnPageStateChange;
-        public PageRefreshState refreshState;
-        APIManager manager = new APIManager();
-        ImageFileManager fileManager = new ImageFileManager();
-        public BindingList<InterestModel> interests = new BindingList<InterestModel>();
-        private bool IsDownloading = false;
-        public MainViewController() {
 
+        public PageRefreshState refreshState;
+        private IFileCollection _fileCollection = new FileCollection();
+        private readonly APIManager manager = new APIManager();
+        public BindingList<InterestModel> interests;// = new BindingList<InterestModel>();
+        private bool IsDownloading = false;
+
+        public MainViewController()
+        {
             GlobalConfig.EventSystem.DownloadCompleteEvent += EventSystem_DownloadCompleteEvent;
             GlobalConfig.EventSystem.ApplicationResetEvent += EventSystem_ApplicationResetEvent;
-            if(GetCurrentWallPaperFromFile().Id !=-1 && GlobalConfig.CurrentWallpaper == null)
+            GlobalConfig.EventSystem.ImageHatingHasCompletedEvent += EventSystem_ImageHatingHasCompletedEvent;
+            DataKeeper.RegisterFileListener(this);
+            DataKeeper.UpdateAllLists();
+
+            interests = new BindingList<InterestModel>(DataKeeper.GetFileSnapShot().AllInterests)
             {
-                GlobalConfig.CurrentWallpaper = GetCurrentWallPaperFromFile();
-            }
-            
+                RaiseListChangedEvents = true
+            };
         }
+
+        private async void EventSystem_ImageHatingHasCompletedEvent(object sender, string e)
+        {
+            if (!await IsBackgroundRefreshing().ConfigureAwait(false))
+            {
+                await StartBackGroundRefresh(true).ConfigureAwait(false);
+            }
+        }
+
+        private Task<bool> IsBackgroundRefreshing()
+        {
+            return GlobalConfig.JobManager.JobRunning(JobType.BackgroundRefresh);
+        }
+
         /// <summary>
         /// Sets the state of the page to give a blueprint for what buttons should be enabled
         /// </summary>
@@ -46,6 +62,7 @@ namespace AutomatedDesktopBackgroundLibrary
                         refreshState = PageRefreshState.BGAndCol;
                     }
                     break;
+
                 case ButtonCommands.StartBackground:
                     if (refreshState == PageRefreshState.None)
                     {
@@ -56,8 +73,9 @@ namespace AutomatedDesktopBackgroundLibrary
                         refreshState = PageRefreshState.BGAndCol;
                     }
                     break;
+
                 case ButtonCommands.StopCollections:
-                    if(refreshState == PageRefreshState.ColOnly)
+                    if (refreshState == PageRefreshState.ColOnly)
                     {
                         refreshState = PageRefreshState.None;
                     }
@@ -66,6 +84,7 @@ namespace AutomatedDesktopBackgroundLibrary
                         refreshState = PageRefreshState.BGOnly;
                     }
                     break;
+
                 case ButtonCommands.StopBackground:
                     if (refreshState == PageRefreshState.BGOnly)
                     {
@@ -76,6 +95,7 @@ namespace AutomatedDesktopBackgroundLibrary
                         refreshState = PageRefreshState.ColOnly;
                     }
                     break;
+
                 case ButtonCommands.SetToStartState:
                     refreshState = PageRefreshState.None;
                     break;
@@ -83,157 +103,184 @@ namespace AutomatedDesktopBackgroundLibrary
 
             OnPageStateChange?.Invoke(this, "Page is changing");
         }
+
         private void EventSystem_ApplicationResetEvent(object sender, string e)
         {
-            RefreshInterestList();
+            Task.Run(() => GlobalConfig.JobManager.StopSchedulerAsync());
+            interests.Clear();
         }
 
-        public ImageModel GetCurrentWallPaperFromFile()
+        public ImageModel GetCurrentWallPaper()
         {
-            if (File.Exists(GlobalConfig.CurrentWallpaperFile))
-            {
-                return TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.CurrentWallpaperFile).First();
-            }
-            ImageModel noImage = new ImageModel() { Id = -1 };
-            return noImage;
+            ImageModel fakeImage = new ImageModel() { Name = "Unknown" };
+            ImageModel currentWallpaper = _fileCollection.CurrentWallpaper;
+            return currentWallpaper ?? fakeImage;
         }
+
         private void EventSystem_DownloadCompleteEvent(object sender, bool e)
         {
             IsDownloading = false;
         }
 
+        //TODO build a interest builder maybe
         public async Task AddInterest(string interest)
-        {       
-                List<InterestModel> results = await Task.Run(()=>InterestHelper.CreateInterest(interest));
-                interests = new BindingList<InterestModel>(results);
-               
-        }
-        public async Task RemoveInterest(string interest)
         {
-            //TODO make sure this checks that the current image being displayed is trying to be deleted
-            await Task.Run(()=>fileManager.RemoveImagesByInterestAsync(interest));
-            RefreshInterestList();
+            List<InterestModel> existinginterests = _fileCollection.AllInterests;
+
+            int newId = 1;
+            if (existinginterests.Count > 0)
+            {
+                newId = existinginterests.Max(x => x.Id) + 1;
+            }
+            InterestModel newInterest = new InterestModel();
+            IRootObject response = await manager.GetResults(interest).ConfigureAwait(false);
+            newInterest.Name = interest;
+            newInterest.TotalImages = response.total;
+            newInterest.TotalPages = response.total_pages;
+            newInterest.Id = newId;
+            existinginterests.Add(newInterest);
+            DataKeeper.AddInterest(newInterest);
+            interests = new BindingList<InterestModel>(existinginterests);
         }
 
-        public void RefreshInterestList()
+        public void RemoveInterest(string interest)
         {
-           var tempList = TextConnectorProcessor.LoadFromTextFile <InterestModel>( GlobalConfig.InterestFile);
+            InterestModel interestToDelete = interest.GetInterestByName();
+            DataKeeper.DeleteInterest(interestToDelete);
+            interests.Remove(interests.First(x => x.Name == interest));
+        }
+
+        private void RefreshInterestList()
+        {
+            var tempList = _fileCollection.AllInterests;
             interests = new BindingList<InterestModel>(tempList);
         }
+
         public void DownloadNewCollection(string query)
         {
-            
             if (!IsDownloading)
             {
                 GlobalConfig.EventSystem.InvokeStartedDownloadingEvent();
-                manager.GetImagesBySearch(query, true);
+                Task.Run(() => manager.GetImagesBySearch(query, true));
                 IsDownloading = true;
-                
             }
         }
+
         public bool AreAnyImagesDownloaded()
         {
-            List<ImageModel> images = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.ImageFile);
-            if (images.Count > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            List<ImageModel> images = _fileCollection.AllImages;
+            images.AddRange(_fileCollection.FavoriteImages);
+            return images.Count > 0;
         }
+
         public void CloseProgram()
         {
             WindowManager.CloseRootWindow();
         }
+
         #region Background and Collection Controls
+
         public async Task StartCollectionRefresh()
         {
             if (refreshState == PageRefreshState.None || refreshState == PageRefreshState.BGOnly)
             {
-                await Task.Run(() => GlobalConfig.JobManager.StartCollectionUpdatingAsync());
+                await Task.Run(() => GlobalConfig.JobManager.StartCollectionUpdatingAsync()).ConfigureAwait(false);
             }
         }
-        public async Task StartBackGroundRefresh( )
-        {
-            if (refreshState == PageRefreshState.None || refreshState == PageRefreshState.ColOnly)
-            {
-                await Task.Run(() => GlobalConfig.JobManager.StartBackgroundUpdatingAsync());
-            }
 
+        public async Task StartBackGroundRefresh(bool forceStart = false)
+        {
+            if (!forceStart)
+            {
+                if (refreshState == PageRefreshState.None || refreshState == PageRefreshState.ColOnly)
+                {
+                    await Task.Run(() => GlobalConfig.JobManager.StartBackgroundUpdatingAsync()).ConfigureAwait(false);
+                    BackGroundPicker bg = new BackGroundPicker();
+                    bg.PickRandomBackground();
+                }
+            }
+            else
+            {
+                BackGroundPicker bg = new BackGroundPicker();
+                bg.PickRandomBackground();
+                await Task.Delay(300).ConfigureAwait(false);
+                await Task.Run(() => GlobalConfig.JobManager.StartBackgroundUpdatingAsync()).ConfigureAwait(false);
+            }
         }
+
         public async Task StopBackGroundRefresh()
         {
             if (refreshState != PageRefreshState.None || refreshState != PageRefreshState.ColOnly)
             {
-                await Task.Run(() => GlobalConfig.JobManager.StopBackgroundUpdatingAsync());
+                await Task.Run(() => GlobalConfig.JobManager.StopBackgroundUpdatingAsync()).ConfigureAwait(false);
             }
         }
+
         public async Task StopCollectionChange()
         {
             if (refreshState != PageRefreshState.None || refreshState != PageRefreshState.BGOnly)
             {
-                await Task.Run(() => GlobalConfig.JobManager.StopCollectionUpdatingAsync());
+                await Task.Run(() => GlobalConfig.JobManager.StopCollectionUpdatingAsync()).ConfigureAwait(false);
             }
         }
-        #endregion
-        public bool SetImageAsFavorite()
+
+        #endregion Background and Collection Controls
+
+        public void SetImageAsFavorite()
         {
-            if (GlobalConfig.CurrentWallpaper != null)
-            {
-                fileManager.LikeImage(GlobalConfig.CurrentWallpaper);
-                return true;
-            }
-            else
-            {
-                ImageModel currentWallpaper = GetCurrentWallPaperFromFile();
-                if(currentWallpaper.Id != -1)
-                {
-                    fileManager.LikeImage(currentWallpaper);
-                    return true;
-                }
-            }
-            return false;
+            ImageModel currentImage = _fileCollection.CurrentWallpaper;
+            DataKeeper.AddFavoriteImage(currentImage);
         }
+
         public async Task SetImageAsHated()
         {
-            if (GlobalConfig.CurrentWallpaper != null)
+            ImageModel currentImage = _fileCollection.CurrentWallpaper;
+            DataKeeper.AddHatedImage(currentImage);
+            if (await IsBackgroundRefreshing().ConfigureAwait(false))
             {
-              await Task.Run(()=>  fileManager.HateImage(GlobalConfig.CurrentWallpaper));
+                await StopBackGroundRefresh().ConfigureAwait(false);
             }
             else
             {
-                ImageModel currentWallpaper = GetCurrentWallPaperFromFile();
-                if (currentWallpaper.Id != -1)
-                {
-                    await Task.Run(()=>fileManager.HateImage(currentWallpaper));
-                }
+                BackGroundPicker bg = new BackGroundPicker();
+                bg.PickRandomBackground();
             }
         }
+
         public bool IsFavorited()
         {
-            List<ImageModel> favImages = fileManager.GetAllFavoritedImages();
-            foreach(ImageModel i in favImages)
+            List<ImageModel> favImages = _fileCollection.FavoriteImages;
+            ImageModel currentImage = _fileCollection.CurrentWallpaper;
+            foreach (ImageModel i in favImages)
             {
-                if(i.Name == GlobalConfig.CurrentWallpaper.Name)
+                if (i.Name == currentImage.Name)
                 {
                     return true;
                 }
             }
             return false;
         }
+
         public bool InterestExists(string interest)
         {
-            
-            return fileManager.InterestExists(interest);
+            return interest.GetInterestByName() != null;
         }
 
-        public int GetTotalImagesByInterestName(string interestName)
+        public int GetInterestTotalImages(string interestName)
         {
-            InterestModel interest = interests.FirstOrDefault(x => x.Name == interestName);
-            return interest.TotalImages;
+            InterestModel interest = _fileCollection.AllInterests.FirstOrDefault(x => x.Name == interestName);
+            int totalImages = 0;
+            if (interest != null)
+            {
+                totalImages = interest.TotalImages;
+            }
+            return totalImages;
         }
 
+        public void OnFileUpdate()
+        {
+            _fileCollection = DataKeeper.GetFileSnapShot();
+            RefreshInterestList();
+        }
     }
 }

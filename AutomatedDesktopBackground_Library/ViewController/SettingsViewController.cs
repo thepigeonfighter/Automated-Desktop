@@ -17,7 +17,7 @@ namespace AutomatedDesktopBackgroundLibrary
         }
         public bool ChangeDesktopBackground()
         {
-            List<ImageModel> images = TextConnectorProcessor.LoadFromTextFile<ImageModel>(GlobalConfig.ImageFile);
+            List<ImageModel> images = DataKeeper.GetFileSnapShot().AllImages;
             if (images.Count > 0)
             {
                 BackGroundPicker backGroundPicker = new BackGroundPicker();
@@ -29,45 +29,49 @@ namespace AutomatedDesktopBackgroundLibrary
                 return false;
             }
         }
-        public GlobalConfig.TimeSettings ConvertStringToTime(string time)
+        public TimeSettings ConvertStringToTime(string time)
         {
             switch (time)
             {
                 case "Days":
-                    return GlobalConfig.TimeSettings.Days;
+                    return TimeSettings.Days;
                 case "Hours":
-                    return GlobalConfig.TimeSettings.Hours;
+                    return TimeSettings.Hours;
                 case "Minutes":
-                    return GlobalConfig.TimeSettings.Minutes;
+                    return TimeSettings.Minutes;
                 default:
                     throw new Exception("Invalid Time input");
 
             }
         }
-        public void ChangeBackgroundRefreshRate(string amount, GlobalConfig.TimeSettings timeSettings)
+        public void ChangeBackgroundRefreshRate(string amount, TimeSettings timeSettings)
         {
             TimeSpan ts = ConvertToTimeSpan(int.Parse(amount), timeSettings);
             ScheduleManager.ChangeBackgroundRefreshSettings(ts);
         }
-        public void ChangeCollectionRefreshRate(string amount, GlobalConfig.TimeSettings timeSettings)
+        public void ChangeCollectionRefreshRate(string amount, TimeSettings timeSettings)
         {
             TimeSpan ts = ConvertToTimeSpan(int.Parse(amount), timeSettings);
             ScheduleManager.ChangeCollectionRefreshSettings(ts);
         }
-        private TimeSpan ConvertToTimeSpan(int num, GlobalConfig.TimeSettings ts)
+        private TimeSpan ConvertToTimeSpan(int num, TimeSettings ts)
         {
             switch(ts)
             {
-                case GlobalConfig.TimeSettings.Days:
+                case TimeSettings.Days:
                     return new TimeSpan(num*24, 0, 0);
-                case GlobalConfig.TimeSettings.Hours:
+                case TimeSettings.Hours:
                     return new TimeSpan(num, 0, 0);
-                case GlobalConfig.TimeSettings.Minutes:
+                case TimeSettings.Minutes:
                     return new TimeSpan(0, num, 0);
                 default:
                     throw new Exception("Invalide time setting");
 
             }
+        }
+        public void ResetApplication()
+        {
+            DataKeeper.ResetApplication();
         }
         public TimeModel CurrentCollectionRefreshRate()
         {

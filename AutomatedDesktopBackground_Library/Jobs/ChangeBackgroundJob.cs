@@ -13,7 +13,7 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             
             BackGroundPicker picker = new BackGroundPicker();
-            await Task.Run(()=>picker.PickRandomBackground());
+            await Task.Run(()=>picker.PickRandomBackground()).ConfigureAwait(false);
 
         }
 

@@ -1,28 +1,21 @@
-﻿using System.Windows;
-using AutomatedDesktopBackgroundLibrary;
-using Quartz;
-using Quartz.Impl;
-using System.Threading;
+﻿using AutomatedDesktopBackgroundLibrary;
+using AutomatedDesktopBackgroundLibrary.StringExtensions;
 using System;
-using System.Collections.Specialized;
+using System.Windows;
 using System.Windows.Forms;
-using System.Drawing;
-using System.IO;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using AutomatedDesktopBackgroundUI.Properties;
+
 namespace AutomatedDesktopBackgroundUI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IDisposable
+    public partial class MainWindow : Window
     {
-
-        MainViewController viewController = new MainViewController();
+        private readonly MainViewController viewController = new MainViewController();
         public NotifyIcon ADIcon;
+
         public MainWindow()
-        { 
+        {
             InitializeComponent();
             WireEvents();
             BuildNotifyIcon();
@@ -32,123 +25,132 @@ namespace AutomatedDesktopBackgroundUI
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             System.Windows.MessageBox.Show("Program only closes when the close program button is clicked");
-                e.Cancel = true;
-                HideWindow();
+            e.Cancel = true;
+            HideWindow();
         }
+
         /// <summary>
         /// I am leaving this in the code behind because it is specific to this UI
         /// This Builds a system tray icon so when the app is minimized it becomes a visible icon in the system tray
         /// </summary>
         private void BuildNotifyIcon()
         {
-            ADIcon = new NotifyIcon();
-            ADIcon.BalloonTipTitle = "Automated Desktop Backgrounds";
-            ADIcon.BalloonTipIcon = ToolTipIcon.Info;
-            ADIcon.BalloonTipText = "Double Click To Open";
-            ADIcon.Text = "Automated Desktop Backgrounds";
-            ADIcon.Visible = false;
+            ADIcon = new NotifyIcon
+            {
+                BalloonTipTitle = "Automated Desktop Backgrounds",
+                BalloonTipIcon = ToolTipIcon.Info,
+                BalloonTipText = "Double Click To Open",
+                Text = "Automated Desktop Backgrounds",
+                Visible = false
+            };
             var myIcon = Properties.Resources.Icon1;
             ADIcon.Icon = myIcon;
             ADIcon.DoubleClick += OnNotifyIconDoubleClik;
-            
         }
+
         private void OnResize(object sender, EventArgs e)
         {
-            if (this.WindowState == WindowState.Minimized )
+            if (this.WindowState == WindowState.Minimized)
             {
                 HideWindow();
-                
             }
         }
+
         private void HideWindow()
         {
             Hide();
             ADIcon.Visible = true;
         }
+
         private void OnNotifyIconDoubleClik(object sender, EventArgs e)
         {
             Show();
             this.WindowState = WindowState.Normal;
             ADIcon.Visible = false;
         }
-    
-        private async void removeInterestButton_Click(object sender, RoutedEventArgs e)
-        {
 
-            await  viewController.RemoveInterest(interestListView.SelectedValue.ToString());
+        private void RemoveInterestButton_Click(object sender, RoutedEventArgs e)
+        {
+            viewController.RemoveInterest(interestListView.SelectedValue.ToString());
             interestListView.ItemsSource = viewController.interests;
             interestListView.Items.Refresh();
-
         }
+
         private void WireDependencies()
         {
             viewController.SetPageState(ButtonCommands.SetToStartState);
             amountImagesDownloadedLabel.Visibility = Visibility.Hidden;
             downloadProgressBar.Visibility = Visibility.Hidden;
             queryTextBox.Text = "";
-            viewController.RefreshInterestList();
             interestListView.ItemsSource = viewController.interests;
             interestListView.SelectedValuePath = "Name";
             EventSystem_UpdateBackgroundEvent(this, "");
             downloadButton.IsEnabled = false;
             removeInterestButton.IsEnabled = false;
-            HateImageButton.IsEnabled = false;
-            LikeImageButton.IsEnabled = false;
+
             queryTextBox.KeyUp += QueryTextBox_KeyUp;
-            if (viewController.GetCurrentWallPaperFromFile().Id != -1 )
+            ImageModel image = viewController.GetCurrentWallPaper();
+            if (image != null)
             {
-                currentImageLabel.Content = $"Current image is {viewController.GetCurrentWallPaperFromFile().Name}";
+                currentImageLabel.Content = $"Current image is {image.Name}";
+                HateImageButton.IsEnabled = true;
+                if (!viewController.IsFavorited())
+                {
+                    LikeImageButton.IsEnabled = true;
+                }
+            }
+            else
+            {
+                currentImageLabel.Content = $"Unknown";
+                HateImageButton.IsEnabled = false;
+                LikeImageButton.IsEnabled = false;
             }
         }
 
         private void QueryTextBox_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if(e.Key == System.Windows.Input.Key.Enter)
+            if (e.Key == System.Windows.Input.Key.Enter)
             {
-                querySearchButton_Click(this, new RoutedEventArgs());
+                QuerySearchButton_Click(this, new RoutedEventArgs());
             }
         }
 
-        private async void querySearchButton_Click(object sender, RoutedEventArgs e)
+        private async void QuerySearchButton_Click(object sender, RoutedEventArgs e)
         {
             if (GlobalConfig.IsConnected())
             {
                 querySearchButton.IsEnabled = false;
                 if (!string.IsNullOrEmpty(queryTextBox.Text))
                 {
-                    string formatedText = StringExtensions.MakePrettyString(queryTextBox.Text);
+                    string formatedText = queryTextBox.Text.MakePrettyString();
                     if (!viewController.InterestExists(formatedText))
                     {
-
                         await viewController.AddInterest(formatedText);
                         queryTextBox.Text = "";
-
                     }
                     else
                     {
                         queryTextBox.Text = "";
                     }
                 }
-                viewController.RefreshInterestList();
 
                 interestListView.ItemsSource = viewController.interests;
                 interestListView.Items.Refresh();
                 querySearchButton.IsEnabled = true;
-            }else
+            }
+            else
             {
                 System.Windows.MessageBox.Show("No internet Connection");
             }
         }
 
-
-
-        private void downloadButton_Click(object sender, RoutedEventArgs e)
+        private void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
             if (interestListView.SelectedValue != null)
             {
                 if (GlobalConfig.IsConnected())
                 {
-                    int totalImages = viewController.GetTotalImagesByInterestName(interestListView.SelectedValue.ToString());
+                    int totalImages = viewController.GetInterestTotalImages(interestListView.SelectedValue.ToString());
                     if (totalImages > 0)
                     {
                         viewController.DownloadNewCollection(interestListView.SelectedValue.ToString());
@@ -159,32 +161,30 @@ namespace AutomatedDesktopBackgroundUI
                     else
                     {
                         downloadButton.IsEnabled = false;
-                        System.Windows.MessageBox.Show("There are no images associated with that interest, please remove and try a different interest");
+                        System.Windows.MessageBox.Show("There are no images associated with that interest, please remove and try a different interest, Sent from MainWindow.cs");
                     }
                 }
                 else
                 {
                     System.Windows.MessageBox.Show("No internet Connection");
                 }
-
             }
         }
 
-
-        private void settingsButton_Click(object sender, RoutedEventArgs e)
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             Window window = new SettingsWindow();
             window.Show();
         }
 
-        private void closeProgramButton_Click(object sender, RoutedEventArgs e)
+        private void CloseProgramButton_Click(object sender, RoutedEventArgs e)
         {
             this.Dispatcher.Invoke(() => viewController.CloseProgram());
-            
-            
         }
+
         #region Background and Collection Buttons
-        private void startBackgroundRefreshButton_Copy_Click(object sender, RoutedEventArgs e)
+
+        private void StartBackgroundRefreshButton_Copy_Click(object sender, RoutedEventArgs e)
         {
             if (viewController.AreAnyImagesDownloaded())
             {
@@ -193,12 +193,11 @@ namespace AutomatedDesktopBackgroundUI
             }
             else
             {
-
                 System.Windows.MessageBox.Show("No Images downloaded. Please download before some images before attempting to set the background.");
-
             }
         }
-        private void startCollectionRefreshButton_Copy_Click(object sender, RoutedEventArgs e)
+
+        private void StartCollectionRefreshButton_Copy_Click(object sender, RoutedEventArgs e)
         {
             if (viewController.AreAnyImagesDownloaded())
             {
@@ -208,26 +207,26 @@ namespace AutomatedDesktopBackgroundUI
             }
             else
             {
-
                 System.Windows.MessageBox.Show("No Images downloaded. Please download before some images before attempting to set the background.");
-
             }
         }
-        private   void stopCollectionRefreshButton_Click(object sender, RoutedEventArgs e)
+
+        private void StopCollectionRefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Dispatcher.Invoke(()=>
+            this.Dispatcher.Invoke(() =>
             viewController.StopCollectionChange());
             viewController.SetPageState(ButtonCommands.StopCollections);
         }
 
-        private  void stopBackgroundRefreshButton_Click(object sender, RoutedEventArgs e)
+        private void StopBackgroundRefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Dispatcher.Invoke(()=>
+            this.Dispatcher.Invoke(() =>
             viewController.StopBackGroundRefresh());
             viewController.SetPageState(ButtonCommands.StopBackground);
         }
 
-        #endregion
+        #endregion Background and Collection Buttons
+
         private void WireEvents()
         {
             this.StateChanged += OnResize;
@@ -243,8 +242,8 @@ namespace AutomatedDesktopBackgroundUI
 
         private void EventSystem_ApplicationResetEvent(object sender, string e)
         {
-            viewController.RefreshInterestList();
             interestListView.ItemsSource = viewController.interests;
+            viewController.SetPageState(ButtonCommands.SetToStartState);
             currentImageLabel.Content = "";
             interestListView.Items.Refresh();
         }
@@ -254,12 +253,11 @@ namespace AutomatedDesktopBackgroundUI
             this.Dispatcher.Invoke(() => HateImageButton.IsEnabled = true);
         }
 
-        private  void EventSystem_UpdateBackgroundEvent(object sender, string e)
+        private void EventSystem_UpdateBackgroundEvent(object sender, string e)
         {
-            if (GlobalConfig.CurrentWallpaper != null)
+            ImageModel currentWallpaper = viewController.GetCurrentWallPaper();
+            if (currentWallpaper.Name != "Unknown")
             {
-                ImageModel currentWallpaper = GlobalConfig.CurrentWallpaper;
-                
                 this.Dispatcher.Invoke(() =>
                 currentImageLabel.Content = $"Current image is {currentWallpaper.Name}"
                 );
@@ -269,7 +267,8 @@ namespace AutomatedDesktopBackgroundUI
                     this.Dispatcher.Invoke(() =>
                     LikeImageButton.IsEnabled = false
                     );
-                }else
+                }
+                else
                 {
                     this.Dispatcher.Invoke(() =>
                     LikeImageButton.IsEnabled = true
@@ -278,30 +277,33 @@ namespace AutomatedDesktopBackgroundUI
             }
         }
 
-        private void CheckPageState(object sender, string  e)
+        private void CheckPageState(object sender, string e)
         {
             if (GlobalConfig.IsConnected())
             {
                 switch (viewController.refreshState)
-            {
-                case PageRefreshState.BGAndCol:
-                    BGUpdating(true);
-                    ColUpdating(true);
+                {
+                    case PageRefreshState.BGAndCol:
+                        BGUpdating(true);
+                        ColUpdating(true);
                         break;
-                case PageRefreshState.BGOnly:
-                    BGUpdating(true);
-                    ColUpdating(false);
-                    break;
-                case PageRefreshState.ColOnly:
-                    BGUpdating(false);
-                    ColUpdating(true);
-                    break;
-                case PageRefreshState.None:
-                    BGUpdating(false);
-                    ColUpdating(false);
-                    break;
-            }
-           
+
+                    case PageRefreshState.BGOnly:
+                        BGUpdating(true);
+                        ColUpdating(false);
+                        break;
+
+                    case PageRefreshState.ColOnly:
+                        BGUpdating(false);
+                        ColUpdating(true);
+                        break;
+
+                    case PageRefreshState.None:
+                        BGUpdating(false);
+                        ColUpdating(false);
+                        break;
+                }
+
                 connectionLabel.Content = "Connected";
                 connectionLabel.Foreground = System.Windows.Media.Brushes.Green;
             }
@@ -309,65 +311,40 @@ namespace AutomatedDesktopBackgroundUI
             {
                 connectionLabel.Content = "Offline";
                 connectionLabel.Foreground = System.Windows.Media.Brushes.Red;
-                
             }
-
         }
 
         private void EventSystem_DownloadPercentageEvent(object sender, int e)
         {
-            downloadProgressBar.Value = e;
+            this.Dispatcher.Invoke(() => downloadProgressBar.Value = e);
         }
 
         private void EventSystem_DownloadedImageEvent(object sender, string e)
         {
-
-            /*
-            if (!string.IsNullOrEmpty(amountImagesDownloadedLabel.Content.ToString()))
-            {
-                string content = amountImagesDownloadedLabel.Content.ToString();
-                string number = content[0].ToString();
-                int currentAmount = int.Parse(number) + 1;
-                string newMessage = $"{currentAmount}/10";
-                amountImagesDownloadedLabel.Content =newMessage;
-            }
-            else
-            {
-                amountImagesDownloadedLabel.Content = "1/10";
-            }
-            */
-            amountImagesDownloadedLabel.Content = e;
-            
+            this.Dispatcher.Invoke(() => amountImagesDownloadedLabel.Content = e);
         }
 
         private void EventSystem_DownloadCompleteEvent(object sender, bool e)
         {
-            downloadButton.IsEnabled = true;
-            amountImagesDownloadedLabel.Content = "";
-            amountImagesDownloadedLabel.Visibility = Visibility.Hidden;
-            downloadProgressBar.Visibility = Visibility.Hidden;
+            this.Dispatcher.Invoke(() => downloadButton.IsEnabled = true);
+            this.Dispatcher.Invoke(() => amountImagesDownloadedLabel.Content = "");
+            this.Dispatcher.Invoke(() => amountImagesDownloadedLabel.Visibility = Visibility.Hidden);
+            this.Dispatcher.Invoke(() => downloadProgressBar.Visibility = Visibility.Hidden);
         }
 
         private void FavoriteAImage_Click(object sender, RoutedEventArgs e)
         {
-           bool sucess =  viewController.SetImageAsFavorite();
-            if(sucess)
-            {
-                LikeImageButton.IsEnabled = false;
-            }
+            this.Dispatcher.Invoke(() => viewController.SetImageAsFavorite());
+            this.Dispatcher.Invoke(() => LikeImageButton.IsEnabled = false);
         }
 
         private void HateImage_Click(object sender, RoutedEventArgs e)
         {
-
-            this.Dispatcher.Invoke(()=>viewController.SetImageAsHated());
+            this.Dispatcher.Invoke(() => viewController.SetImageAsHated());
             this.Dispatcher.Invoke(() => HateImageButton.IsEnabled = false);
         }
 
-
-
-
-        private void interestListView_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void InterestListView_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (interestListView.SelectedValue != null)
             {
@@ -378,7 +355,6 @@ namespace AutomatedDesktopBackgroundUI
 
                     queryTextBox.Text = interestListView.SelectedValue.ToString();
                 }
-
             }
             else
             {
@@ -387,13 +363,9 @@ namespace AutomatedDesktopBackgroundUI
             }
         }
 
-        public void Dispose()
-        {
-            ADIcon.Dispose();
-        }
         private void BGUpdating(bool status)
         {
-            if(status)
+            if (status)
             {
                 this.Dispatcher.Invoke(() => backgroundRefreshLabel.Content = "Background is refreshing");
                 this.Dispatcher.Invoke(() => stopBackgroundRefreshButton.IsEnabled = true);
@@ -406,9 +378,10 @@ namespace AutomatedDesktopBackgroundUI
                 this.Dispatcher.Invoke(() => startBackgroundRefreshButton.IsEnabled = true);
             }
         }
-        private void ColUpdating(bool status )
+
+        private void ColUpdating(bool status)
         {
-            if(status)
+            if (status)
             {
                 this.Dispatcher.Invoke(() => collectionRefreshLabel.Content = "Collections are refreshing");
                 this.Dispatcher.Invoke(() => stopCollectionRefreshButton.IsEnabled = true);
@@ -422,5 +395,4 @@ namespace AutomatedDesktopBackgroundUI
             }
         }
     }
-    
 }
