@@ -345,6 +345,7 @@ namespace AutomatedDesktopBackgroundUI
 
             this.Dispatcher.Invoke(()=>viewController.SetImageAsHated());
             this.Dispatcher.Invoke(() => HateImageButton.IsEnabled = false);
+
         }
 
 

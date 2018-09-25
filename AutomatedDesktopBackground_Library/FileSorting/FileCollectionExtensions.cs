@@ -32,6 +32,16 @@ namespace AutomatedDesktopBackgroundLibrary
             return requestResult;
 
         }
+        public static IFilteredFileResult GetAllImageEntries(this IFileCollection fileCollection)
+        {
+            IFilteredFileResult result = new FilteredFileResult();
+            List<ImageModel> images = fileCollection.AllImages;
+            images.AddRange(fileCollection.HatedImages);
+            images.AddRange(fileCollection.FavoriteImages);
+            List<ISaveable> allImages = new List<ISaveable>(images);
+            result.SetResults(allImages);
+            return result;
+        }
         public static IFilteredFileResult GetLastImageDownloaded(this IFileCollection fileCollection)
         {
             IFilteredFileResult filteredFileResult = new FilteredFileResult();

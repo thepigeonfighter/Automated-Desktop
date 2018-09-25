@@ -20,41 +20,27 @@ namespace AutomatedDesktopBackgroundLibrary
             if (!GlobalConfig.InCollectionRefresh)
             {
 
-                    Random r = new Random();
 
-                    ImageModel randomImage = GetImage();
-                    DataKeeper.UpdateWallpaper(randomImage);
-                    WallpaperSetter.Set(randomImage.LocalUrl, WallpaperSetter.Style.Stretched);
+               string imageUrl = GetImageFileDir();
+                DataKeeper.UpdateWallpaper(imageUrl);    
+               WallpaperSetter.Set(imageUrl, WallpaperSetter.Style.Stretched);
                     
             }
 
         }
-        private ImageModel GetImage()
+        private string GetImageFileDir()
         {
-            IFileCollection fileCollection = DataKeeper.GetFileSnapShot();
-            ImageModel randomImage = new ImageModel();
-            if (fileCollection.AllImages.Count > 1)
+            string[] directories = Directory.GetDirectories(StringExtensions.StringExtensions.GetApplicationDirectory());
+            List<string> imageFilePaths = new List<string>();
+            foreach(string dir in directories)
             {
-                IFilteredFileResult results = fileCollection.GetAllDownloadedImages();
-                List<ImageModel> downloadedImages = results.GetResults().ConvertAll(x => (ImageModel)x);
-                ImageModel currentWallper = fileCollection.CurrentWallpaper;
-                //Gets the instance not the copy
-                if (currentWallper != null)
-                {
-                    ImageModel imageThatIsWallpaper = downloadedImages.FirstOrDefault(x => x.LocalUrl == currentWallper.LocalUrl);
-                    //To ensure we aren't setting the wallpaper to ths same file
-                    downloadedImages.Remove(imageThatIsWallpaper);
-                }
+                string[] fileDir = Directory.GetFiles(dir, "*.jpeg");
+                imageFilePaths.AddRange(fileDir);
+            }
+            Random r = new Random();
+            string imageUrl = imageFilePaths[r.Next(0, imageFilePaths.Count)];
+            return imageUrl;
 
-                Random r = new Random();
-               randomImage = downloadedImages[r.Next(downloadedImages.Count)];
-                return randomImage;
-            }
-            else
-            {
-                throw  new Exception("No Images Downloaded");
-            }
-            
         }
         
     }

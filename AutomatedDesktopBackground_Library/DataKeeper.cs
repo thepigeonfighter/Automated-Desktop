@@ -9,10 +9,8 @@ namespace AutomatedDesktopBackgroundLibrary
     public static class DataKeeper
     {
         private static IDataStorage _database = new DataStorageBuilder().Build(Database.Textfile);
-        public static void UpdateAllLists()
-        {
-            _database.UpdateAllLists();
-        }
+        private static FileCleaner _fileCleaner = new FileCleaner();
+        #region Image Functions 
         public static ImageModel AddImage(ImageModel entry)
         {
             _database.ImageFileProcessor.CreateEntry(entry);
@@ -22,6 +20,7 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             _database.ImageFileProcessor.OverwriteEntries(images);
         }
+        
         public static void DeleteImage(ImageModel entry)
         {
             _database.ImageFileProcessor.DeleteEntry(entry);
@@ -30,6 +29,14 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             _database.ImageFileProcessor.UpdateEntries(entries);
         }
+        public static void UpdateImage(ImageModel entry)
+        {
+            _database.ImageFileProcessor.UpdateEntries(entry);
+        }
+
+            #endregion
+            #region Favorite Image Functions
+
         public static void AddFavoriteImage(ImageModel entry)
         {
             _database.FavoritedImageFileProcessor.CreateEntry(entry);
@@ -45,11 +52,35 @@ namespace AutomatedDesktopBackgroundLibrary
         public static void UpdateFavoriteImage(ImageModel entry)
         {
             _database.FavoritedImageFileProcessor.UpdateEntries(entry);
+           
         }
+        public static void OverwriteFavoriteImages(List<ImageModel> entries)
+        {
+            _database.FavoritedImageFileProcessor.OverwriteEntries(entries);
+        }
+        #endregion
+        #region Hated Image Functions
         public static void AddHatedImage(ImageModel entry)
         {
+           
+            ImageModel favoriteImage = GetFileSnapShot().FavoriteImages.FirstOrDefault(x => x.Name == entry.Name);
+            if (favoriteImage == null)
+            {
+                DeleteImage(entry);
+            }
+            else
+            {
+                DeleteFavoriteImage(entry);
+            }
+            DeleteDownloadedImageFile(entry);
             _database.HatedImageFileProcessor.CreateEntry(entry);
         }
+        public static void UpdateHatedImage(ImageModel entry)
+        {
+            _database.HatedImageFileProcessor.UpdateEntries(entry);
+        }
+        #endregion
+        #region Interest Model Functions
         public static void AddInterest(InterestModel interest)
         {
             _database.InterestFileProcessor.CreateEntry(interest);
@@ -66,6 +97,8 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             _database.InterestFileProcessor.UpdateInterest(interest);
         }
+        #endregion
+        #region File Functions
         public static IFileCollection GetFileSnapShot()
         {
             return _database.FileCollection;
@@ -74,9 +107,9 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             _database.Database.DeleteFile(image.LocalUrl);
         }
-        public static void UpdateWallpaper(ImageModel image)
+        public static void DeleteGroupOfFiles(List<ImageModel> images)
         {
-            _database.WallPaperFileProcessor.Update(image);
+
         }
         public static void RegisterFileListener(IFileListener fileListener)
         {
@@ -85,6 +118,27 @@ namespace AutomatedDesktopBackgroundLibrary
         public static void ResetApplication()
         {
             _database.ResetApplication();
+        }
+        public static void UpdateAllLists()
+        {
+            _database.UpdateAllLists();
+        }
+        #endregion
+        public static void UpdateWallpaper(string url)
+        {
+            IFileCollection fileCollection = GetFileSnapShot();
+            List<ISaveable> saveables = fileCollection.GetAllImageEntries().GetResults();
+            List<ImageModel> images = saveables.ConvertAll(x => (ImageModel)x);
+            ImageModel image = images.FirstOrDefault(x => x.LocalUrl == url);
+            if (image != null)
+            {
+                _database.WallPaperFileProcessor.Update(image);
+            }
+            else
+            {
+
+                _fileCleaner.Run(GetFileSnapShot());
+            }
         }
     }
 }

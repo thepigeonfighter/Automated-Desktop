@@ -15,6 +15,7 @@ namespace AutomatedDesktopBackgroundLibrary
         void Delete<T>(T item, string filePath) where T : class, ISaveable, new();
         void SaveToFile<T>(List<T> items, string filePath) where T : class, ISaveable, new();
         void DeleteFile(string filePath);
+        void DeleteImages(List<ImageModel> images);
         void CopyImage(ImageModel image, string copyPath);
         void DeleteAllFiles();
     }

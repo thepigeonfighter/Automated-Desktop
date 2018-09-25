@@ -18,4 +18,5 @@ namespace AutomatedDesktopBackgroundLibrary
     //In the future if we wanted to save somewhere else we can just add the option here.
     public enum Database { Textfile, WebServer};
     public enum CurrentAPIClient { Unsplash};
+    public enum JobType { BackgroundRefresh, CollectionRefresh}
 }

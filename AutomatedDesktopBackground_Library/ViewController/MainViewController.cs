@@ -9,7 +9,7 @@ using AutomatedDesktopBackgroundLibrary.StringExtensions;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
-    public class MainViewController:IFileListener
+    public class MainViewController : IFileListener
     {
         public event EventHandler<string> OnPageStateChange;
         public PageRefreshState refreshState;
@@ -17,18 +17,30 @@ namespace AutomatedDesktopBackgroundLibrary
         APIManager manager = new APIManager();
         public BindingList<InterestModel> interests;// = new BindingList<InterestModel>();
         private bool IsDownloading = false;
-        public MainViewController() {
+        public MainViewController()
+        {
 
             GlobalConfig.EventSystem.DownloadCompleteEvent += EventSystem_DownloadCompleteEvent;
             GlobalConfig.EventSystem.ApplicationResetEvent += EventSystem_ApplicationResetEvent;
+            GlobalConfig.EventSystem.ImageHatingHasCompletedEvent += EventSystem_ImageHatingHasCompletedEvent;
             DataKeeper.RegisterFileListener(this);
             DataKeeper.UpdateAllLists();
-            
-            interests = new BindingList<InterestModel>( DataKeeper.GetFileSnapShot().AllInterests);
+
+            interests = new BindingList<InterestModel>(DataKeeper.GetFileSnapShot().AllInterests);
             interests.RaiseListChangedEvents = true;
 
         }
-      
+
+        private async void EventSystem_ImageHatingHasCompletedEvent(object sender, string e)
+        {
+            bool isRefreshing = await GlobalConfig.JobManager.JobRunning(JobType.BackgroundRefresh);
+            if (!isRefreshing)
+            {
+                await StartBackGroundRefresh(true);
+            }
+
+        }
+
         /// <summary>
         /// Sets the state of the page to give a blueprint for what buttons should be enabled
         /// </summary>
@@ -58,7 +70,7 @@ namespace AutomatedDesktopBackgroundLibrary
                     }
                     break;
                 case ButtonCommands.StopCollections:
-                    if(refreshState == PageRefreshState.ColOnly)
+                    if (refreshState == PageRefreshState.ColOnly)
                     {
                         refreshState = PageRefreshState.None;
                     }
@@ -112,10 +124,10 @@ namespace AutomatedDesktopBackgroundLibrary
             int newId = 1;
             if (existinginterests.Count > 0)
             {
-              newId = existinginterests.Max(x => x.Id) + 1;
-            }  
+                newId = existinginterests.Max(x => x.Id) + 1;
+            }
             InterestModel newInterest = new InterestModel();
-            IRootObject response =await  manager.GetResults(interest);
+            IRootObject response = await manager.GetResults(interest);
             newInterest.Name = interest;
             newInterest.TotalImages = response.total;
             newInterest.TotalPages = response.total_pages;
@@ -123,7 +135,7 @@ namespace AutomatedDesktopBackgroundLibrary
             existinginterests.Add(newInterest);
             DataKeeper.AddInterest(newInterest);
             interests = new BindingList<InterestModel>(existinginterests);
-               
+
         }
         public void RemoveInterest(string interest)
         {
@@ -134,23 +146,24 @@ namespace AutomatedDesktopBackgroundLibrary
 
         private void RefreshInterestList()
         {
-           var tempList = _fileCollection.AllInterests;
+            var tempList = _fileCollection.AllInterests;
             interests = new BindingList<InterestModel>(tempList);
         }
         public void DownloadNewCollection(string query)
         {
-            
+
             if (!IsDownloading)
             {
                 GlobalConfig.EventSystem.InvokeStartedDownloadingEvent();
-                Task.Run(()=> manager.GetImagesBySearch(query, true));
+                Task.Run(() => manager.GetImagesBySearch(query, true));
                 IsDownloading = true;
-                
+
             }
         }
         public bool AreAnyImagesDownloaded()
         {
             List<ImageModel> images = _fileCollection.AllImages;
+            images.AddRange(_fileCollection.FavoriteImages);
             if (images.Count > 0)
             {
                 return true;
@@ -172,11 +185,24 @@ namespace AutomatedDesktopBackgroundLibrary
                 await Task.Run(() => GlobalConfig.JobManager.StartCollectionUpdatingAsync());
             }
         }
-        public async Task StartBackGroundRefresh( )
+        public async Task StartBackGroundRefresh(bool forceStart = false)
         {
-            if (refreshState == PageRefreshState.None || refreshState == PageRefreshState.ColOnly)
+            if (!forceStart)
             {
+                if (refreshState == PageRefreshState.None || refreshState == PageRefreshState.ColOnly)
+                {
+                    await Task.Run(() => GlobalConfig.JobManager.StartBackgroundUpdatingAsync());
+                    BackGroundPicker bg = new BackGroundPicker();
+                    bg.PickRandomBackground();
+                }
+            }
+            else
+            {
+                BackGroundPicker bg = new BackGroundPicker();
+                bg.PickRandomBackground();
+                await Task.Delay(300);
                 await Task.Run(() => GlobalConfig.JobManager.StartBackgroundUpdatingAsync());
+
             }
 
         }
@@ -199,13 +225,15 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             ImageModel currentImage = _fileCollection.CurrentWallpaper;
             DataKeeper.AddFavoriteImage(currentImage);
-              
+
         }
-        public void SetImageAsHated()
+        public async Task SetImageAsHated()
         {
             ImageModel currentImage = _fileCollection.CurrentWallpaper;
             DataKeeper.AddHatedImage(currentImage);
-            
+            await StopBackGroundRefresh();
+
+
 
         }
         public bool IsFavorited()
@@ -215,7 +243,7 @@ namespace AutomatedDesktopBackgroundLibrary
             ImageModel currentImage = _fileCollection.CurrentWallpaper;
             foreach (ImageModel i in favImages)
             {
-                if(i.Name == currentImage.Name)
+                if (i.Name == currentImage.Name)
                 {
                     return true;
                 }
@@ -224,7 +252,7 @@ namespace AutomatedDesktopBackgroundLibrary
         }
         public bool InterestExists(string interest)
         {
-            if(interest.GetInterestByName() != null)
+            if (interest.GetInterestByName() != null)
             {
                 return true;
             }
@@ -242,10 +270,10 @@ namespace AutomatedDesktopBackgroundLibrary
             }
             return totalImages;
         }
-        
+
         public void OnFileUpdate()
         {
-           _fileCollection = DataKeeper.GetFileSnapShot();
+            _fileCollection = DataKeeper.GetFileSnapShot();
             RefreshInterestList();
         }
     }

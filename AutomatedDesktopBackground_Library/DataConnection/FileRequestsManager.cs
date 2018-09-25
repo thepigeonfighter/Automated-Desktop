@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using AutomatedDesktopBackgroundLibrary.Utility;
 
 namespace AutomatedDesktopBackgroundLibrary.DataConnection
@@ -11,7 +12,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
     public class FileRequestsManager
     {
 
-
+        public EventHandler OnDeletionCompleted;
         public void RegisterRequest(FileRequest request)
         {
 
@@ -34,7 +35,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
             switch (request.FileOperation)
             {
                 case FileOperation.Delete:
-                    HandleDeletions(request);
+                    Task.Run(()=> HandleDeletions(request));
                     break;
                 case FileOperation.Write:
                     HandleWrites(request);
@@ -74,15 +75,23 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                 int timeout = 100;
                 while(fileLocked && tries< timeout)
                 {
+                    if(!File.Exists(request.FilePath))
+                    {
+                        GlobalConfig.EventSystem.InvokeImageHatingCompleteEvent();
+                        OnDeletionCompleted?.Invoke(this, new EventArgs());
+                        break;
+                    }
                     tries++;
 
                     fileLocked = IsFileLocked(file);
                     if(!fileLocked)
                     {
                         File.Delete(request.FilePath);
+                        GlobalConfig.EventSystem.InvokeImageHatingCompleteEvent();
+                        OnDeletionCompleted?.Invoke(this, new EventArgs());
                         break;
                     }
-                    await Task.Delay(1000);
+                    await Task.Delay(2000);
                 }
                 if(tries == timeout)
                 {
@@ -137,7 +146,14 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
         {
 
                 string path =StringExtensions.StringExtensions.GetApplicationDirectory();
-                Directory.Delete(path,true);
+            try
+            {
+                Directory.Delete(path, true);
+            }
+            catch(IOException)
+            {
+                MessageBox.Show("Please close any open files before attempting to reset application.");
+            }
                 GlobalConfig.EventSystem.InvokeApplicationResetEvent();
 
             

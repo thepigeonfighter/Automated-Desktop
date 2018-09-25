@@ -13,7 +13,7 @@ namespace AutomatedDesktopBackgroundLibrary
             ImageModel image = new ImageModel(); 
             image.Name = imageUrl.GetImageFileName();
             image.Url = imageUrl;
-            image.LocalUrl = $"{localUrl}/{image.Name}";
+            image.LocalUrl = $@"{localUrl}\{image.Name}";
             image.InterestId = interestId;
             return image;
         }

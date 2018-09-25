@@ -34,7 +34,7 @@ namespace AutomatedDesktopBackgroundLibrary
                 await scheduler.Start();
                 IJobDetail jobDetail = JobBuilder.Create<ChangeBackgroundJob>().WithIdentity(BackgroundJob).Build();
                 int refreshRate = (int)Math.Round(Scheduler.ScheduleManager.BackgroundRefreshSetting().TotalSeconds);
-                ITrigger trigger = TriggerBuilder.Create().WithIdentity(BackgroundJob).StartNow().WithSimpleSchedule(x =>
+                ITrigger trigger = TriggerBuilder.Create().WithIdentity(BackgroundJob).StartAt(DateTime.Now.AddSeconds(refreshRate)).WithSimpleSchedule(x =>
                  x.WithIntervalInSeconds(refreshRate).RepeatForever()).Build();
                 await Task.Run(() => scheduler.ScheduleJob(jobDetail, trigger));
 
@@ -62,7 +62,7 @@ namespace AutomatedDesktopBackgroundLibrary
                     await scheduler.Start();
                     IJobDetail jobDetail = JobBuilder.Create<CollectionRefreshJob>().WithIdentity(CollectionsJob).Build();
                     int refreshRate = (int)Math.Round(Scheduler.ScheduleManager.CollectionRefreshSetting().TotalSeconds);
-                    ITrigger trigger = TriggerBuilder.Create().WithIdentity(CollectionsJob).StartNow().WithSimpleSchedule(x =>
+                    ITrigger trigger = TriggerBuilder.Create().WithIdentity(CollectionsJob).StartAt(DateTime.Now.AddSeconds(refreshRate)).WithSimpleSchedule(x =>
                      x.WithIntervalInSeconds(refreshRate).RepeatForever()).Build();
                     await Task.Run(() => scheduler.ScheduleJob(jobDetail, trigger));
 
@@ -93,6 +93,7 @@ namespace AutomatedDesktopBackgroundLibrary
             }
             else throw new Exception("Job not found!");
         }
+        
         public async Task StopCollectionUpdatingAsync()
         {
             JobKey key = JobKey.Create(CollectionsJob);
@@ -100,7 +101,22 @@ namespace AutomatedDesktopBackgroundLibrary
             {
                 await Task.Run(()=>scheduler.DeleteJob(key));
             }
-            else throw new Exception("Job not found!");
+           else throw new Exception("Job not found!");
+        }
+        
+        public async Task<bool> JobRunning(JobType jobType)
+        {
+            switch (jobType)
+            {
+                case JobType.BackgroundRefresh:
+                    return await Task.Run(()=>scheduler.CheckExists(JobKey.Create(BackgroundJob)));
+
+                case JobType.CollectionRefresh:
+                    return await Task.Run(() => scheduler.CheckExists(JobKey.Create(CollectionsJob)));
+                default:
+                    return false;
+                    
+            }
         }
 
     }

@@ -61,8 +61,16 @@ namespace AutomatedDesktopBackgroundLibrary
         public static void Set(string url, Style style)
         {
             System.Drawing.Image img = System.Drawing.Image.FromFile(url);
+            var imageConverted = new System.Drawing.Bitmap(img);
             string tempPath = Path.Combine(Path.GetTempPath(), "wallpaper.bmp");
-            img.Save(tempPath, System.Drawing.Imaging.ImageFormat.Bmp);
+            try
+            {
+               imageConverted.Save(tempPath, System.Drawing.Imaging.ImageFormat.Bmp);
+            }
+            catch(System.Runtime.InteropServices.ExternalException e)
+            {
+                Console.Write(e.ErrorCode);
+            }
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
             if (style == Style.Stretched)
             {

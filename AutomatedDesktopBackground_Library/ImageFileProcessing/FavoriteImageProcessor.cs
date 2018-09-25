@@ -21,20 +21,13 @@ namespace AutomatedDesktopBackgroundLibrary
             favoriteDir = Directory.CreateDirectory(favoriteFolder.FullFilePath());
             _database = database;
         }
-        //TODO Add the Copy functionality here
-        /*
-         * The favorites file is not getting updated reliably. For some reason it is 
-         * entering the wrong entry every once in a while also not removing the image entries reliably
-         * also it is making double entries into the favorite file 
-         * 
-         */
+
         public ImageModel CreateEntry(ImageModel entry)
         {
             
             _database.CopyImage(entry, favoriteDir.FullName);   
-            _database.CreateEntry(entry, FavoriteFile.FullFilePath());
             DataKeeper.DeleteImage(entry);
-             OnFileAltered?.Invoke(this, LoadAllEntries());
+            OnFileAltered?.Invoke(this, LoadAllEntries());
             
             return entry;
         }

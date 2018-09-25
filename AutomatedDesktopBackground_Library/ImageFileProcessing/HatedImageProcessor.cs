@@ -18,7 +18,9 @@ namespace AutomatedDesktopBackgroundLibrary
         //TODO handle the deleting of images here
         public ImageModel CreateEntry(ImageModel entry)
         {
+            entry.IsDownloaded = false;
             _database.CreateEntry(entry, HatedFile.FullFilePath());
+           
             OnFileAltered?.Invoke(this, LoadAllEntries());
             return entry;
         }

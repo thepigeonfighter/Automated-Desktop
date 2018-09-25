@@ -11,6 +11,13 @@ namespace AutomatedDesktopBackgroundLibrary
 {
     public class TextFileConnector : ObjectToTextProcessor, IDatabaseConnector
     {
+        private Queue<FileRequest> DeleteRequestQueue = new Queue<FileRequest>();
+        public TextFileConnector()
+        {
+            requestsManager.OnDeletionCompleted += OnDeletionCompleted;
+        }
+
+
         void IDatabaseConnector.Delete<T>(T item, string filePath)
         {
             DeleteEntry(item, filePath);
@@ -47,7 +54,15 @@ namespace AutomatedDesktopBackgroundLibrary
                 FileRequest request = new FileRequest();
                 request.FileOperation = FileOperation.Delete;
                 request.FilePath = filePath;
+                if(DeleteRequestQueue.Count>0)
+            {
+                DeleteRequestQueue.Enqueue(request);
+            }
+            else
+            {
                 requestsManager.RegisterRequest(request);
+            }
+               
             
         }
 
@@ -84,6 +99,34 @@ namespace AutomatedDesktopBackgroundLibrary
             }
             DataKeeper.UpdateFavoriteImage(image);
 
+        }
+
+        public void DeleteImages(List<ImageModel> images)
+        {
+            foreach(ImageModel i in images)
+            {
+                FileRequest request = new FileRequest();
+                request.FileOperation = FileOperation.Delete;
+                request.FilePath = i.LocalUrl;
+                
+                if (DeleteRequestQueue.Count > 0)
+                {
+                    DeleteRequestQueue.Enqueue(request);
+                }
+                else
+                {
+                    requestsManager.RegisterRequest(request);
+                }
+            }
+        }
+
+        private void OnDeletionCompleted(object sender, EventArgs e)
+        {
+            if(DeleteRequestQueue.Count>0)
+            {
+                FileRequest request = DeleteRequestQueue.Dequeue();
+                requestsManager.RegisterRequest(request);
+            }
         }
     }
 }
