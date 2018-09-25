@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace AutomatedDesktopBackgroundLibrary.StringExtensions
@@ -12,15 +10,14 @@ namespace AutomatedDesktopBackgroundLibrary.StringExtensions
     {
         /// <summary>
         /// Takes a string and formats it so that the first letter of every word is capitalized
-        /// This is to make for nice folder names 
+        /// This is to make for nice folder names
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public static string MakePrettyString(string input)
+        public static string MakePrettyString(this string input)
         {
             try
             {
-                
                 string lowercaseInput = input.ToLower();
                 lowercaseInput = lowercaseInput.TrimEnd();
                 string[] words = lowercaseInput.Split(' ');
@@ -31,7 +28,6 @@ namespace AutomatedDesktopBackgroundLibrary.StringExtensions
                     outputString.Append(formattedWord);
                 }
 
-
                 return outputString.ToString();
             }
             catch
@@ -40,19 +36,18 @@ namespace AutomatedDesktopBackgroundLibrary.StringExtensions
                 return "Invalid Format";
             }
         }
+
         public static InterestModel GetInterestByName(this string interestName)
         {
             InterestModel interest = DataKeeper.GetFileSnapShot().AllInterests.FirstOrDefault(x => x.Name == interestName);
             return interest;
-            
-
         }
-        
-        public static DirectoryInfo CreateDirectory( this string dirName)
+
+        public static DirectoryInfo CreateDirectory(this string dirName)
         {
             return Directory.CreateDirectory($"{FileSavePath}/{dirName}");
         }
-        
+
         private static string FileSavePath
         {
             get
@@ -60,14 +55,15 @@ namespace AutomatedDesktopBackgroundLibrary.StringExtensions
                 string baseUrl = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
                 string fullUrl = baseUrl + @"\DesktopBackgrounds";
                 return Directory.CreateDirectory(fullUrl).FullName;
-
             }
             set { FileSavePath = value; }
         }
+
         public static string FullFilePath(this string fileName)
         {
             return $@"{FileSavePath}\{fileName}";
         }
+
         public static string GetImageFileName(this string hreflink)
         {
             Uri uri = new Uri(hreflink);
@@ -76,6 +72,7 @@ namespace AutomatedDesktopBackgroundLibrary.StringExtensions
 
             return filename;
         }
+
         public static string GetApplicationDirectory()
         {
             return FileSavePath;

@@ -256,7 +256,7 @@ namespace AutomatedDesktopBackgroundUI {
             this.querySearchButton = ((System.Windows.Controls.Button)(target));
             
             #line 13 "..\..\MainWindow.xaml"
-            this.querySearchButton.Click += new System.Windows.RoutedEventHandler(this.querySearchButton_Click);
+            this.querySearchButton.Click += new System.Windows.RoutedEventHandler(this.QuerySearchButton_Click);
             
             #line default
             #line hidden
@@ -265,7 +265,7 @@ namespace AutomatedDesktopBackgroundUI {
             this.removeInterestButton = ((System.Windows.Controls.Button)(target));
             
             #line 15 "..\..\MainWindow.xaml"
-            this.removeInterestButton.Click += new System.Windows.RoutedEventHandler(this.removeInterestButton_Click);
+            this.removeInterestButton.Click += new System.Windows.RoutedEventHandler(this.RemoveInterestButton_Click);
             
             #line default
             #line hidden

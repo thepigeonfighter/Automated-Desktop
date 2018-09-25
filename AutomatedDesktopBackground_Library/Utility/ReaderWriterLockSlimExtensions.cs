@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace AutomatedDesktopBackgroundLibrary.Utility
 {
@@ -12,11 +8,13 @@ namespace AutomatedDesktopBackgroundLibrary.Utility
         private sealed class ReadLockToken : IDisposable
         {
             private ReaderWriterLockSlim _sync;
+
             public ReadLockToken(ReaderWriterLockSlim sync)
             {
                 _sync = sync;
                 sync.EnterReadLock();
             }
+
             public void Dispose()
             {
                 if (_sync != null)
@@ -26,14 +24,17 @@ namespace AutomatedDesktopBackgroundLibrary.Utility
                 }
             }
         }
+
         private sealed class WriteLockToken : IDisposable
         {
             private ReaderWriterLockSlim _sync;
+
             public WriteLockToken(ReaderWriterLockSlim sync)
             {
                 _sync = sync;
                 sync.EnterWriteLock();
             }
+
             public void Dispose()
             {
                 if (_sync != null)
@@ -48,6 +49,7 @@ namespace AutomatedDesktopBackgroundLibrary.Utility
         {
             return new ReadLockToken(obj);
         }
+
         public static IDisposable Write(this ReaderWriterLockSlim obj)
         {
             return new WriteLockToken(obj);

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AutomatedDesktopBackgroundLibrary
@@ -14,78 +11,80 @@ namespace AutomatedDesktopBackgroundLibrary
         public IInterestFileProcessor InterestFileProcessor { get; set; }
         public IWallPaperFileProcessor WallPaperFileProcessor { get; set; }
         public IDatabaseConnector Database { get; set; }
-        public IFileCollection FileCollection { get;  set; }
+        public IFileCollection FileCollection { get; set; }
 
-        private List<IFileListener> fileListeners = new List<IFileListener>();
+        private readonly List<IFileListener> fileListeners = new List<IFileListener>();
 
         #region Update FileCollection Events
+
         public void WireUpEvents()
         {
-            
-           ImageFileProcessor.OnFileAltered += UpdateImageFileEvent;
-           HatedImageFileProcessor.OnFileAltered += UpdateHatedImageFileEvent;
-           FavoritedImageFileProcessor.OnFileAltered += UpdateFavoriteImageFileEvent;
-           InterestFileProcessor.OnFileUpdate += UpdateInterestFileEvent;
-           WallPaperFileProcessor.OnWallPaperUpdate += UpdateWallpaperEvent;           
-       }
-        
+            ImageFileProcessor.OnFileAltered += UpdateImageFileEvent;
+            HatedImageFileProcessor.OnFileAltered += UpdateHatedImageFileEvent;
+            FavoritedImageFileProcessor.OnFileAltered += UpdateFavoriteImageFileEvent;
+            InterestFileProcessor.OnFileUpdate += UpdateInterestFileEvent;
+            WallPaperFileProcessor.OnWallPaperUpdate += UpdateWallpaperEvent;
+        }
+
         private void UpdateWallpaperEvent(object sender, ImageModel e)
         {
             FileCollection.CurrentWallpaper = e;
-            UpdateFileListeners();
+            Task.Run(() => UpdateFileListeners());
             GlobalConfig.EventSystem.InvokeUpdateBackroundEvent();
         }
 
         private void UpdateInterestFileEvent(object sender, List<InterestModel> e)
         {
             FileCollection.AllInterests = e;
-            UpdateFileListeners();
+            Task.Run(() => UpdateFileListeners());
         }
 
         private void UpdateFavoriteImageFileEvent(object sender, List<ImageModel> e)
         {
             FileCollection.FavoriteImages = e;
-            UpdateFileListeners();
+            Task.Run(() => UpdateFileListeners());
         }
 
         private void UpdateHatedImageFileEvent(object sender, List<ImageModel> e)
         {
             FileCollection.HatedImages = e;
-            UpdateFileListeners();
+            Task.Run(() => UpdateFileListeners());
         }
 
-        private void UpdateImageFileEvent(object sender, List<ImageModel> e)
+            private void UpdateImageFileEvent(object sender, List<ImageModel> e)
         {
             FileCollection.AllImages = e;
-            UpdateFileListeners();
+            Task.Run(() => UpdateFileListeners());
         }
 
         public void RegisterFileListeners(IFileListener fileListener)
         {
             fileListeners.Add(fileListener);
         }
-        private void UpdateFileListeners()
+
+        private async Task UpdateFileListeners()
         {
-            Task.Delay(200).ContinueWith(x=>
-            fileListeners.ForEach(i => i.OnFileUpdate()));
+            await Task.Delay(200).ConfigureAwait(false);
+            fileListeners.ForEach(i => i.OnFileUpdate());
         }
+
         public void UpdateAllLists()
         {
-            FileCollection.AllImages =   ImageFileProcessor.LoadAllEntries();
+            FileCollection.AllImages = ImageFileProcessor.LoadAllEntries();
             FileCollection.HatedImages = HatedImageFileProcessor.LoadAllEntries();
             FileCollection.AllInterests = InterestFileProcessor.LoadAllEntries();
             FileCollection.CurrentWallpaper = WallPaperFileProcessor.Load();
             FileCollection.FavoriteImages = FavoritedImageFileProcessor.LoadAllEntries();
             FileCollection.AllInterests = InterestFileProcessor.LoadAllEntries();
-            UpdateFileListeners();
+            Task.Run(()=>UpdateFileListeners());
         }
 
         public void ResetApplication()
         {
             Database.DeleteAllFiles();
             UpdateAllLists();
-            
         }
-        #endregion
+
+        #endregion Update FileCollection Events
     }
 }

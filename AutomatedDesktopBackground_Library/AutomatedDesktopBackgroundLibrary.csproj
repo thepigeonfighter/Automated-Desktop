@@ -65,6 +65,7 @@
     <Compile Include="Database Procs\DataStorageBuilder.cs" />
     <Compile Include="DataKeeper.cs" />
     <Compile Include="FileCleaner.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IAPIManager.cs" />
     <Compile Include="IAPIResult.cs" />
     <Compile Include="IAPIResultConverter.cs" />

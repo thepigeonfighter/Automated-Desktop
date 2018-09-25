@@ -1,17 +1,15 @@
-﻿using System;
+﻿using AutomatedDesktopBackgroundLibrary.StringExtensions;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutomatedDesktopBackgroundLibrary.DataConnection;
-using AutomatedDesktopBackgroundLibrary.StringExtensions;
+
 namespace AutomatedDesktopBackgroundLibrary
 {
-    public class ImageFileProcessor: IImageFileProcessor
+    public class ImageFileProcessor : IImageFileProcessor
     {
         public EventHandler<List<ImageModel>> OnFileAltered { get; set; }
         private const string ImageFile = "Images.csv";
-        private IDatabaseConnector _database;
+        private readonly IDatabaseConnector _database;
+
         public ImageFileProcessor(IDatabaseConnector database)
         {
             _database = database;
@@ -19,7 +17,7 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public ImageModel CreateEntry(ImageModel entry)
         {
-            _database.CreateEntry(entry,ImageFile.FullFilePath());
+            _database.CreateEntry(entry, ImageFile.FullFilePath());
             OnFileAltered?.Invoke(this, LoadAllEntries());
             return entry;
         }
@@ -43,7 +41,7 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public List<ImageModel> UpdateEntries(List<ImageModel> newEntries)
         {
-           List<ImageModel> output = _database.Update(newEntries, ImageFile.FullFilePath());
+            List<ImageModel> output = _database.Update(newEntries, ImageFile.FullFilePath());
             OnFileAltered?.Invoke(this, LoadAllEntries());
             return output;
         }

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using AutomatedDesktopBackgroundLibrary.Utility;
 
 namespace AutomatedDesktopBackgroundLibrary.DataConnection
 {
@@ -13,18 +9,22 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
     {
         protected bool IsUserRequested = false;
         protected IFileCollection _fileCollection;
+
         /// <summary>
-        /// A list of any requests that resulted in an error. 
+        /// A list of any requests that resulted in an error.
         /// </summary>
         protected List<int> errorIndex = new List<int>();
+
         /// <summary>
         /// The amount of downloads that the class expects to process
         /// </summary>
         public int ExpectedDownloadAmount { get; set; }
+
         /// <summary>
         /// The amount of downloads that were originally requested
         /// </summary>
         protected int totalDownloadsRequested;
+
         protected List<ImageModel> images = new List<ImageModel>();
         protected bool isLocalGet = false;
 
@@ -32,7 +32,6 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
         {
             _fileCollection = DataKeeper.GetFileSnapShot();
             DataKeeper.RegisterFileListener(this);
-
         }
 
         protected void HandleError()
@@ -43,8 +42,8 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                 //MessageBox.Show(e.Error.InnerException.ToString());
                 GlobalConfig.EventSystem.InvokeDownloadImageEvent("!");
             }
-
         }
+
         protected void HandleImageDownload()
         {
             if (IsUserRequested)
@@ -52,17 +51,18 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                 int downloadsComplete = -(ExpectedDownloadAmount - totalDownloadsRequested);
                 string message = $"{downloadsComplete}/{totalDownloadsRequested}";
                 GlobalConfig.EventSystem.InvokeDownloadImageEvent(message);
-            };
+            }
         }
+
         protected void HandleDownloadCancel()
         {
             if (IsUserRequested)
             {
-
                 GlobalConfig.EventSystem.InvokeDownloadImageEvent("Download Cancelled");
                 MessageBox.Show("The download has been cancelled");
             }
         }
+
         protected void HandleDownloadComplete()
         {
             if (IsUserRequested)
@@ -73,6 +73,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
             }
             GlobalConfig.InCollectionRefresh = false;
         }
+
         protected void DisplayDownloadCompletionMessage()
         {
             if (IsUserRequested)
@@ -88,9 +89,10 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                 }
             }
         }
+
         protected void RemoveCorruptedImages()
         {
-            //This loops through any errors if we encountered any errors it deletes the file and 
+            //This loops through any errors if we encountered any errors it deletes the file and
             //adjust the save list to not show any images that failed to download
 
             for (int i = 0; i < errorIndex.Count; i++)
@@ -98,7 +100,6 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                 int index = errorIndex[i];
                 ImageModel corruptedImage = images[index];
                 corruptedImage.IsDownloaded = false;
-
             }
 
             foreach (ImageModel i in images)
@@ -106,11 +107,10 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                 if (!i.IsDownloaded)
                 {
                     File.Delete(i.LocalUrl);
-                    
-
                 }
             }
         }
+
         protected void UpdateImageFile()
         {
             if (!isLocalGet)
@@ -123,8 +123,8 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                 DataKeeper.UpdateImage(images);
             }
             images.Clear();
-            
         }
+
         private void RemoveOldPhotos()
         {
             int interestId = images[0].InterestId;
@@ -139,12 +139,13 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                 DataKeeper.UpdateImage(oldPhotos);
             }
         }
+
         protected void GiveEachImageAnId()
         {
             int interestId = images[0].InterestId;
             //This sets every image in this ground to have an associated interestId
             images.ForEach(x => x.InterestId = interestId);
-            List<ImageModel> existingImages = _fileCollection.AllImages;              
+            List<ImageModel> existingImages = _fileCollection.AllImages;
             int currentId = 1;
             if (existingImages.Count > 0)
             {

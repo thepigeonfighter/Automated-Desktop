@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using AutomatedDesktopBackgroundLibrary.DataConnection;
+﻿using AutomatedDesktopBackgroundLibrary.DataConnection;
 using AutomatedDesktopBackgroundLibrary.Utility;
+using System;
+using System.Collections.Generic;
+
 namespace AutomatedDesktopBackgroundLibrary
 {
     public class TextFileConnector : ObjectToTextProcessor, IDatabaseConnector
     {
-        private Queue<FileRequest> DeleteRequestQueue = new Queue<FileRequest>();
+        private readonly Queue<FileRequest> DeleteRequestQueue = new Queue<FileRequest>();
+
         public TextFileConnector()
         {
             requestsManager.OnDeletionCompleted += OnDeletionCompleted;
         }
-
 
         void IDatabaseConnector.Delete<T>(T item, string filePath)
         {
@@ -33,9 +29,9 @@ namespace AutomatedDesktopBackgroundLibrary
             CreateEntry<T>(item, filePath);
         }
 
-        List<T> IDatabaseConnector.Update<T>(T item, string filePath)
+        List<T> IDatabaseConnector.Update<T>(T items, string filePath)
         {
-            return UpdateEntry(item, filePath);
+            return UpdateEntry(items, filePath);
         }
 
         List<T> IDatabaseConnector.Update<T>(List<T> items, string filePath)
@@ -50,11 +46,12 @@ namespace AutomatedDesktopBackgroundLibrary
 
         void IDatabaseConnector.DeleteFile(string filePath)
         {
-            
-                FileRequest request = new FileRequest();
-                request.FileOperation = FileOperation.Delete;
-                request.FilePath = filePath;
-                if(DeleteRequestQueue.Count>0)
+            FileRequest request = new FileRequest
+            {
+                FileOperation = FileOperation.Delete,
+                FilePath = filePath
+            };
+            if (DeleteRequestQueue.Count > 0)
             {
                 DeleteRequestQueue.Enqueue(request);
             }
@@ -62,8 +59,6 @@ namespace AutomatedDesktopBackgroundLibrary
             {
                 requestsManager.RegisterRequest(request);
             }
-               
-            
         }
 
         public void DeleteAllFiles()
@@ -76,39 +71,43 @@ namespace AutomatedDesktopBackgroundLibrary
             string oldFilePath = image.LocalUrl;
             using (_sync.Write())
             {
-                FileRequest request = new FileRequest();
-                request.FileOperation = FileOperation.Copy;
-                request.FilePath = image.LocalUrl;
-                request.CopyPath = $"{copyPath}/{image.Name}";
-                request.DeleteOrigin = true;
-                request.Image = image;
+                FileRequest request = new FileRequest
+                {
+                    FileOperation = FileOperation.Copy,
+                    FilePath = image.LocalUrl,
+                    CopyPath = $"{copyPath}/{image.Name}",
+                    DeleteOrigin = true,
+                    Image = image
+                };
                 requestsManager.RegisterRequest(request);
             }
             try
             {
-                FileRequest deletion = new FileRequest();
-                deletion.FilePath = oldFilePath;
-                deletion.FileOperation = FileOperation.Delete;
+                FileRequest deletion = new FileRequest
+                {
+                    FilePath = oldFilePath,
+                    FileOperation = FileOperation.Delete
+                };
                 requestsManager.RegisterRequest(deletion);
                 image.LocalUrl = $"{copyPath}/{image.Name}";
-
             }
-            catch(Exception e)
+            catch (Exception)
             {
-                throw e;
+                throw;
             }
             DataKeeper.UpdateFavoriteImage(image);
-
         }
 
         public void DeleteImages(List<ImageModel> images)
         {
-            foreach(ImageModel i in images)
+            foreach (ImageModel i in images)
             {
-                FileRequest request = new FileRequest();
-                request.FileOperation = FileOperation.Delete;
-                request.FilePath = i.LocalUrl;
-                
+                FileRequest request = new FileRequest
+                {
+                    FileOperation = FileOperation.Delete,
+                    FilePath = i.LocalUrl
+                };
+
                 if (DeleteRequestQueue.Count > 0)
                 {
                     DeleteRequestQueue.Enqueue(request);
@@ -122,7 +121,7 @@ namespace AutomatedDesktopBackgroundLibrary
 
         private void OnDeletionCompleted(object sender, EventArgs e)
         {
-            if(DeleteRequestQueue.Count>0)
+            if (DeleteRequestQueue.Count > 0)
             {
                 FileRequest request = DeleteRequestQueue.Dequeue();
                 requestsManager.RegisterRequest(request);

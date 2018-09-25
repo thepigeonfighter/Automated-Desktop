@@ -1,26 +1,26 @@
-﻿using System;
+﻿using AutomatedDesktopBackgroundLibrary.StringExtensions;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutomatedDesktopBackgroundLibrary.StringExtensions;
+
 namespace AutomatedDesktopBackgroundLibrary
 {
     public class HatedImageProcessor : IImageFileProcessor
     {
         public EventHandler<List<ImageModel>> OnFileAltered { get; set; }
         private const string HatedFile = "HatedImages.csv";
-        private IDatabaseConnector _database;
+        private readonly IDatabaseConnector _database;
+
         public HatedImageProcessor(IDatabaseConnector database)
         {
             _database = database;
         }
+
         //TODO handle the deleting of images here
         public ImageModel CreateEntry(ImageModel entry)
         {
             entry.IsDownloaded = false;
             _database.CreateEntry(entry, HatedFile.FullFilePath());
-           
+
             OnFileAltered?.Invoke(this, LoadAllEntries());
             return entry;
         }

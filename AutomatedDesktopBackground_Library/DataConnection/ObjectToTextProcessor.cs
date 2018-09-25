@@ -1,15 +1,11 @@
-﻿using AutomatedDesktopBackgroundLibrary;
+﻿using AutomatedDesktopBackgroundLibrary.Utility;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using AutomatedDesktopBackgroundLibrary.Utility;
 
 namespace AutomatedDesktopBackgroundLibrary.DataConnection
 {
@@ -17,6 +13,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
     {
         protected static FileRequestsManager requestsManager = new FileRequestsManager();
         protected static ReaderWriterLockSlim _sync = new ReaderWriterLockSlim();
+
         private static List<string> LoadFileAsStrings(string file)
         {
             using (_sync.Write())
@@ -26,9 +23,11 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                     return new List<string>();
                 }
 
-                FileRequest request = new FileRequest();
-                request.FilePath = file;
-                request.FileOperation = FileOperation.Read;
+                FileRequest request = new FileRequest
+                {
+                    FilePath = file,
+                    FileOperation = FileOperation.Read
+                };
                 requestsManager.RequestFileRead(request);
 
                 return request.Lines;
@@ -85,16 +84,17 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
             }
             using (_sync.Write())
             {
-                FileRequest request = new FileRequest();
-                request.FilePath = filePath;
-                request.Lines = lines;
-                request.FileOperation = FileOperation.Write;
+                FileRequest request = new FileRequest
+                {
+                    FilePath = filePath,
+                    Lines = lines,
+                    FileOperation = FileOperation.Write
+                };
                 requestsManager.RegisterRequest(request);
             }
             // WriteFile(lines, filePath);
-
-
         }
+
         /// <summary>
         /// Adds an item to an existing file giving it a unique Id
         /// </summary>
@@ -108,14 +108,12 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
         /// <returns></returns>
         protected static T CreateEntry<T>(T entry, string filePath) where T : class, new()
         {
-
             List<T> entries = LoadFromTextFile<T>(filePath);
             T tempObj = new T();
             var cols = tempObj.GetType().GetProperties();
             int currentId = 1;
             if (entries.Count > 0)
             {
-
                 foreach (var item in entries)
                 {
                     try
@@ -132,8 +130,8 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                         throw new ArgumentNullException("There was a problem finding the Id of the object");
                     }
                 }
-                //Increments the id to have a unique value 
-                currentId += 1;
+                //Increments the id to have a unique value
+                currentId++;
             }
 
             //Sets the id to of the entry to the newly created id value
@@ -154,6 +152,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
             //Returns to new entry with it's new id
             return entry;
         }
+
         protected static List<T> LoadFromTextFile<T>(string filePath) where T : class, new()
         {
             List<T> output = new List<T>();
@@ -170,7 +169,6 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                         throw new ArgumentNullException("Invalid file path given, no file can be loaded. Stop fooling around and straighten up!");
                     }
                     lines = LoadFileAsStrings(filePath);
-
 
                     if (lines.Count < 2)
                     {
@@ -190,7 +188,6 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                                 if (col.Name == headers[i])
                                 {
                                     col.SetValue(entry, Convert.ChangeType(vals[i], col.PropertyType));
-
                                 }
                             }
                         }
@@ -199,8 +196,8 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                 }
             }
             return output;
-
         }
+
         protected static List<T> GetAllItemsWithThisId<T>(string propertyName, List<T> itemsTolookThrough, int requiredId) where T : class, new()
         {
             List<T> output = new List<T>();
@@ -212,10 +209,10 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                 {
                     output.Add(item);
                 }
-
             }
             return output;
         }
+
         protected static void DeleteEntry<T>(T objectToDelete, string filePath) where T : class, new()
         {
             List<T> items = LoadFromTextFile<T>(filePath);
@@ -245,14 +242,14 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
             {
                 using (_sync.Write())
                 {
-                    FileRequest request = new FileRequest();
-                    request.FilePath = filePath;
-                    request.FileOperation = FileOperation.Delete;
+                    FileRequest request = new FileRequest
+                    {
+                        FilePath = filePath,
+                        FileOperation = FileOperation.Delete
+                    };
                     requestsManager.RegisterRequest(request);
                 }
             }
-
-
         }
 
         protected static List<T> UpdateEntry<T>(T newEntry, string filePath) where T : class, new()
@@ -282,6 +279,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
             SaveToTextFile(items, filePath);
             return items;
         }
+
         protected static List<T> UpdateCollection<T>(List<T> newEntries, string filePath) where T : class, new()
         {
             List<T> items = LoadFromTextFile<T>(filePath);
@@ -311,6 +309,5 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
             SaveToTextFile(items, filePath);
             return items;
         }
-
     }
 }

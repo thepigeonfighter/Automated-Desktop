@@ -1,34 +1,30 @@
-﻿using System;
+﻿using AutomatedDesktopBackgroundLibrary.StringExtensions;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutomatedDesktopBackgroundLibrary.StringExtensions;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
     public class FavoriteImageProcessor : IImageFileProcessor
     {
         private const string FavoriteFile = "FavoriteImages.csv";
-        private DirectoryInfo favoriteDir;
-        private IDatabaseConnector _database;
-        public EventHandler<List<ImageModel>> OnFileAltered { get ; set; }
+        private readonly DirectoryInfo favoriteDir;
+        private readonly IDatabaseConnector _database;
+        public EventHandler<List<ImageModel>> OnFileAltered { get; set; }
 
-        public FavoriteImageProcessor (IDatabaseConnector database)
+        public FavoriteImageProcessor(IDatabaseConnector database)
         {
-            string favoriteFolder = "Favorites";
+            const string favoriteFolder = "Favorites";
             favoriteDir = Directory.CreateDirectory(favoriteFolder.FullFilePath());
             _database = database;
         }
 
         public ImageModel CreateEntry(ImageModel entry)
         {
-            
-            _database.CopyImage(entry, favoriteDir.FullName);   
+            _database.CopyImage(entry, favoriteDir.FullName);
             DataKeeper.DeleteImage(entry);
             OnFileAltered?.Invoke(this, LoadAllEntries());
-            
+
             return entry;
         }
 
@@ -51,7 +47,7 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public List<ImageModel> UpdateEntries(List<ImageModel> newEntries)
         {
-            List<ImageModel> output =  _database.Update(newEntries, FavoriteFile.FullFilePath());
+            List<ImageModel> output = _database.Update(newEntries, FavoriteFile.FullFilePath());
             OnFileAltered?.Invoke(this, LoadAllEntries());
             return output;
         }

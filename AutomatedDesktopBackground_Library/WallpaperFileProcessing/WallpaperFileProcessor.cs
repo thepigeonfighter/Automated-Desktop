@@ -1,14 +1,12 @@
-﻿using System;
+﻿using AutomatedDesktopBackgroundLibrary.StringExtensions;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutomatedDesktopBackgroundLibrary.StringExtensions;
+
 namespace AutomatedDesktopBackgroundLibrary
 {
     public class WallpaperFileProcessor : IWallPaperFileProcessor
     {
-        private IDatabaseConnector _database;
+        private readonly IDatabaseConnector _database;
         private const string WallpaperFile = "Wallpaper.csv";
 
         public EventHandler<ImageModel> OnWallPaperUpdate { get; set; }
@@ -17,15 +15,17 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             _database = database;
         }
+
         public ImageModel Load()
         {
-            List<ImageModel> images =  _database.Load<ImageModel>(WallpaperFile.FullFilePath());
+            List<ImageModel> images = _database.Load<ImageModel>(WallpaperFile.FullFilePath());
             if (images.Count > 0)
             {
                 return images[0];
             }
             return null;
         }
+
         public ImageModel Update(ImageModel entry)
         {
             _database.Update(entry, WallpaperFile.FullFilePath());

@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
     public class CollectionRefresher
     {
-        List<InterestModel> allInterests = new List<InterestModel>();
-        APIManager apiManager = new APIManager();
+        private List<InterestModel> allInterests = new List<InterestModel>();
+        private readonly APIManager apiManager = new APIManager();
+
         public async Task RefreshAllCollections()
         {
             allInterests = DataKeeper.GetFileSnapShot().AllInterests;
-            if(allInterests.Count>0)
+            if (allInterests.Count > 0)
             {
-                
-                foreach(InterestModel i in allInterests)
+                foreach (InterestModel i in allInterests)
                 {
-
-                   await Task.Run(()=> apiManager.GetImagesBySearch(i.Name, false));
-                    
+                    await Task.Run(() => apiManager.GetImagesBySearch(i.Name, false)).ConfigureAwait(false);
                 }
             }
         }

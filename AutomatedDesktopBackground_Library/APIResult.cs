@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
@@ -12,6 +8,7 @@ namespace AutomatedDesktopBackgroundLibrary
     {
         private bool _responseSuccess = false;
         private string _response;
+
         public string GetResponse(string url)
         {
             SendRequest(url);
@@ -22,17 +19,14 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             return _responseSuccess;
         }
+
         private void SendRequest(string url)
         {
             using (StreamReader sr = new StreamReader(GetResponseStream(url)))
             {
-
-                _response= sr.ReadToEnd();
+                _response = sr.ReadToEnd();
                 _responseSuccess = true;
-
             }
-
-
         }
 
         private Stream GetResponseStream(string url)
@@ -59,6 +53,7 @@ namespace AutomatedDesktopBackgroundLibrary
                 }
             }
         }
+
         private void ConnectionError()
         {
             _responseSuccess = false;

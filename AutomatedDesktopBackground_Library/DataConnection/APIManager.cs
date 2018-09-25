@@ -1,28 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using AutomatedDesktopBackgroundLibrary.ResponseClasses;
 using System.Threading.Tasks;
-using System.Net;
-using Newtonsoft.Json;
-using AutomatedDesktopBackgroundLibrary.ResponseClasses;
-using System.Net.Http;
-using System.Windows;
-using System.IO;
+
 namespace AutomatedDesktopBackgroundLibrary
 {
-    public class APIManager:IFileListener
+    public class APIManager : IFileListener
     {
-        ImageGetter imageGetter = new ImageGetter();
-        IFileCollection _fileCollection = new FileCollection();
+        private readonly ImageGetter imageGetter = new ImageGetter();
+        private IFileCollection _fileCollection = new FileCollection();
+
         public async Task<IRootObject> GetResults(string interestName)
         {
             IAPICaller apiCaller = new API.APICaller(_fileCollection);
-            IRootObject rootObject = await Task.Run(()=>apiCaller.GetWebResponse(interestName));
-            if(rootObject.total == 0) { HandleNoResults(); }
+            IRootObject rootObject = await Task.Run(() => apiCaller.GetWebResponse(interestName)).ConfigureAwait(false);
+            if (rootObject.total == 0) { HandleNoResults(); }
             DataKeeper.RegisterFileListener(this);
             return rootObject;
-
         }
 
         private void HandleNoResults()
@@ -31,33 +23,30 @@ namespace AutomatedDesktopBackgroundLibrary
             GlobalConfig.EventSystem.InvokeDownloadCompleteEvent(false);
         }
 
-        public async Task GetImagesBySearch(string query,bool userRequested)
+        public async Task GetImagesBySearch(string query, bool userRequested)
         {
-
             GlobalConfig.InCollectionRefresh = true;
-            if(_fileCollection.IsEntireCollectionDownloaded(query))
+            if (_fileCollection.IsEntireCollectionDownloaded(query))
             {
                 LocalDownload(query, userRequested);
             }
             else
             {
-                await FreshDownload(query, userRequested);
+                await FreshDownload(query, userRequested).ConfigureAwait(false);
             }
-            
-
         }
+
         private async Task FreshDownload(string query, bool userRequested)
         {
-            IRootObject iRootObject = await GetResults(query);
+            IRootObject iRootObject = await GetResults(query).ConfigureAwait(false);
             RootObject rootObject = (RootObject)iRootObject;
             imageGetter.ExpectedDownloadAmount = rootObject.results.Count;
-            foreach(Result r in rootObject.results)
+            foreach (Result r in rootObject.results)
             {
-                
                 imageGetter.GetImage(r.urls.full, query, userRequested);
             }
-
         }
+
         private void LocalDownload(string query, bool userRequested)
         {
             LocalImageGetter localImageGetter = new LocalImageGetter(_fileCollection);
@@ -66,7 +55,7 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public void OnFileUpdate()
         {
-           _fileCollection = DataKeeper.GetFileSnapShot();
+            _fileCollection = DataKeeper.GetFileSnapShot();
         }
     }
 }

@@ -5,15 +5,14 @@ using System.Runtime.InteropServices;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
-    public sealed class WallpaperSetter
+    public static class WallpaperSetter
     {
-
-        const int SPI_SETDESKWALLPAPER = 20;
-        const int SPIF_UPDATEINIFILE = 0x01;
-        const int SPIF_SENDWININICHANGE = 0x02;
+        private const int SPI_SETDESKWALLPAPER = 20;
+        private const int SPIF_UPDATEINIFILE = 0x01;
+        private const int SPIF_SENDWININICHANGE = 0x02;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+        private static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
 
         public enum Style : int
         {
@@ -22,7 +21,7 @@ namespace AutomatedDesktopBackgroundLibrary
             Stretched
         }
 
-       // This is for downloading images straight from the web and setting as desktop i am commenting it out so i don't accidentally use it
+        // This is for downloading images straight from the web and setting as desktop i am commenting it out so i don't accidentally use it
         /*
         public static void Set(Uri uri, Style style)
         {
@@ -58,6 +57,7 @@ namespace AutomatedDesktopBackgroundLibrary
             Scheduler.ScheduleManager.OnBackgroundChange(DateTime.Now);
         }
         */
+
         public static void Set(string url, Style style)
         {
             System.Drawing.Image img = System.Drawing.Image.FromFile(url);
@@ -65,29 +65,29 @@ namespace AutomatedDesktopBackgroundLibrary
             string tempPath = Path.Combine(Path.GetTempPath(), "wallpaper.bmp");
             try
             {
-               imageConverted.Save(tempPath, System.Drawing.Imaging.ImageFormat.Bmp);
+                imageConverted.Save(tempPath, System.Drawing.Imaging.ImageFormat.Bmp);
             }
-            catch(System.Runtime.InteropServices.ExternalException e)
+            catch (System.Runtime.InteropServices.ExternalException e)
             {
                 Console.Write(e.ErrorCode);
             }
             RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
             if (style == Style.Stretched)
             {
-                key.SetValue(@"WallpaperStyle", 2.ToString());
-                key.SetValue(@"TileWallpaper", 0.ToString());
+                key.SetValue("WallpaperStyle", 2.ToString());
+                key.SetValue("TileWallpaper", 0.ToString());
             }
 
             if (style == Style.Centered)
             {
-                key.SetValue(@"WallpaperStyle", 1.ToString());
-                key.SetValue(@"TileWallpaper", 0.ToString());
+                key.SetValue("WallpaperStyle", 1.ToString());
+                key.SetValue("TileWallpaper", 0.ToString());
             }
 
             if (style == Style.Tiled)
             {
-                key.SetValue(@"WallpaperStyle", 1.ToString());
-                key.SetValue(@"TileWallpaper", 1.ToString());
+                key.SetValue("WallpaperStyle", 1.ToString());
+                key.SetValue("TileWallpaper", 1.ToString());
             }
 
             SystemParametersInfo(SPI_SETDESKWALLPAPER,
