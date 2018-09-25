@@ -24,27 +24,8 @@
             else
             {
                 ImageModel image = obj as ImageModel;
-                if (Id != image.Id)
-                {
-                    return false;
-                }
+
                 if (LocalUrl != image.LocalUrl)
-                {
-                    return false;
-                }
-                if (Name != image.Name)
-                {
-                    return false;
-                }
-                if (InterestId != image.InterestId)
-                {
-                    return false;
-                }
-                if (IsDownloaded != image.IsDownloaded)
-                {
-                    return false;
-                }
-                if (Url != image.Url)
                 {
                     return false;
                 }

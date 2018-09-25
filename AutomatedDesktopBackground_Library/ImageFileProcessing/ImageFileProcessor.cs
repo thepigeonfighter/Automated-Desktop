@@ -1,6 +1,7 @@
 ﻿using AutomatedDesktopBackgroundLibrary.StringExtensions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
@@ -9,7 +10,7 @@ namespace AutomatedDesktopBackgroundLibrary
         public EventHandler<List<ImageModel>> OnFileAltered { get; set; }
         private const string ImageFile = "Images.csv";
         private readonly IDatabaseConnector _database;
-
+        private List<ImageModel> _images = new List<ImageModel>();
         public ImageFileProcessor(IDatabaseConnector database)
         {
             _database = database;
@@ -17,9 +18,29 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public ImageModel CreateEntry(ImageModel entry)
         {
-            _database.CreateEntry(entry, ImageFile.FullFilePath());
-            OnFileAltered?.Invoke(this, LoadAllEntries());
+            if (ValidEntry(entry))
+            {
+                _database.CreateEntry(entry, ImageFile.FullFilePath());
+                OnFileAltered?.Invoke(this, LoadAllEntries());
+            }
             return entry;
+        }
+        private bool ValidEntry(ImageModel image)
+        {
+            bool valid = true;
+            foreach (var i in _images)
+            {
+                if(i.Name == image.Name)
+                {
+                    valid = false;
+                }
+            }
+            string folderName = Directory.GetParent(image.LocalUrl).Name;
+            if(folderName == "Favorites")
+            {
+                return false;
+            }
+            return valid;
         }
 
         public void DeleteEntry(ImageModel entry)
@@ -30,17 +51,33 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public void OverwriteEntries(List<ImageModel> items)
         {
-            _database.SaveToFile(items, ImageFile.FullFilePath());
+            List<ImageModel> validEntries = new List<ImageModel>();
+            foreach(ImageModel i in items)
+            {
+                if(!ValidEntry(i))
+                {
+                    validEntries.Add(i);
+                }
+            }
+            _database.SaveToFile(validEntries, ImageFile.FullFilePath());
             OnFileAltered?.Invoke(this, LoadAllEntries());
         }
 
         public List<ImageModel> LoadAllEntries()
         {
-            return _database.Load<ImageModel>(ImageFile.FullFilePath());
+            _images = _database.Load<ImageModel>(ImageFile.FullFilePath());
+            return _images;
         }
 
         public List<ImageModel> UpdateEntries(List<ImageModel> newEntries)
         {
+            foreach (ImageModel i in newEntries)
+            {
+                if (!ValidEntry(i))
+                {
+                    newEntries.Remove(i);
+                }
+            }
             List<ImageModel> output = _database.Update(newEntries, ImageFile.FullFilePath());
             OnFileAltered?.Invoke(this, LoadAllEntries());
             return output;
@@ -48,7 +85,11 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public ImageModel UpdateEntries(ImageModel entry)
         {
-            _database.Update(entry, ImageFile.FullFilePath());
+            if (ValidEntry(entry))
+            {
+                _database.Update(entry, ImageFile.FullFilePath());
+                OnFileAltered?.Invoke(this, LoadAllEntries());
+            }
             return entry;
         }
     }

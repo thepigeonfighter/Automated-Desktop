@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AutomatedDesktopBackgroundLibrary
@@ -7,7 +8,7 @@ namespace AutomatedDesktopBackgroundLibrary
     {
         private static readonly IDataStorage _database = new DataStorageBuilder().Build(Database.Textfile);
         private static readonly FileCleaner _fileCleaner = new FileCleaner();
-
+        private  static bool FileCleanInProgress = false;
         #region Image Functions
 
         public static ImageModel AddImage(ImageModel entry)
@@ -163,8 +164,12 @@ namespace AutomatedDesktopBackgroundLibrary
             }
             else
             {
-                _fileCleaner.Run(GetFileSnapShot());
+
+                    _fileCleaner.Run(GetFileSnapShot());
+                
+
             }
         }
+
     }
 }

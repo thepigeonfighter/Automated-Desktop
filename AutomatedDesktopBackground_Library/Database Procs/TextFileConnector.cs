@@ -89,7 +89,7 @@ namespace AutomatedDesktopBackgroundLibrary
                     FileOperation = FileOperation.Delete
                 };
                 requestsManager.RegisterRequest(deletion);
-                image.LocalUrl = $"{copyPath}/{image.Name}";
+                image.LocalUrl = $@"{copyPath}\{image.Name}";
             }
             catch (Exception)
             {

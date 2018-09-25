@@ -1,17 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using AutomatedDesktopBackgroundLibrary.Utility;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
     public class FileCleaner
     {
+        private static ReaderWriterLockSlim _snync = new ReaderWriterLockSlim(); 
+        public EventHandler OnCleanCompleted;
         public void Run(IFileCollection fileCollection)
         {
-            CleanImageEntries(fileCollection);
-            RemoveAnyHatedImages(fileCollection);
-            RebuildImages(fileCollection);
+            using (_snync.Write())
+            {
+                CleanImageEntries(fileCollection);
+                RemoveAnyHatedImages(fileCollection);
+                RebuildImages(fileCollection);
+                OnCleanCompleted?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         private void CleanImageEntries(IFileCollection fileCollection)
@@ -62,7 +71,9 @@ namespace AutomatedDesktopBackgroundLibrary
         private void SubmitChanges(IFileCollection fileCollection, List<ImageModel> favoriteImages, List<ImageModel> defaultImages)
         {
             favoriteImages.AddRange(fileCollection.FavoriteImages);
+            favoriteImages = favoriteImages.Distinct().ToList();
             defaultImages.AddRange(fileCollection.AllImages);
+            defaultImages = defaultImages.Distinct().ToList();
             DataKeeper.OverwriteImageFile(defaultImages);
             DataKeeper.OverwriteFavoriteImages(favoriteImages);
         }
@@ -119,7 +130,7 @@ namespace AutomatedDesktopBackgroundLibrary
             //Hacky way of removing the duplicated jpeg from the end of the file name
             image.Name = image.Name.Substring(0, image.Name.Length - 4);
             image.IsDownloaded = true;
-            image.Url = "unknwon";
+            image.Url = "unknown";
             string interestName = Path.GetDirectoryName(url);
             InterestModel interest = fileCollection.AllInterests.FirstOrDefault(x => x.Name == interestName);
             if (interest != null)
