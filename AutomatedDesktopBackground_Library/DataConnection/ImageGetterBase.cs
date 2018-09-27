@@ -7,7 +7,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
 {
     public class ImageGetterBase : IFileListener
     {
-        protected bool IsUserRequested = false;
+        protected bool _IsUserRequested;
         protected IFileCollection _fileCollection;
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
         protected void HandleError()
         {
             errorIndex.Add(totalDownloadsRequested - ExpectedDownloadAmount);
-            if (IsUserRequested)
+            if (_IsUserRequested)
             {
                 //MessageBox.Show(e.Error.InnerException.ToString());
                 GlobalConfig.EventSystem.InvokeDownloadImageEvent("!");
@@ -46,7 +46,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
 
         protected void HandleImageDownload()
         {
-            if (IsUserRequested)
+            if (_IsUserRequested)
             {
                 int downloadsComplete = -(ExpectedDownloadAmount - totalDownloadsRequested);
                 string message = $"{downloadsComplete}/{totalDownloadsRequested}";
@@ -56,7 +56,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
 
         protected void HandleDownloadCancel()
         {
-            if (IsUserRequested)
+            if (_IsUserRequested)
             {
                 GlobalConfig.EventSystem.InvokeDownloadImageEvent("Download Cancelled");
                 MessageBox.Show("The download has been cancelled");
@@ -65,7 +65,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
 
         protected void HandleDownloadComplete()
         {
-            if (IsUserRequested)
+            if (_IsUserRequested)
             {
                 string message = $"{totalDownloadsRequested}/{totalDownloadsRequested}";
                 GlobalConfig.EventSystem.InvokeDownloadImageEvent(message);
@@ -76,7 +76,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
 
         protected void DisplayDownloadCompletionMessage()
         {
-            if (IsUserRequested)
+            if (_IsUserRequested)
             {
                 if (errorIndex.Count == 0)
                 {
@@ -120,9 +120,16 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
             }
             else
             {
-                DataKeeper.UpdateImage(images);
+                images.ForEach(x => DataKeeper.AddImage(x));
+                RemovePhotosWhereIsDownloadedIsFalse();
             }
             images.Clear();
+        }
+
+        private void RemovePhotosWhereIsDownloadedIsFalse()
+        {
+            List<ImageModel> photosToRemove = _fileCollection.AllImages.Where(x => !x.IsDownloaded).ToList();
+            photosToRemove.ForEach(x => DataKeeper.DeleteImage(x, true));
         }
 
         private void RemoveOldPhotos()
@@ -134,9 +141,9 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                 foreach (ImageModel i in oldPhotos)
                 {
                     i.IsDownloaded = false;
-                    DataKeeper.DeleteDownloadedImageFile(i);
+                    DataKeeper.DeleteImage(i, true);
                 }
-                DataKeeper.UpdateImage(oldPhotos);
+                oldPhotos.ForEach(x => DataKeeper.AddImage(x));
             }
         }
 

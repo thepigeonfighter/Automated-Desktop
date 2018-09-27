@@ -13,6 +13,7 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public PageRefreshState refreshState;
         private IFileCollection _fileCollection = new FileCollection();
+        private readonly InterestBuilder interestBuilder = new InterestBuilder();
         private readonly APIManager manager = new APIManager();
         public BindingList<InterestModel> interests;// = new BindingList<InterestModel>();
         private bool IsDownloading = false;
@@ -21,7 +22,6 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             GlobalConfig.EventSystem.DownloadCompleteEvent += EventSystem_DownloadCompleteEvent;
             GlobalConfig.EventSystem.ApplicationResetEvent += EventSystem_ApplicationResetEvent;
-            GlobalConfig.EventSystem.ImageHatingHasCompletedEvent += EventSystem_ImageHatingHasCompletedEvent;
             DataKeeper.RegisterFileListener(this);
             DataKeeper.UpdateAllLists();
 
@@ -29,19 +29,6 @@ namespace AutomatedDesktopBackgroundLibrary
             {
                 RaiseListChangedEvents = true
             };
-        }
-
-        private async void EventSystem_ImageHatingHasCompletedEvent(object sender, string e)
-        {
-            if (!await IsBackgroundRefreshing().ConfigureAwait(false))
-            {
-                await StartBackGroundRefresh(true).ConfigureAwait(false);
-            }
-        }
-
-        private Task<bool> IsBackgroundRefreshing()
-        {
-            return GlobalConfig.JobManager.JobRunning(JobType.BackgroundRefresh);
         }
 
         /// <summary>
@@ -122,38 +109,22 @@ namespace AutomatedDesktopBackgroundLibrary
             IsDownloading = false;
         }
 
-        //TODO build a interest builder maybe
         public async Task AddInterest(string interest)
         {
-            List<InterestModel> existinginterests = _fileCollection.AllInterests;
-
-            int newId = 1;
-            if (existinginterests.Count > 0)
-            {
-                newId = existinginterests.Max(x => x.Id) + 1;
-            }
-            InterestModel newInterest = new InterestModel();
-            IRootObject response = await manager.GetResults(interest).ConfigureAwait(false);
-            newInterest.Name = interest;
-            newInterest.TotalImages = response.total;
-            newInterest.TotalPages = response.total_pages;
-            newInterest.Id = newId;
-            existinginterests.Add(newInterest);
+            InterestModel newInterest = await interestBuilder.Build(interest, _fileCollection, manager).ConfigureAwait(true);
             DataKeeper.AddInterest(newInterest);
-            interests = new BindingList<InterestModel>(existinginterests);
+            interests = new BindingList<InterestModel>(DataKeeper.GetFileSnapShot().AllInterests);
         }
 
         public void RemoveInterest(string interest)
         {
             InterestModel interestToDelete = interest.GetInterestByName();
             DataKeeper.DeleteInterest(interestToDelete);
-            interests.Remove(interests.First(x => x.Name == interest));
-        }
-
-        private void RefreshInterestList()
-        {
-            var tempList = _fileCollection.AllInterests;
-            interests = new BindingList<InterestModel>(tempList);
+            InterestModel instance = interests.FirstOrDefault(x => x.Name == interest);
+            if (instance != null)
+            {
+                interests.Remove(instance);
+            }
         }
 
         public void DownloadNewCollection(string query)
@@ -169,7 +140,6 @@ namespace AutomatedDesktopBackgroundLibrary
         public bool AreAnyImagesDownloaded()
         {
             List<ImageModel> images = _fileCollection.AllImages;
-            images.AddRange(_fileCollection.FavoriteImages);
             return images.Count > 0;
         }
 
@@ -185,6 +155,7 @@ namespace AutomatedDesktopBackgroundLibrary
             if (refreshState == PageRefreshState.None || refreshState == PageRefreshState.BGOnly)
             {
                 await Task.Run(() => GlobalConfig.JobManager.StartCollectionUpdatingAsync()).ConfigureAwait(false);
+                GlobalConfig.CollectionsRefreshing = true;
             }
         }
 
@@ -206,6 +177,7 @@ namespace AutomatedDesktopBackgroundLibrary
                 await Task.Delay(300).ConfigureAwait(false);
                 await Task.Run(() => GlobalConfig.JobManager.StartBackgroundUpdatingAsync()).ConfigureAwait(false);
             }
+            GlobalConfig.BackgroundRefreshing = true;
         }
 
         public async Task StopBackGroundRefresh()
@@ -214,6 +186,7 @@ namespace AutomatedDesktopBackgroundLibrary
             {
                 await Task.Run(() => GlobalConfig.JobManager.StopBackgroundUpdatingAsync()).ConfigureAwait(false);
             }
+            GlobalConfig.BackgroundRefreshing = false;
         }
 
         public async Task StopCollectionChange()
@@ -222,6 +195,7 @@ namespace AutomatedDesktopBackgroundLibrary
             {
                 await Task.Run(() => GlobalConfig.JobManager.StopCollectionUpdatingAsync()).ConfigureAwait(false);
             }
+            GlobalConfig.BackgroundRefreshing = false;
         }
 
         #endregion Background and Collection Controls
@@ -229,36 +203,33 @@ namespace AutomatedDesktopBackgroundLibrary
         public void SetImageAsFavorite()
         {
             ImageModel currentImage = _fileCollection.CurrentWallpaper;
-            DataKeeper.AddFavoriteImage(currentImage);
+            currentImage.IsFavorite = true;
+            DataKeeper.AddImage(currentImage);
         }
 
-        public async Task SetImageAsHated()
+        public void SetImageAsHated()
         {
             ImageModel currentImage = _fileCollection.CurrentWallpaper;
-            DataKeeper.AddHatedImage(currentImage);
-            if (await IsBackgroundRefreshing().ConfigureAwait(false))
-            {
-                await StopBackGroundRefresh().ConfigureAwait(false);
-            }
-            else
-            {
-                BackGroundPicker bg = new BackGroundPicker();
-                bg.PickRandomBackground();
-            }
+            currentImage.IsHated = true;
+            currentImage.IsFavorite = false;
+            currentImage.IsDownloaded = false;
+            DataKeeper.AddImage(currentImage);
+            DataKeeper.DeleteImage(currentImage, true);
+
+            BackGroundPicker bg = new BackGroundPicker();
+            bg.PickRandomBackground();
         }
 
         public bool IsFavorited()
         {
-            List<ImageModel> favImages = _fileCollection.FavoriteImages;
-            ImageModel currentImage = _fileCollection.CurrentWallpaper;
-            foreach (ImageModel i in favImages)
+            if (_fileCollection.CurrentWallpaper != null)
             {
-                if (i.Name == currentImage.Name)
-                {
-                    return true;
-                }
+                return _fileCollection.CurrentWallpaper.IsFavorite;
             }
-            return false;
+            else
+            {
+                return false;
+            }
         }
 
         public bool InterestExists(string interest)
@@ -280,7 +251,6 @@ namespace AutomatedDesktopBackgroundLibrary
         public void OnFileUpdate()
         {
             _fileCollection = DataKeeper.GetFileSnapShot();
-            RefreshInterestList();
         }
     }
 }

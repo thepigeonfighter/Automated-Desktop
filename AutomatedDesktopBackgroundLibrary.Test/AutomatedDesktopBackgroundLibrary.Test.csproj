@@ -76,10 +76,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataStorageBuilderTest.cs" />
-    <Compile Include="DataStorageTest.cs" />
-    <Compile Include="FileCollectionExtensionsTests.cs" />
-    <Compile Include="ImageFileProcessorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

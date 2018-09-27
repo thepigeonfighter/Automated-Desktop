@@ -14,9 +14,11 @@
     public enum FileOperation { Read, Write, Delete, Copy }
 
     //In the future if we wanted to save somewhere else we can just add the option here.
-    public enum Database { Textfile, WebServer };
+    public enum Database { Textfile, WebServer, JsonFile };
 
     public enum CurrentAPIClient { Unsplash };
 
     public enum JobType { BackgroundRefresh, CollectionRefresh }
+
+    public enum FileType { ImageInfo, InterestInfo, ImageFile }
 }

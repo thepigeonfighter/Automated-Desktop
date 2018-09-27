@@ -8,15 +8,12 @@ namespace AutomatedDesktopBackgroundLibrary
 {
     public interface IDatabaseConnector
     {
-        List<T> Load<T>(string filePath) where T : class, ISaveable, new();
+        List<T> Load<T>(FileType fileType) where T : class, ISaveable, new();
+        T LoadEntry<T>(string filePath) where T : class, ISaveable, new();
         void CreateEntry<T>(T item, string filePath) where T: class, ISaveable, new();
-        List<T> Update<T>(T items, string filePath) where T : class, ISaveable, new();
-        List<T> Update<T>(List<T> items, string filePath) where T : class, ISaveable, new();
         void Delete<T>(T item, string filePath) where T : class, ISaveable, new();
-        void SaveToFile<T>(List<T> items, string filePath) where T : class, ISaveable, new();
         void DeleteFile(string filePath);
         void DeleteImages(List<ImageModel> images);
-        void CopyImage(ImageModel image, string copyPath);
         void DeleteAllFiles();
     }
 }

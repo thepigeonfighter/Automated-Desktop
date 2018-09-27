@@ -1,6 +1,7 @@
-﻿using AutomatedDesktopBackgroundLibrary.StringExtensions;
+﻿using AutomatedDesktopBackgroundLibrary.ImageFileProcessing;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace AutomatedDesktopBackgroundLibrary
@@ -8,9 +9,10 @@ namespace AutomatedDesktopBackgroundLibrary
     public class ImageFileProcessor : IImageFileProcessor
     {
         public EventHandler<List<ImageModel>> OnFileAltered { get; set; }
-        private const string ImageFile = "Images.csv";
+        public EventHandler<ImageModel> OnWallPaperUpdate { get; set; }
         private readonly IDatabaseConnector _database;
         private List<ImageModel> _images = new List<ImageModel>();
+
         public ImageFileProcessor(IDatabaseConnector database)
         {
             _database = database;
@@ -18,79 +20,86 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public ImageModel CreateEntry(ImageModel entry)
         {
-            if (ValidEntry(entry))
-            {
-                _database.CreateEntry(entry, ImageFile.FullFilePath());
-                OnFileAltered?.Invoke(this, LoadAllEntries());
-            }
+            _database.CreateEntry(entry, entry.InfoFileDir);
+            OnFileAltered?.Invoke(this, LoadAllEntries());
+
             return entry;
-        }
-        private bool ValidEntry(ImageModel image)
-        {
-            bool valid = true;
-            foreach (var i in _images)
-            {
-                if(i.Name == image.Name)
-                {
-                    valid = false;
-                }
-            }
-            string folderName = Directory.GetParent(image.LocalUrl).Name;
-            if(folderName == "Favorites")
-            {
-                return false;
-            }
-            return valid;
         }
 
         public void DeleteEntry(ImageModel entry)
         {
-            _database.Delete(entry, ImageFile.FullFilePath());
-            OnFileAltered?.Invoke(this, LoadAllEntries());
-        }
-
-        public void OverwriteEntries(List<ImageModel> items)
-        {
-            List<ImageModel> validEntries = new List<ImageModel>();
-            foreach(ImageModel i in items)
-            {
-                if(!ValidEntry(i))
-                {
-                    validEntries.Add(i);
-                }
-            }
-            _database.SaveToFile(validEntries, ImageFile.FullFilePath());
+            _database.Delete(entry, entry.InfoFileDir);
             OnFileAltered?.Invoke(this, LoadAllEntries());
         }
 
         public List<ImageModel> LoadAllEntries()
         {
-            _images = _database.Load<ImageModel>(ImageFile.FullFilePath());
+            _images = _database.Load<ImageModel>(FileType.ImageInfo);
             return _images;
         }
 
-        public List<ImageModel> UpdateEntries(List<ImageModel> newEntries)
+        public void RemoveAllImagesByInterest(InterestModel interest)
         {
-            foreach (ImageModel i in newEntries)
+            try
             {
-                if (!ValidEntry(i))
+                
+                List<ImageModel> images = DataKeeper.GetFileSnapShot().AllImages.AllImagesByInterest(interest);
+                List<ImageModel> updatedImages = RemoveFavoritePhotos(images);
+                bool favoritesExist = images.Count > updatedImages.Count;
+                if (favoritesExist)
                 {
-                    newEntries.Remove(i);
+                    DeleteNonFavoritePhotos(updatedImages);
+                }
+                else
+                {
+                    DeleteEntireFolder(interest.Name);
+                }
+                
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Couldn't delete directory  " + e.InnerException.ToString());
+            }
+        }
+        private void DeleteNonFavoritePhotos(List<ImageModel> images)
+        {
+            foreach (ImageModel image in images)
+            {
+                DeleteEntry(image);
+                _database.DeleteFile(image.LocalUrl);
+            }
+        }
+        private void DeleteEntireFolder(string interestName)
+        {
+            string dir = $@"{InternalFileDirectorySystem.ImagesFolder}\{interestName}";
+            if (Directory.Exists(dir))
+            {
+                Directory.Delete(dir, true);
+            }
+        }
+        private List<ImageModel> RemoveFavoritePhotos(List<ImageModel> entries)
+        {
+            List<ImageModel> updatedEntires = new List<ImageModel>();
+            foreach (ImageModel image in entries)
+            {
+                if(!image.IsFavorite)
+                {
+                    updatedEntires.Add(image);
                 }
             }
-            List<ImageModel> output = _database.Update(newEntries, ImageFile.FullFilePath());
-            OnFileAltered?.Invoke(this, LoadAllEntries());
-            return output;
+            return updatedEntires;
         }
 
-        public ImageModel UpdateEntries(ImageModel entry)
+        public void UpdateWallPaper(ImageModel entry, ImageModel oldWallpaper = null)
         {
-            if (ValidEntry(entry))
+            if (oldWallpaper != null)
             {
-                _database.Update(entry, ImageFile.FullFilePath());
-                OnFileAltered?.Invoke(this, LoadAllEntries());
+                oldWallpaper.IsWallpaper = false;
+                CreateEntry(oldWallpaper);
             }
-            return entry;
+            entry.IsWallpaper = true;
+            CreateEntry(entry);
+            OnWallPaperUpdate?.Invoke(this, entry);
         }
     }
 }

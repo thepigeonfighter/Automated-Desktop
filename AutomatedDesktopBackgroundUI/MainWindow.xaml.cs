@@ -1,6 +1,7 @@
 ﻿using AutomatedDesktopBackgroundLibrary;
 using AutomatedDesktopBackgroundLibrary.StringExtensions;
 using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Forms;
 
@@ -20,6 +21,7 @@ namespace AutomatedDesktopBackgroundUI
             WireEvents();
             BuildNotifyIcon();
             WireDependencies();
+            
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -237,7 +239,23 @@ namespace AutomatedDesktopBackgroundUI
             GlobalConfig.EventSystem.UpdateBackgroundEvent += EventSystem_UpdateBackgroundEvent;
             GlobalConfig.EventSystem.ImageHatingHasCompletedEvent += EventSystem_ImageHatingHasCompleted;
             GlobalConfig.EventSystem.ApplicationResetEvent += EventSystem_ApplicationResetEvent;
+            interestListView.MouseDoubleClick += InterestListView_MouseDoubleClick;
             viewController.OnPageStateChange += CheckPageState;
+        }
+
+        private void InterestListView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (interestListView.SelectedValue != null)
+            {
+                string folderName = interestListView.SelectedValue.ToString().MakePrettyString();
+                string filePath = InternalFileDirectorySystem.ImagesFolder + $@"\{folderName}";
+                ProcessStartInfo info = new ProcessStartInfo()
+                {
+                    FileName = "explorer.exe",
+                    Arguments = filePath
+                };
+                Process.Start(info);
+            }
         }
 
         private void EventSystem_ApplicationResetEvent(object sender, string e)

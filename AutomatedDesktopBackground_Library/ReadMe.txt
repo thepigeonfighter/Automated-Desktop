@@ -15,7 +15,8 @@ photos that may have been associated with it.
 
 Start Collection Refresh
 Clicking this button will start the collection refresh task which based on the settings you have chosen will 
-download new groups of photos associated with your interests that you have created. 
+download a new groups of photos associated with your interests that you have created. 
+
 
 Start Background Refresh 
 Clicking this button will start the process of cycling through your downloaded photos and setting them as your

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AutomatedDesktopBackgroundLibrary.ImageFileProcessing;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AutomatedDesktopBackgroundLibrary
@@ -6,10 +7,7 @@ namespace AutomatedDesktopBackgroundLibrary
     public class DataStorage : IDataStorage
     {
         public IImageFileProcessor ImageFileProcessor { get; set; }
-        public IImageFileProcessor HatedImageFileProcessor { get; set; }
-        public IImageFileProcessor FavoritedImageFileProcessor { get; set; }
         public IInterestFileProcessor InterestFileProcessor { get; set; }
-        public IWallPaperFileProcessor WallPaperFileProcessor { get; set; }
         public IDatabaseConnector Database { get; set; }
         public IFileCollection FileCollection { get; set; }
 
@@ -20,10 +18,8 @@ namespace AutomatedDesktopBackgroundLibrary
         public void WireUpEvents()
         {
             ImageFileProcessor.OnFileAltered += UpdateImageFileEvent;
-            HatedImageFileProcessor.OnFileAltered += UpdateHatedImageFileEvent;
-            FavoritedImageFileProcessor.OnFileAltered += UpdateFavoriteImageFileEvent;
             InterestFileProcessor.OnFileUpdate += UpdateInterestFileEvent;
-            WallPaperFileProcessor.OnWallPaperUpdate += UpdateWallpaperEvent;
+            ImageFileProcessor.OnWallPaperUpdate += UpdateWallpaperEvent;
         }
 
         private void UpdateWallpaperEvent(object sender, ImageModel e)
@@ -39,19 +35,7 @@ namespace AutomatedDesktopBackgroundLibrary
             Task.Run(() => UpdateFileListeners());
         }
 
-        private void UpdateFavoriteImageFileEvent(object sender, List<ImageModel> e)
-        {
-            FileCollection.FavoriteImages = e;
-            Task.Run(() => UpdateFileListeners());
-        }
-
-        private void UpdateHatedImageFileEvent(object sender, List<ImageModel> e)
-        {
-            FileCollection.HatedImages = e;
-            Task.Run(() => UpdateFileListeners());
-        }
-
-            private void UpdateImageFileEvent(object sender, List<ImageModel> e)
+        private void UpdateImageFileEvent(object sender, List<ImageModel> e)
         {
             FileCollection.AllImages = e;
             Task.Run(() => UpdateFileListeners());
@@ -71,12 +55,9 @@ namespace AutomatedDesktopBackgroundLibrary
         public void UpdateAllLists()
         {
             FileCollection.AllImages = ImageFileProcessor.LoadAllEntries();
-            FileCollection.HatedImages = HatedImageFileProcessor.LoadAllEntries();
             FileCollection.AllInterests = InterestFileProcessor.LoadAllEntries();
-            FileCollection.CurrentWallpaper = WallPaperFileProcessor.Load();
-            FileCollection.FavoriteImages = FavoritedImageFileProcessor.LoadAllEntries();
-            FileCollection.AllInterests = InterestFileProcessor.LoadAllEntries();
-            Task.Run(()=>UpdateFileListeners());
+            FileCollection.CurrentWallpaper = FileCollection.AllImages.GetWallpaper();
+            Task.Run(() => UpdateFileListeners());
         }
 
         public void ResetApplication()

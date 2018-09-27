@@ -11,7 +11,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
 {
     public class ObjectToTextProcessor
     {
-        protected static FileRequestsManager requestsManager = new FileRequestsManager();
+        protected static FileRequestsManager _requestsManager = new FileRequestsManager();
         protected static ReaderWriterLockSlim _sync = new ReaderWriterLockSlim();
 
         private static List<string> LoadFileAsStrings(string file)
@@ -28,7 +28,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                     FilePath = file,
                     FileOperation = FileOperation.Read
                 };
-                requestsManager.RequestFileRead(request);
+                _requestsManager.RequestFileRead(request);
 
                 return request.Lines;
             }
@@ -90,7 +90,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                     Lines = lines,
                     FileOperation = FileOperation.Write
                 };
-                requestsManager.RegisterRequest(request);
+                _requestsManager.RegisterRequest(request);
             }
             // WriteFile(lines, filePath);
         }
@@ -247,7 +247,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                         FilePath = filePath,
                         FileOperation = FileOperation.Delete
                     };
-                    requestsManager.RegisterRequest(request);
+                    _requestsManager.RegisterRequest(request);
                 }
             }
         }

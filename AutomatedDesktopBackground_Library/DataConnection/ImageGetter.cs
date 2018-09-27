@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Windows;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
@@ -14,7 +15,7 @@ namespace AutomatedDesktopBackgroundLibrary
     /// </summary>
     public class ImageGetter : ImageGetterBase
     {
-        private readonly ImageModelBuilder imageBuilder = new ImageModelBuilder();
+        private readonly ImageModelBuilder _imageBuilder = new ImageModelBuilder();
 
         /// <summary>
         /// Retrieves an image from the internet, and creates a new image entry in the database
@@ -31,11 +32,13 @@ namespace AutomatedDesktopBackgroundLibrary
         public void GetImage(string imageUrl, string folderName, bool userRequested)
         {
             totalDownloadsRequested = ExpectedDownloadAmount;
-            string downloadPath = folderName.CreateDirectory().FullName;
+            // string downloadPath = folderName.CreateDirectory().FullName;
+
             InterestModel interest = folderName.GetInterestByName();
-            ImageModel imageToDownload = imageBuilder.Build(imageUrl, downloadPath, interest.Id);
+            Directory.CreateDirectory($@"{InternalFileDirectorySystem.ImagesFolder}\{interest.Name}");
+            ImageModel imageToDownload = _imageBuilder.Build(imageUrl, interest);
             DownloadFile(imageToDownload);
-            IsUserRequested = userRequested;
+            _IsUserRequested = userRequested;
         }
 
         /// <summary>
@@ -50,16 +53,18 @@ namespace AutomatedDesktopBackgroundLibrary
         ///
         /// <param name="folderName">
         /// the name of the folder that will store the image</param>
+        /// <param name="image">
+        /// </param>
         /// <param name="userRequested">
         /// represents whether the user has specifically requested this download or if it is a background operation
         /// </param>
-        public void GetImageLocal(string imageUrl, string downloadPath, bool userRequested)
+        public void GetImageLocal(ImageModel image, bool userRequested)
         {
             totalDownloadsRequested = ExpectedDownloadAmount;
-            string dirPath = Path.GetDirectoryName(downloadPath);
+            string dirPath = Path.GetDirectoryName(image.LocalUrl);
             Directory.CreateDirectory(dirPath);
-            DownloadFileLocal(imageUrl, downloadPath);
-            IsUserRequested = userRequested;
+            DownloadFileLocal(image);
+            _IsUserRequested = userRequested;
             isLocalGet = true;
         }
 
@@ -73,17 +78,20 @@ namespace AutomatedDesktopBackgroundLibrary
         /// <param name="imageUrl">
         /// </param>
         /// <param name="downloadPath"></param>
+        /// <param name="image">
+        /// </param>
         /// <returns></returns>
 
-        private void DownloadFileLocal(string imageUrl, string downloadPath)
+        private void DownloadFileLocal(ImageModel image)
         {
-            if (!IsHated(imageUrl))
+            if (!IsHated(image.Url))
             {
                 using (WebClient wc = new WebClient())
                 {
                     wc.DownloadProgressChanged += Wc_DownloadProgressChanged;
                     wc.DownloadFileCompleted += Wc_DownloadFileCompleted;
-                    wc.DownloadFileAsync(new Uri(imageUrl), downloadPath);
+                    wc.DownloadFileAsync(new Uri(image.Url), image.LocalUrl);
+                    images.Add(image);
                 }
             }
         }
@@ -109,7 +117,7 @@ namespace AutomatedDesktopBackgroundLibrary
 
         private bool IsHated(string Url)
         {
-            List<ImageModel> hatedImages = DataKeeper.GetFileSnapShot().HatedImages;
+            List<ImageModel> hatedImages = DataKeeper.GetFileSnapShot().AllImages.Where(x => x.IsHated).ToList();
             if (hatedImages.Count == 0)
             {
                 return false;
@@ -133,7 +141,7 @@ namespace AutomatedDesktopBackgroundLibrary
         /// <param name="e"></param>
         private void Wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
-            if (IsUserRequested)
+            if (_IsUserRequested)
             {
                 GlobalConfig.EventSystem.InvokePercentChangeEvent(e.ProgressPercentage);
             }
@@ -150,6 +158,7 @@ namespace AutomatedDesktopBackgroundLibrary
 
             if (e.Error != null) // We have an error! Retry a few times, then abort.
             {
+                MessageBox.Show(e.Error.InnerException.ToString());
                 HandleError();
             }
             ExpectedDownloadAmount--;

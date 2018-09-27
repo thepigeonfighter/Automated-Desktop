@@ -8,49 +8,82 @@ namespace AutomatedDesktopBackgroundLibrary.Scheduler
         //TODO set to decent times
         private static DateTime BackgroundSetAt = new DateTime(2008, 1, 1);
 
-        private static DateTime CollectionChangedAt = new DateTime(2008, 1, 1);
-        private static TimeSpan BackgroundRefreshSettings = new TimeSpan(0, 0, 30);
-        private static TimeSpan CollectionRefreshSettings = new TimeSpan(0, 1, 0);
+        private static SettingsModel _settingsModel = new SettingsModel();
+        private static DateTime _collectionChangedAt = new DateTime(2008, 1, 1);
+        private static TimeSpan _backgroundRefreshSettings = new TimeSpan(0, 1, 0);
+        private static TimeSpan _collectionRefreshSettings = new TimeSpan(1, 0, 0);
         private static DateTime NextBackgroundChangeAt = new DateTime(2008, 1, 1);
         private static DateTime NextCollectionChangeAt = new DateTime(2008, 1, 1);
 
+        static ScheduleManager()
+        {
+            SettingsModel tempSettings = _settingsModel.LoadSettings();
+            if (tempSettings != null)
+            {
+                ChangeBackgroundRefreshSettings(tempSettings.BackgroundRefreshSetting);
+                ChangeCollectionRefreshSettings(tempSettings.CollectionRefreshSetting);
+            }
+            else
+            {
+                SettingsModel defaultSettings = _settingsModel.GetDefaultSettings();
+
+                ChangeBackgroundRefreshSettings(defaultSettings.BackgroundRefreshSetting);
+                ChangeCollectionRefreshSettings(defaultSettings.CollectionRefreshSetting);
+            }
+        }
+
         public static TimeSpan CollectionRefreshSetting()
         {
-            return CollectionRefreshSettings;
+            return _collectionRefreshSettings;
         }
 
         public static TimeSpan BackgroundRefreshSetting()
         {
-            return BackgroundRefreshSettings;
+            return _backgroundRefreshSettings;
         }
 
         public static void ChangeBackgroundRefreshSettings(TimeSpan time)
         {
-            BackgroundRefreshSettings = time;
+            _backgroundRefreshSettings = time;
+            _settingsModel.SaveSettings(GetCurrentSettings());
             ResetBackgroundSettings();
         }
 
         public static void ChangeCollectionRefreshSettings(TimeSpan time)
         {
-            CollectionRefreshSettings = time;
+            _collectionRefreshSettings = time;
+            _settingsModel.SaveSettings(GetCurrentSettings());
+            ResetCollectionSettings();
         }
 
         public static void OnBackgroundChange(DateTime time)
         {
             BackgroundSetAt = time;
-            NextBackgroundChangeAt = BackgroundSetAt.Add(BackgroundRefreshSettings);
+            NextBackgroundChangeAt = BackgroundSetAt.Add(_backgroundRefreshSettings);
         }
 
         public static void OnCollectionChange(DateTime time)
         {
-            CollectionChangedAt = time;
-            NextCollectionChangeAt = CollectionChangedAt.Add(CollectionRefreshSettings);
+            _collectionChangedAt = time;
+            NextCollectionChangeAt = _collectionChangedAt.Add(_collectionRefreshSettings);
         }
 
         private static async void ResetBackgroundSettings()
         {
-            await Task.Run(() => GlobalConfig.JobManager.StopSchedulerAsync()).ConfigureAwait(false);
-            await Task.Run(() => GlobalConfig.JobManager.StartBackgroundUpdatingAsync()).ConfigureAwait(false);
+            if (GlobalConfig.BackgroundRefreshing)
+            {
+                await Task.Run(() => GlobalConfig.JobManager.StopBackgroundUpdatingAsync()).ConfigureAwait(false);
+                await Task.Run(() => GlobalConfig.JobManager.StartBackgroundUpdatingAsync()).ConfigureAwait(false);
+            }
+        }
+
+        private static async void ResetCollectionSettings()
+        {
+            if (GlobalConfig.CollectionsRefreshing)
+            {
+                await Task.Run(() => GlobalConfig.JobManager.StopCollectionUpdatingAsync()).ConfigureAwait(false);
+                await Task.Run(() => GlobalConfig.JobManager.StartCollectionUpdatingAsync()).ConfigureAwait(false);
+            }
         }
 
         public static TimeModel GetReadableForm(TimeSpan time)
@@ -70,6 +103,16 @@ namespace AutomatedDesktopBackgroundLibrary.Scheduler
                 return new TimeModel() { Amount = time.Minutes, TimeSetting = TimeSettings.Minutes };
                 //return minute format
             }
+        }
+
+        private static SettingsModel GetCurrentSettings()
+        {
+            SettingsModel currentSettings = new SettingsModel()
+            {
+                BackgroundRefreshSetting = _backgroundRefreshSettings,
+                CollectionRefreshSetting = _collectionRefreshSettings
+            };
+            return currentSettings;
         }
     }
 }

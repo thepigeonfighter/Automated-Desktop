@@ -27,8 +27,8 @@ namespace AutomatedDesktopBackgroundLibrary.StringExtensions
                     string formattedWord = char.ToUpper(word[0]) + word.Substring(1) + " ";
                     outputString.Append(formattedWord);
                 }
-
-                return outputString.ToString();
+                string output = outputString.ToString();
+                return output.TrimEnd();
             }
             catch
             {

@@ -5,6 +5,10 @@ using System.Collections.Generic;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
+    /*
+     * 
+     * 
+     * DEPRACATED 
     public class TextFileConnector : ObjectToTextProcessor, IDatabaseConnector
     {
         private readonly Queue<FileRequest> DeleteRequestQueue = new Queue<FileRequest>();
@@ -127,5 +131,11 @@ namespace AutomatedDesktopBackgroundLibrary
                 requestsManager.RegisterRequest(request);
             }
         }
+
+        T IDatabaseConnector.LoadEntry<T>(string filePath)
+        {
+            throw new NotImplementedException();
+        }
     }
+    */
 }

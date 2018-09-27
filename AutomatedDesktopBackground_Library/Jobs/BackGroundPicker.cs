@@ -21,12 +21,21 @@ namespace AutomatedDesktopBackgroundLibrary
 
         private string GetImageFileDir()
         {
-            string[] directories = Directory.GetDirectories(StringExtensions.StringExtensions.GetApplicationDirectory());
+            string[] directories = Directory.GetDirectories(InternalFileDirectorySystem.ImagesFolder);
             List<string> imageFilePaths = new List<string>();
             foreach (string dir in directories)
             {
                 string[] fileDir = Directory.GetFiles(dir, "*.jpeg");
                 imageFilePaths.AddRange(fileDir);
+            }
+            ImageModel currentWallpaper = DataKeeper.GetFileSnapShot().CurrentWallpaper;
+            if (currentWallpaper != null)
+            {
+                string currentWallpaperDir = imageFilePaths.Find(x => x.Equals(currentWallpaper.LocalUrl));
+                if (!String.IsNullOrWhiteSpace(currentWallpaperDir))
+                {
+                    imageFilePaths.Remove(currentWallpaperDir);
+                }
             }
             Random r = new Random();
             string imageUrl = imageFilePaths[r.Next(0, imageFilePaths.Count)];
