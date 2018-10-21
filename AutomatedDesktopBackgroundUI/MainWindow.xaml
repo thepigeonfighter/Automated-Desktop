@@ -13,7 +13,7 @@
         <Button x:Name="querySearchButton" Content="Add Interest" HorizontalAlignment="Left" Margin="463,178,0,0" VerticalAlignment="Top" Width="126" RenderTransformOrigin="0.387,-0.45" Click="QuerySearchButton_Click"/>
         <Label Content="Interests" HorizontalAlignment="Left" Margin="24,140,0,0" VerticalAlignment="Top" Width="74" FontSize="14"/>
         <Button x:Name="removeInterestButton" ToolTip="Removes any images that are associated with this interest unless they have been marked as favorite." Content="Remove Interest" HorizontalAlignment="Left" Margin="51,382,0,0" VerticalAlignment="Top" Width="152" Click="RemoveInterestButton_Click"/>
-        <Button x:Name="downloadButton" Content="Download New Collection" ToolTip="Select an interest from the interest list to download a new collection." HorizontalAlignment="Left" Margin="430,237,0,0" VerticalAlignment="Top" Width="190" Height="46" Click="DownloadButton_Click" />
+        <Button x:Name="downloadButton" Content="Download New Collection" ToolTip="Select an interest from the interest list to download a new collection." HorizontalAlignment="Left" Margin="430,237,0,0" VerticalAlignment="Top" Width="190" Height="46" Click="DownloadButton_Click" BorderBrush="#FF766C6C" />
         <ProgressBar x:Name="downloadProgressBar" HorizontalAlignment="Left" Height="14" Margin="425,303,0,0" VerticalAlignment="Top" Width="175"/>
         <Label x:Name="amountImagesDownloadedLabel" Content="" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="47" Height="23" Margin="600,294,0,0"/>
         <Button x:Name="settingsButton" Content="Settings" HorizontalAlignment="Left" Margin="430,332,0,0" VerticalAlignment="Top" Width="190" Height="29" Click="SettingsButton_Click"/>
@@ -38,7 +38,7 @@
             </ListView.View>
         </ListView>
         <Label x:Name="connectionLabel" Content="Connected" HorizontalAlignment="Left" Height="22" Margin="561,67,0,0" VerticalAlignment="Top" Width="158" Foreground="#FF3BE25A" FontWeight="Bold" FontFamily="SimSun"/>
-        <Label Content="v.0.93" HorizontalAlignment="Left" Margin="561,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,-0.308"/>
+        <Label Content="v.1.01" HorizontalAlignment="Left" Margin="561,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,-0.308"/>
 
     </Grid>
 </Window>

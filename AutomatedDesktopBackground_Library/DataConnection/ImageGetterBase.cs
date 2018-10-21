@@ -136,14 +136,15 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
         {
             int interestId = images[0].InterestId;
             List<ImageModel> oldPhotos = _fileCollection.AllImages.Where(x => x.InterestId == interestId).ToList();
-            if (oldPhotos.Count > 0)
+            List<ImageModel> unFavoritePhotos = oldPhotos.Where(x => !x.IsFavorite).ToList();
+            if (unFavoritePhotos.Count > 0)
             {
-                foreach (ImageModel i in oldPhotos)
+                foreach (ImageModel i in unFavoritePhotos)
                 {
                     i.IsDownloaded = false;
                     DataKeeper.DeleteImage(i, true);
                 }
-                oldPhotos.ForEach(x => DataKeeper.AddImage(x));
+                unFavoritePhotos.ForEach(x => DataKeeper.AddImage(x));
             }
         }
 

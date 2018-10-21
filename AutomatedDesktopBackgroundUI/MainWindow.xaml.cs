@@ -73,9 +73,16 @@ namespace AutomatedDesktopBackgroundUI
 
         private void RemoveInterestButton_Click(object sender, RoutedEventArgs e)
         {
-            viewController.RemoveInterest(interestListView.SelectedValue.ToString());
-            interestListView.ItemsSource = viewController.interests;
-            interestListView.Items.Refresh();
+            try
+            {
+                viewController.RemoveInterest(interestListView.SelectedValue.ToString());
+                interestListView.ItemsSource = viewController.interests;
+                interestListView.Items.Refresh();
+            }
+            catch
+            {
+                System.Windows.MessageBox.Show("Couldn't remove this interest");
+            }
         }
 
         private void WireDependencies()
@@ -119,57 +126,74 @@ namespace AutomatedDesktopBackgroundUI
 
         private async void QuerySearchButton_Click(object sender, RoutedEventArgs e)
         {
-            if (GlobalConfig.IsConnected())
-            {
-                querySearchButton.IsEnabled = false;
-                if (!string.IsNullOrEmpty(queryTextBox.Text))
-                {
-                    string formatedText = queryTextBox.Text.MakePrettyString();
-                    if (!viewController.InterestExists(formatedText))
-                    {
-                        await viewController.AddInterest(formatedText);
-                        queryTextBox.Text = "";
-                    }
-                    else
-                    {
-                        queryTextBox.Text = "";
-                    }
-                }
-
-                interestListView.ItemsSource = viewController.interests;
-                interestListView.Items.Refresh();
-                querySearchButton.IsEnabled = true;
-            }
-            else
-            {
-                System.Windows.MessageBox.Show("No internet Connection");
-            }
-        }
-
-        private void DownloadButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (interestListView.SelectedValue != null)
+            try
             {
                 if (GlobalConfig.IsConnected())
                 {
-                    int totalImages = viewController.GetInterestTotalImages(interestListView.SelectedValue.ToString());
-                    if (totalImages > 0)
+                    querySearchButton.IsEnabled = false;
+                    if (!string.IsNullOrEmpty(queryTextBox.Text))
                     {
-                        viewController.DownloadNewCollection(interestListView.SelectedValue.ToString());
-                        downloadButton.IsEnabled = false;
-                        amountImagesDownloadedLabel.Visibility = Visibility.Visible;
-                        downloadProgressBar.Visibility = Visibility.Visible;
+                        string formatedText = queryTextBox.Text.MakePrettyString();
+                        if (!viewController.InterestExists(formatedText))
+                        {
+                            await viewController.AddInterest(formatedText);
+                            queryTextBox.Text = "";
+                        }
+                        else
+                        {
+                            queryTextBox.Text = "";
+                        }
                     }
-                    else
-                    {
-                        downloadButton.IsEnabled = false;
-                        System.Windows.MessageBox.Show("There are no images associated with that interest, please remove and try a different interest, Sent from MainWindow.cs");
-                    }
+
+                    interestListView.ItemsSource = viewController.interests;
+                    interestListView.Items.Refresh();
+                    querySearchButton.IsEnabled = true;
                 }
                 else
                 {
                     System.Windows.MessageBox.Show("No internet Connection");
                 }
+            }
+            catch(Exception ex)
+            {
+                System.Windows.MessageBox.Show("Couldn't make this search");
+                System.Windows.MessageBox.Show($"{ex.StackTrace}");
+            }
+        }
+
+        private void DownloadButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (interestListView.SelectedValue != null)
+                {
+                    if (GlobalConfig.IsConnected())
+                    {
+                        int totalImages = viewController.GetInterestTotalImages(interestListView.SelectedValue.ToString());
+                        if (totalImages > 0)
+                        {
+                            viewController.DownloadNewCollection(interestListView.SelectedValue.ToString());
+                            downloadButton.IsEnabled = false;
+                            amountImagesDownloadedLabel.Visibility = Visibility.Visible;
+                            downloadProgressBar.Visibility = Visibility.Visible;
+                        }
+                        else
+                        {
+                            downloadButton.IsEnabled = false;
+                            System.Windows.MessageBox.Show("There are no images associated with that interest, please remove and try a different interest, Sent from MainWindow.cs");
+                        }
+                    }
+                    else
+                    {
+                        System.Windows.MessageBox.Show("No internet Connection");
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                System.Windows.MessageBox.Show("The Download Process encountered a bug");
+                System.Windows.MessageBox.Show(ex.StackTrace);
+
             }
         }
 
@@ -188,43 +212,81 @@ namespace AutomatedDesktopBackgroundUI
 
         private void StartBackgroundRefreshButton_Copy_Click(object sender, RoutedEventArgs e)
         {
-            if (viewController.AreAnyImagesDownloaded())
+
+            try
             {
-                this.Dispatcher.Invoke(() => viewController.StartBackGroundRefresh());
-                viewController.SetPageState(ButtonCommands.StartBackground);
+                if (viewController.AreAnyImagesDownloaded())
+                {
+                    this.Dispatcher.Invoke(() => viewController.StartBackGroundRefresh());
+                    viewController.SetPageState(ButtonCommands.StartBackground);
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("No Images downloaded. Please download before some images before attempting to set the background.");
+                }
             }
-            else
+            catch ( Exception ex)
             {
-                System.Windows.MessageBox.Show("No Images downloaded. Please download before some images before attempting to set the background.");
+
+                System.Windows.MessageBox.Show("The background refreshing process failed to start");
+                System.Windows.MessageBox.Show(ex.StackTrace);
             }
         }
 
         private void StartCollectionRefreshButton_Copy_Click(object sender, RoutedEventArgs e)
         {
-            if (viewController.AreAnyImagesDownloaded())
+
+            try
             {
-                this.Dispatcher.Invoke(() =>
-            viewController.StartCollectionRefresh());
-                viewController.SetPageState(ButtonCommands.StartCollections);
+                if (viewController.AreAnyImagesDownloaded())
+                {
+                    this.Dispatcher.Invoke(() =>
+                viewController.StartCollectionRefresh());
+                    viewController.SetPageState(ButtonCommands.StartCollections);
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show("No Images downloaded. Please download before some images before attempting to set the background.");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                System.Windows.MessageBox.Show("No Images downloaded. Please download before some images before attempting to set the background.");
+
+                System.Windows.MessageBox.Show("Failed to start the collection refreshing process");
+                System.Windows.MessageBox.Show(ex.StackTrace);
             }
         }
 
         private void StopCollectionRefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Dispatcher.Invoke(() =>
-            viewController.StopCollectionChange());
-            viewController.SetPageState(ButtonCommands.StopCollections);
+            try
+            {
+                this.Dispatcher.Invoke(() =>
+                    viewController.StopCollectionChange());
+                viewController.SetPageState(ButtonCommands.StopCollections);
+            }
+            catch (Exception ex)
+            {
+
+                System.Windows.MessageBox.Show("Failed to stop the collection refresh process");
+                System.Windows.MessageBox.Show(ex.StackTrace);
+            }
         }
 
         private void StopBackgroundRefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Dispatcher.Invoke(() =>
-            viewController.StopBackGroundRefresh());
-            viewController.SetPageState(ButtonCommands.StopBackground);
+            try
+            {
+                this.Dispatcher.Invoke(() =>
+                    viewController.StopBackGroundRefresh());
+                viewController.SetPageState(ButtonCommands.StopBackground);
+            }
+            catch (Exception ex)
+            {
+
+                System.Windows.MessageBox.Show("Failed to stop the background refresh job");
+                System.Windows.MessageBox.Show(ex.StackTrace);
+            }
         }
 
         #endregion Background and Collection Buttons

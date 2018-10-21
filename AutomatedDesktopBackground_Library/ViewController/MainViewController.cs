@@ -139,6 +139,7 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public bool AreAnyImagesDownloaded()
         {
+            OnFileUpdate();
             List<ImageModel> images = _fileCollection.AllImages;
             return images.Count > 0;
         }
