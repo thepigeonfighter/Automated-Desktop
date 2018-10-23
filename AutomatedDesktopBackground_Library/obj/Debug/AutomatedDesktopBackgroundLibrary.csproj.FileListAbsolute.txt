@@ -10,3 +10,15 @@ C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroun
 C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.dll
 C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.pdb
 C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.csprojAssemblyReference.cache
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Debug\AutomatedDesktopBackgroundLibrary.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Debug\AutomatedDesktopBackgroundLibrary.pdb
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Debug\Newtonsoft.Json.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Debug\Quartz.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Debug\Newtonsoft.Json.xml
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Debug\Quartz.pdb
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\bin\Debug\Quartz.xml
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.csprojAssemblyReference.cache
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.csproj.CoreCompileInputs.cache
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.csproj.CopyComplete
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.pdb
