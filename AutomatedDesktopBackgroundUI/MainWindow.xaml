@@ -143,7 +143,7 @@
 
     <Grid>
         <Label x:Name="header" Content="Automated Desktop Background" HorizontalAlignment="Left" Padding="30,14,15,10" Margin="10,15,0,0" VerticalAlignment="Top" FontFamily="MS Gothic" FontSize="36" Foreground="#FF535252" Height="66" Width="661" RenderTransformOrigin="0.5,0.5" Background="{x:Null}"/>
-        <TextBox x:Name="queryTextBox" HorizontalAlignment="Left" Height="36" Padding="20,4,10,10" Margin="465,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="219" Background="#FF535252" SelectionBrush="#FF828587" Foreground="#FFDBDBDB" FontSize="18" FontWeight="Bold" >
+        <TextBox x:Name="queryTextBox" HorizontalAlignment="Left" Height="41" Padding="20,4,10,10" Margin="465,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="219" Background="#FF535252" SelectionBrush="#FF828587" Foreground="#FFDBDBDB" FontSize="18" FontWeight="Bold" >
             <TextBox.BorderBrush>
                 <ImageBrush ImageSource="Images/Border.png"/>
             </TextBox.BorderBrush>
@@ -162,8 +162,8 @@
                 HorizontalAlignment="Left" Margin="465,301,0,0" VerticalAlignment="Top" Width="219" Height="42" Click="DownloadButton_Click" BorderBrush="{x:Null}" FontFamily="Tahoma" FontWeight="Bold" >
 
         </Button>
-        <ProgressBar x:Name="downloadProgressBar" HorizontalAlignment="Left" Height="15" Margin="475,358,0,0" VerticalAlignment="Top" Width="192" />
-        <Label x:Name="amountImagesDownloadedLabel" Content="" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="53" Height="25" Margin="675,355,0,0"/>
+        <ProgressBar x:Name="downloadProgressBar" HorizontalAlignment="Left" Height="15" Margin="475,358,0,0" VerticalAlignment="Top" Width="192" Foreground="#FF9CD4A6" />
+        <Label x:Name="amountImagesDownloadedLabel" Content="" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="53" Padding="10" Height="35" Margin="675,348,0,0" FontFamily="Tahoma"/>
         <Button x:Name="settingsButton" Style="{StaticResource settingsButtonStyle}" Content=""   Margin="771,16,79,0" VerticalAlignment="Top" Width="50" Height="50" Click="SettingsButton_Click"  Foreground="{x:Null}">
         </Button>
         <Button x:Name="closeWindowButton" Style="{StaticResource closeApplicationStyle}" Content="" HorizontalAlignment="Left" Margin="831,13.843,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="CloseWindowButtonClick" BorderBrush="{x:Null}" RenderTransformOrigin="0.167,0.673">
@@ -187,7 +187,7 @@
         <ListView x:Name="interestListView" Padding="10" HorizontalAlignment="Left" Height="185" Margin="24,188,0,0" 
                   VerticalAlignment="Top" Width="350" SelectionChanged="InterestListView_SelectionChanged" 
                   BorderBrush="{x:Null}" Foreground="#FF5B5B5B"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" FontFamily="Tahoma" 
                   >
             <ListView.Background>
                 <ImageBrush ImageSource="Images/RoundedSquare.png"/>

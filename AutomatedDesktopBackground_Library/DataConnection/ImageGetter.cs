@@ -33,8 +33,6 @@ namespace AutomatedDesktopBackgroundLibrary
         public void GetImage(string imageUrl, string folderName, bool userRequested)
         {
             totalDownloadsRequested = ExpectedDownloadAmount;
-            // string downloadPath = folderName.CreateDirectory().FullName;
-
             InterestModel interest = folderName.GetInterestByName();
             Directory.CreateDirectory($@"{InternalFileDirectorySystem.ImagesFolder}\{interest.Name}");
             ImageModel imageToDownload = _imageBuilder.Build(imageUrl, interest);
@@ -158,7 +156,8 @@ namespace AutomatedDesktopBackgroundLibrary
 
             if (e.Error != null) // We have an error! Retry a few times, then abort.
             {
-                CustomMessageBox.Show(e.Error.InnerException.ToString());
+                //TODO Make these errors hook up to a log system to keep track of them 
+               // MessageBox.Show(e.Error.InnerException.ToString());
                 HandleError();
             }
             ExpectedDownloadAmount--;
@@ -168,7 +167,7 @@ namespace AutomatedDesktopBackgroundLibrary
                 SubmitChanges();
             }
             else
-            {
+            { 
                 HandleImageDownload();
             }
         }
@@ -180,8 +179,9 @@ namespace AutomatedDesktopBackgroundLibrary
                 GiveEachImageAnId();
                 if (errorIndex.Count > 0)
                 {
+                    string error = errorIndex.Count > 1 ? "errors" : "error";
                     GlobalConfig.EventSystem.
-                        InvokeErrorsEncounteredEvent($"Encountered {errorIndex.Count} errors in download process, " +
+                        InvokeErrorsEncounteredEvent($"Encountered {errorIndex.Count} {error} in download process, " +
                         $"corrupted files have been deleted and download is complete");
                     RemoveCorruptedImages();
                     images = images.Where(x => x.IsDownloaded).ToList();

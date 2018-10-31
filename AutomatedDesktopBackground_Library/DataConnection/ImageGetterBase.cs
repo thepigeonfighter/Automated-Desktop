@@ -41,7 +41,6 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
             errorIndex.Add(totalDownloadsRequested - ExpectedDownloadAmount);
             if (_IsUserRequested)
             {
-                //CustomMessageBox.Show(e.Error.InnerException.ToString());
                 GlobalConfig.EventSystem.InvokeDownloadImageEvent("!");
             }
         }
