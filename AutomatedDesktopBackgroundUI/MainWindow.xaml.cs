@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Forms;
 using AutomatedDesktopBackgroundLibrary.Utility;
+using System.Windows.Input;
+
 namespace AutomatedDesktopBackgroundUI
 {
     /// <summary>
@@ -304,6 +306,13 @@ namespace AutomatedDesktopBackgroundUI
             GlobalConfig.EventSystem.OnErrorsEncounteredDuringDownloadEvent += ErrorsEncounteredEvent;
             interestListView.MouseDoubleClick += InterestListView_MouseDoubleClick;
             viewController.OnPageStateChange += CheckPageState;
+            this.MouseLeftButtonDown += DragWindow;
+        }
+
+        private void DragWindow(object sender, MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            this.DragMove();
         }
 
         private void ErrorsEncounteredEvent(object sender, string e)

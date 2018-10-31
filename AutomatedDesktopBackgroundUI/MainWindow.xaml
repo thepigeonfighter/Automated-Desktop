@@ -8,7 +8,7 @@
         
         Title="MainWindow" Height="450" Width="900" WindowStartupLocation="CenterScreen" 
         MinWidth="900" MinHeight="450" Icon="pack://siteoforigin:,,,/Images/Icon.ico" AllowsTransparency="True"
-        Foreground="White" WindowStyle="None" VisualBitmapScalingMode="Fant" ResizeMode="CanResizeWithGrip" 
+        Foreground="White" WindowStyle="None" VisualBitmapScalingMode="Fant" 
             
         >
     <Window.Resources>
