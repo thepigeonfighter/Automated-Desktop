@@ -16,19 +16,18 @@ namespace AutomatedDesktopBackgroundUI
             InitializeComponent();
             WindowManager.RegisterWindow(this);
             Window window = new MainWindow();
-            CheckForUpdates();
+            Task.Run(()=>CheckForUpdates());
             Hide();
             window.Show();
         }
         private async Task CheckForUpdates()
         {
             //TODO hook this up to an online repository
-
-                string path = @"C:\TempRelease\Releases";
-                using (var manager = new UpdateManager(path))
-                {
-                    await manager.UpdateApp();
-                }
+            string path = @"https://github.com/thepigeonfighter/Automated-Desktop";
+            using (var manager = UpdateManager.GitHubUpdateManager(path))
+            {
+                await manager.Result.UpdateApp();
+            }
         }
 
     }

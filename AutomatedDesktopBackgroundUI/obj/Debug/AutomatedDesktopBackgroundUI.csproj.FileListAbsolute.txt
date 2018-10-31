@@ -27,9 +27,6 @@ C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroun
 C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI.csproj.CopyComplete
 C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI.exe
 C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI.pdb
-F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\AutomatedDesktopBackgroundUI.exe.config
-F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\AutomatedDesktopBackgroundUI.exe
-F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\AutomatedDesktopBackgroundUI.pdb
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\AutomatedDesktopBackgroundLibrary.dll
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Newtonsoft.Json.dll
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Quartz.dll
@@ -42,19 +39,14 @@ F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroun
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\RootWindow.g.cs
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\SettingsWindow.g.cs
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\App.g.cs
-F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI_MarkupCompile.cache
-F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI_MarkupCompile.lref
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\App.baml
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\MainWindow.baml
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\RootWindow.baml
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\SettingsWindow.baml
-F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI.g.resources
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI.Properties.Resources.resources
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI.csproj.GenerateResource.cache
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI.csproj.CoreCompileInputs.cache
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI.csproj.CopyComplete
-F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI.exe
-F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI.pdb
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\DeltaCompressionDotNet.dll
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\DeltaCompressionDotNet.MsDelta.dll
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\DeltaCompressionDotNet.PatchApi.dll
@@ -71,3 +63,11 @@ F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroun
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Squirrel.pdb
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\WarningWindow.g.cs
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\WarningWindow.baml
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Automated Desktop.exe.config
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Automated Desktop.exe
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Automated Desktop.pdb
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop_MarkupCompile.cache
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop_MarkupCompile.lref
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop.g.resources
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop.exe
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop.pdb
