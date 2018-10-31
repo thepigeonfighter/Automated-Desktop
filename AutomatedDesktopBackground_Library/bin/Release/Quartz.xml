@@ -4537,6 +4537,19 @@
             </returns>
             <throws>  SQLException </throws>
         </member>
+        <member name="M:Quartz.Impl.AdoJobStore.IDriverDelegate.UpdateTriggerStateFromOtherStateWithNextFireTime(Quartz.Impl.AdoJobStore.ConnectionAndTransactionHolder,Quartz.TriggerKey,System.String,System.String,System.DateTimeOffset,System.Threading.CancellationToken)">
+            <summary>
+            Update the given trigger to the given new state, if it is in the given
+            old state and has the given next fire time.
+            </summary>
+            <param name="conn">The DB connection</param>
+            <param name="triggerKey">The key identifying the trigger.</param>
+            <param name="newState">The new state for the trigger </param>
+            <param name="oldState">The old state the trigger must be in</param>
+            <param name="nextFireTime">The next fire time the trigger must have</param>
+            <param name="cancellationToken">The cancellation instruction.</param>
+            <returns> int the number of rows updated</returns>
+        </member>
         <member name="M:Quartz.Impl.AdoJobStore.IDriverDelegate.UpdateTriggerGroupStateFromOtherStates(Quartz.Impl.AdoJobStore.ConnectionAndTransactionHolder,Quartz.Impl.Matchers.GroupMatcher{Quartz.TriggerKey},System.String,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Update all triggers in the given group to the given new state, if they
@@ -5925,6 +5938,17 @@
             Rollback the supplied connection.
             </summary>
         </member>
+        <member name="M:Quartz.Impl.AdoJobStore.JobStoreSupport.IsTransient(System.Exception)">
+             <summary>
+             Taken from https://github.com/aspnet/EntityFrameworkCore/blob/d59be61006d78d507dea07a9779c3c4103821ca3/src/EFCore.SqlServer/Storage/Internal/SqlServerTransientExceptionDetector.cs
+             and merged with https://docs.microsoft.com/en-us/azure/sql-database/sql-database-develop-error-messages
+            
+             Copied from EFCore because it states "not intended to be used directly from your code" and we don't
+             want EF leaking into Quartz.
+             </summary>
+             <param name="ex"></param>
+             <returns>If the exception is identified as transient.</returns>
+        </member>
         <member name="M:Quartz.Impl.AdoJobStore.JobStoreSupport.CommitConnection(Quartz.Impl.AdoJobStore.ConnectionAndTransactionHolder,System.Boolean)">
             <summary>
             Commit the supplied connection.
@@ -6621,6 +6645,19 @@
             <param name="oldState">the old state the trigger must be in</param>
             <param name="cancellationToken">The cancellation instruction.</param>
             <returns>int the number of rows updated</returns>
+        </member>
+        <member name="M:Quartz.Impl.AdoJobStore.StdAdoDelegate.UpdateTriggerStateFromOtherStateWithNextFireTime(Quartz.Impl.AdoJobStore.ConnectionAndTransactionHolder,Quartz.TriggerKey,System.String,System.String,System.DateTimeOffset,System.Threading.CancellationToken)">
+            <summary>
+            Update the given trigger to the given new state, if it is in the given
+            old state and has the given next fire time.
+            </summary>
+            <param name="conn">The DB connection</param>
+            <param name="triggerKey">The key identifying the trigger.</param>
+            <param name="newState">The new state for the trigger </param>
+            <param name="oldState">The old state the trigger must be in</param>
+            <param name="nextFireTime">The next fire time the trigger must have</param>
+            <param name="cancellationToken">The cancellation instruction.</param>
+            <returns> int the number of rows updated</returns>
         </member>
         <member name="M:Quartz.Impl.AdoJobStore.StdAdoDelegate.UpdateTriggerGroupStateFromOtherState(Quartz.Impl.AdoJobStore.ConnectionAndTransactionHolder,Quartz.Impl.Matchers.GroupMatcher{Quartz.TriggerKey},System.String,System.String,System.Threading.CancellationToken)">
             <summary>

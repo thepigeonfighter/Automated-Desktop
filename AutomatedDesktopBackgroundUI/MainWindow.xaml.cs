@@ -18,6 +18,7 @@ namespace AutomatedDesktopBackgroundUI
         public MainWindow()
         {
             InitializeComponent();
+            GetVersionNumber();
             WireEvents();
             BuildNotifyIcon();
             WireDependencies();
@@ -42,7 +43,12 @@ namespace AutomatedDesktopBackgroundUI
             ADIcon.Icon = myIcon;
             ADIcon.DoubleClick += OnNotifyIconDoubleClik;
         }
-
+        private void GetVersionNumber()
+        {
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
+            versionLabel.Content = $"v.{info.FileVersion}";
+        }
         private void OnResize(object sender, EventArgs e)
         {
             if (this.WindowState == WindowState.Minimized)

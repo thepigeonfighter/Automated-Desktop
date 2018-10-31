@@ -132,7 +132,7 @@ namespace AutomatedDesktopBackgroundUI {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/AutomatedDesktopBackgroundUI;component/settingswindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Automated Desktop;component/settingswindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\SettingsWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

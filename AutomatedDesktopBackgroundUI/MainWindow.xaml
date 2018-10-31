@@ -202,7 +202,7 @@
             </ListView.View>
         </ListView>
         <Label x:Name="connectionLabel" Content="Connected" HorizontalAlignment="Left" Height="24" Margin="564,66.03,0,0" VerticalAlignment="Top" Width="182" Foreground="#FF5C9C68" FontWeight="Bold" FontFamily="SimSun"/>
-        <Label Content="v.1.2" HorizontalAlignment="Left" Margin="564,45.893,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,-0.308" Height="28" Width="46"/>
+        <Label x:Name="versionLabel" Content="v.1.2" HorizontalAlignment="Left" Margin="564,45.893,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,-0.308" Height="28" Width="46"/>
         <Label Content="Results" HorizontalAlignment="Left" Margin="235,159.38,0,0" VerticalAlignment="Top" Width="74" FontSize="14" RenderTransformOrigin="0.527,0.804" Foreground="#FF535252" FontFamily="Tahoma"/>
         <Button x:Name="quitApplicationButton" Style="{StaticResource simpleButtonStyle}" Padding="10"
             ToolTip="Select an interest from the interest list to download a new collection." ContentStringFormat="Exit Application"

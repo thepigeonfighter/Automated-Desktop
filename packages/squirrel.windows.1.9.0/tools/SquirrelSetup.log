@@ -1,0 +1,121 @@
+﻿2018-10-31 11:55:10> Program: Starting Squirrel Updater: --releasify AutomatedDesktop.1.0.2.nupkg
+2018-10-31 11:55:10> Program: Bootstrapper EXE found at:F:\Users\georg\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-10-31 11:55:10> Unhandled exception: System.IO.FileNotFoundException: Could not find file 'AutomatedDesktop.1.0.2.nupkg'.
+File name: 'AutomatedDesktop.1.0.2.nupkg'
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.File.InternalCopy(String sourceFileName, String destFileName, Boolean overwrite, Boolean checkHost)
+   at System.IO.File.Copy(String sourceFileName, String destFileName, Boolean overwrite)
+   at Squirrel.Update.Program.Releasify(String package, String targetDir, String packagesDir, String bootstrapperExe, String backgroundGif, String signingOpts, String baseUrl, String setupIcon, Boolean generateMsi, String frameworkVersion, Boolean generateDeltas)
+   at Squirrel.Update.Program.executeCommandLine(String[] args)
+   at Squirrel.Update.Program.main(String[] args)
+2018-10-31 11:55:52> Program: Starting Squirrel Updater: --releasify C:\Temp\AutomatedDesktop.1.0.2.nupkg
+2018-10-31 11:55:52> Program: Bootstrapper EXE found at:F:\Users\georg\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-10-31 11:55:52> Unhandled exception: System.IO.DirectoryNotFoundException: Could not find a part of the path 'C:\Temp\AutomatedDesktop.1.0.2.nupkg'.
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.File.InternalCopy(String sourceFileName, String destFileName, Boolean overwrite, Boolean checkHost)
+   at System.IO.File.Copy(String sourceFileName, String destFileName, Boolean overwrite)
+   at Squirrel.Update.Program.Releasify(String package, String targetDir, String packagesDir, String bootstrapperExe, String backgroundGif, String signingOpts, String baseUrl, String setupIcon, Boolean generateMsi, String frameworkVersion, Boolean generateDeltas)
+   at Squirrel.Update.Program.executeCommandLine(String[] args)
+   at Squirrel.Update.Program.main(String[] args)
+2018-10-31 11:56:11> Program: Starting Squirrel Updater: --releasify C:\TempRelease\AutomatedDesktop.1.0.2.nupkg
+2018-10-31 11:56:11> Program: Bootstrapper EXE found at:F:\Users\georg\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-10-31 11:56:11> Program: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.0.2.nupkg
+2018-10-31 11:56:11> ReleasePackage: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.0.2.nupkg => F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop-1.0.2-full.nupkg
+2018-10-31 11:56:11> ReleasePackage: Extracting dependent packages: []
+2018-10-31 11:56:11> ReleasePackage: Removing unnecessary data
+2018-10-31 11:56:11> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempa\AutomatedDesktop.nuspec
+2018-10-31 11:56:12> Program: Building embedded zip file for Setup.exe
+2018-10-31 12:06:22> Program: Starting Squirrel Updater: --releasify C:\TempRelease\AutomatedDesktop.1.0.2.nupkg
+2018-10-31 12:06:22> Program: Bootstrapper EXE found at:F:\Users\georg\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-10-31 12:06:22> Program: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.0.2.nupkg
+2018-10-31 12:06:22> ReleasePackage: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.0.2.nupkg => F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop-1.0.2-full.nupkg
+2018-10-31 12:06:22> ReleasePackage: Extracting dependent packages: []
+2018-10-31 12:06:22> ReleasePackage: Removing unnecessary data
+2018-10-31 12:06:22> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempa\AutomatedDesktop.nuspec
+2018-10-31 12:06:23> Program: Building embedded zip file for Setup.exe
+2018-10-31 12:18:00> Program: Starting Squirrel Updater: --releasify C:\TempRelease\AutomatedDesktop.1.0.2.nupkg
+2018-10-31 12:18:00> Program: Bootstrapper EXE found at:F:\Users\georg\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-10-31 12:18:00> Program: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.0.2.nupkg
+2018-10-31 12:18:00> ReleasePackage: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.0.2.nupkg => F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop-1.0.2-full.nupkg
+2018-10-31 12:18:00> ReleasePackage: Extracting dependent packages: []
+2018-10-31 12:18:00> ReleasePackage: Removing unnecessary data
+2018-10-31 12:18:00> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempa\AutomatedDesktop.nuspec
+2018-10-31 12:18:01> Program: Building embedded zip file for Setup.exe
+2018-10-31 12:21:13> Program: Starting Squirrel Updater: --releasify C:\TempRelease\AutomatedDesktop.1.0.2.nupkg
+2018-10-31 12:21:13> Program: Bootstrapper EXE found at:F:\Users\georg\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-10-31 12:21:13> Program: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.0.2.nupkg
+2018-10-31 12:21:13> ReleasePackage: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.0.2.nupkg => F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop-1.0.2-full.nupkg
+2018-10-31 12:21:14> ReleasePackage: Extracting dependent packages: []
+2018-10-31 12:21:14> ReleasePackage: Removing unnecessary data
+2018-10-31 12:21:14> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempa\AutomatedDesktop.nuspec
+2018-10-31 12:21:14> Program: Building embedded zip file for Setup.exe
+2018-10-31 12:39:32> Program: Starting Squirrel Updater: --releasify C:\TempRelease\AutomatedDesktop.1.2.1.nupkg
+2018-10-31 12:39:32> Program: Bootstrapper EXE found at:F:\Users\georg\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-10-31 12:39:32> Program: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.2.1.nupkg
+2018-10-31 12:39:32> ReleasePackage: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.2.1.nupkg => F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop-1.2.1-full.nupkg
+2018-10-31 12:39:32> ReleasePackage: Extracting dependent packages: []
+2018-10-31 12:39:32> ReleasePackage: Removing unnecessary data
+2018-10-31 12:39:32> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempa\AutomatedDesktop.nuspec
+2018-10-31 12:39:33> DeltaPackageBuilder: Extracting .\Releases\AutomatedDesktop-1.0.2-full.nupkg and F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop-1.2.1-full.nupkg into C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempb
+2018-10-31 12:39:34> DeltaPackageBuilder: \lib\net45\AutomatedDesktopBackgroundLibrary.dll hasn't changed, writing dummy file
+2018-10-31 12:39:34> DeltaPackageBuilder: Delta patching C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempa\lib\net45\AutomatedDesktopBackgroundUI.exe => C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempb\lib\net45\AutomatedDesktopBackgroundUI.exe
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\AutomatedDesktopBackgroundUI.exe.config hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: Delta patching C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempa\lib\net45\AutomatedDesktopBackgroundUI_ExecutionStub.exe => C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempb\lib\net45\AutomatedDesktopBackgroundUI_ExecutionStub.exe
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\DeltaCompressionDotNet.dll hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\DeltaCompressionDotNet.MsDelta.dll hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\DeltaCompressionDotNet.PatchApi.dll hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\Mono.Cecil.dll hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\Mono.Cecil.Mdb.dll hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\Mono.Cecil.Pdb.dll hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\Mono.Cecil.Rocks.dll hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\Newtonsoft.Json.dll hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\NuGet.Squirrel.dll hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\PexelsNet.dll hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\Quartz.dll hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\SharpCompress.dll hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\Splat.dll hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\Squirrel.dll hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\Images\Background Pane.png hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\Images\Background Pane_WBorder.png hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\Images\Border.png hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\Images\CloseButton.png hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\Images\Icon.ico hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\Images\MainWindowPane.png hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\Images\RoundedSquare.png hasn't changed, writing dummy file
+2018-10-31 12:39:35> DeltaPackageBuilder: \lib\net45\Images\Settings Button2.png hasn't changed, writing dummy file
+2018-10-31 12:39:35> Program: Building embedded zip file for Setup.exe
+2018-10-31 14:14:33> Program: Starting Squirrel Updater: --releasify C:\TempRelease\AutomatedDesktop.1.2.2.nupkg
+2018-10-31 14:14:33> Program: Bootstrapper EXE found at:F:\Users\georg\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-10-31 14:14:33> Program: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.2.2.nupkg
+2018-10-31 14:14:33> ReleasePackage: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.2.2.nupkg => F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop-1.2.2-full.nupkg
+2018-10-31 14:14:34> ReleasePackage: Extracting dependent packages: []
+2018-10-31 14:14:34> ReleasePackage: Removing unnecessary data
+2018-10-31 14:14:34> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempa\AutomatedDesktop.nuspec
+2018-10-31 14:14:34> DeltaPackageBuilder: Extracting .\Releases\AutomatedDesktop-1.2.1-full.nupkg and F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop-1.2.2-full.nupkg into C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempb
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Automated Desktop.exe not found in base package, marking as new
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Automated Desktop.exe.config not found in base package, marking as new
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Automated Desktop_ExecutionStub.exe not found in base package, marking as new
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\AutomatedDesktopBackgroundLibrary.dll hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\DeltaCompressionDotNet.dll hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\DeltaCompressionDotNet.MsDelta.dll hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\DeltaCompressionDotNet.PatchApi.dll hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Mono.Cecil.dll hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Mono.Cecil.Mdb.dll hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Mono.Cecil.Pdb.dll hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Mono.Cecil.Rocks.dll hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Newtonsoft.Json.dll hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\NuGet.Squirrel.dll hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\PexelsNet.dll hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Quartz.dll hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\SharpCompress.dll hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Splat.dll hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Squirrel.dll hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Images\Background Pane.png hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Images\Background Pane_WBorder.png hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Images\Border.png hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Images\CloseButton.png hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Images\Icon.ico hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Images\MainWindowPane.png hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Images\RoundedSquare.png hasn't changed, writing dummy file
+2018-10-31 14:14:35> DeltaPackageBuilder: \lib\net45\Images\Settings Button2.png hasn't changed, writing dummy file
+2018-10-31 14:14:35> Program: Building embedded zip file for Setup.exe

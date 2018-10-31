@@ -1,4 +1,4 @@
-﻿AutomatedDesktopBackgroundUI
+﻿Automated Desktop
 
 
 winexe
@@ -10,11 +10,11 @@ none
 false
 TRACE
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\App.xaml
-31942805479
+4-1357155454
 
-8830394102
-221361307942
-MainWindow.xaml;RootWindow.xaml;SettingsWindow.xaml;
+131632206621
+32-1781096520
+MainWindow.xaml;RootWindow.xaml;SettingsWindow.xaml;WarningWindow.xaml;
 
-True
+False
 
