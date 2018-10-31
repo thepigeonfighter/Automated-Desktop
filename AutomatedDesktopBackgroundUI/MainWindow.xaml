@@ -148,7 +148,7 @@
                 <ImageBrush ImageSource="Images/Border.png"/>
             </TextBox.BorderBrush>
         </TextBox>
-        <Button x:Name="querySearchButton" Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Add Interest" HorizontalAlignment="Left" Margin="465,245,0,0" VerticalAlignment="Top" Width="219" Click="QuerySearchButton_Click" Height="42" BorderBrush="{x:Null}" FontFamily="Tahoma" FontWeight="Bold">
+        <Button x:Name="querySearchButton" Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Add Interest" HorizontalAlignment="Left" Margin="465,245,0,0" VerticalAlignment="Top" Width="219" Click="QuerySearchButton_Click" Height="42" BorderBrush="#FFDBDBDB" FontFamily="Tahoma" FontWeight="Bold">
 
         </Button>
         <Label Content="Interests" HorizontalAlignment="Left" Margin="34,159.38,0,0" VerticalAlignment="Top" Width="74" FontSize="14" RenderTransformOrigin="0.527,0.804" Foreground="#FF535252" FontFamily="Tahoma"/>

@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using AutomatedDesktopBackgroundLibrary.Utility;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace AutomatedDesktopBackgroundLibrary.DataConnection
@@ -39,7 +41,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
             errorIndex.Add(totalDownloadsRequested - ExpectedDownloadAmount);
             if (_IsUserRequested)
             {
-                //MessageBox.Show(e.Error.InnerException.ToString());
+                //CustomMessageBox.Show(e.Error.InnerException.ToString());
                 GlobalConfig.EventSystem.InvokeDownloadImageEvent("!");
             }
         }
@@ -59,7 +61,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
             if (_IsUserRequested)
             {
                 GlobalConfig.EventSystem.InvokeDownloadImageEvent("Download Cancelled");
-                MessageBox.Show("The download has been cancelled");
+                CustomMessageBox.Show("The download has been cancelled");
             }
         }
 
@@ -73,22 +75,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
             }
             GlobalConfig.InCollectionRefresh = false;
         }
-
-        protected void DisplayDownloadCompletionMessage()
-        {
-            if (_IsUserRequested)
-            {
-                if (errorIndex.Count == 0)
-                {
-                    MessageBox.Show("Download Complete!");
-                }
-                else
-                {
-                    MessageBox.Show($"Encountered {errorIndex.Count} errors in download process, corrupted files have been deleted and download is complete");
-                    errorIndex.Clear();
-                }
-            }
-        }
+        
 
         protected void RemoveCorruptedImages()
         {

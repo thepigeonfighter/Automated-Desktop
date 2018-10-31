@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutomatedDesktopBackgroundLibrary.Utility;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -132,7 +133,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
             }
             catch (IOException)
             {
-                MessageBox.Show("Please close any open files before attempting to reset application.");
+                CustomMessageBox.Show("Please close any open files before attempting to reset application.");
             }
             GlobalConfig.EventSystem.InvokeApplicationResetEvent();
         }

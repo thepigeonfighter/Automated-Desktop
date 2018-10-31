@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Forms;
-
+using AutomatedDesktopBackgroundLibrary.Utility;
 namespace AutomatedDesktopBackgroundUI
 {
     /// <summary>
@@ -74,7 +74,7 @@ namespace AutomatedDesktopBackgroundUI
             }
             catch
             {
-                System.Windows.MessageBox.Show("Couldn't remove this interest");
+                CustomMessageBox.Show("Couldn't remove this interest");
             }
         }
 
@@ -144,13 +144,13 @@ namespace AutomatedDesktopBackgroundUI
                 }
                 else
                 {
-                    System.Windows.MessageBox.Show("No internet Connection");
+                    CustomMessageBox.Show("No internet Connection");
                 }
             }
             catch(Exception ex)
             {
-                System.Windows.MessageBox.Show("Couldn't make this search");
-                System.Windows.MessageBox.Show($"{ex.StackTrace}");
+                CustomMessageBox.Show("Couldn't make this search");
+                CustomMessageBox.Show($"{ex.StackTrace}");
             }
         }
 
@@ -173,19 +173,19 @@ namespace AutomatedDesktopBackgroundUI
                         else
                         {
                             downloadButton.IsEnabled = false;
-                            System.Windows.MessageBox.Show("There are no images associated with that interest, please remove and try a different interest, Sent from MainWindow.cs");
+                            CustomMessageBox.Show("There are no images associated with that interest, please remove and try a different interest, Sent from MainWindow.cs");
                         }
                     }
                     else
                     {
-                        System.Windows.MessageBox.Show("No internet Connection");
+                        CustomMessageBox.Show("No internet Connection");
                     }
                 }
             }
             catch(Exception ex)
             {
-                System.Windows.MessageBox.Show("The Download Process encountered a bug");
-                System.Windows.MessageBox.Show(ex.StackTrace);
+                CustomMessageBox.Show("The Download Process encountered a bug");
+                CustomMessageBox.Show(ex.StackTrace);
 
             }
         }
@@ -224,14 +224,14 @@ namespace AutomatedDesktopBackgroundUI
                 }
                 else
                 {
-                    System.Windows.MessageBox.Show("No Images downloaded. Please download before some images before attempting to set the background.");
+                    CustomMessageBox.Show("No Images downloaded. Please download before some images before attempting to set the background.");
                 }
             }
             catch ( Exception ex)
             {
 
-                System.Windows.MessageBox.Show("The background refreshing process failed to start");
-                System.Windows.MessageBox.Show(ex.StackTrace);
+                CustomMessageBox.Show("The background refreshing process failed to start");
+                CustomMessageBox.Show(ex.StackTrace);
             }
         }
 
@@ -248,14 +248,14 @@ namespace AutomatedDesktopBackgroundUI
                 }
                 else
                 {
-                    System.Windows.MessageBox.Show("No Images downloaded. Please download before some images before attempting to set the background.");
+                    CustomMessageBox.Show("No Images downloaded. Please download before some images before attempting to set the background.");
                 }
             }
             catch (Exception ex)
             {
 
-                System.Windows.MessageBox.Show("Failed to start the collection refreshing process");
-                System.Windows.MessageBox.Show(ex.StackTrace);
+                CustomMessageBox.Show("Failed to start the collection refreshing process");
+                CustomMessageBox.Show(ex.StackTrace);
             }
         }
 
@@ -270,8 +270,8 @@ namespace AutomatedDesktopBackgroundUI
             catch (Exception ex)
             {
 
-                System.Windows.MessageBox.Show("Failed to stop the collection refresh process");
-                System.Windows.MessageBox.Show(ex.StackTrace);
+                CustomMessageBox.Show("Failed to stop the collection refresh process");
+                CustomMessageBox.Show(ex.StackTrace);
             }
         }
 
@@ -286,8 +286,8 @@ namespace AutomatedDesktopBackgroundUI
             catch (Exception ex)
             {
 
-                System.Windows.MessageBox.Show("Failed to stop the background refresh job");
-                System.Windows.MessageBox.Show(ex.StackTrace);
+                CustomMessageBox.Show("Failed to stop the background refresh job");
+                CustomMessageBox.Show(ex.StackTrace);
             }
         }
 
@@ -303,8 +303,14 @@ namespace AutomatedDesktopBackgroundUI
             GlobalConfig.EventSystem.UpdateBackgroundEvent += EventSystem_UpdateBackgroundEvent;
             GlobalConfig.EventSystem.ImageHatingHasCompletedEvent += EventSystem_ImageHatingHasCompleted;
             GlobalConfig.EventSystem.ApplicationResetEvent += EventSystem_ApplicationResetEvent;
+            GlobalConfig.EventSystem.OnErrorsEncounteredDuringDownloadEvent += ErrorsEncounteredEvent;
             interestListView.MouseDoubleClick += InterestListView_MouseDoubleClick;
             viewController.OnPageStateChange += CheckPageState;
+        }
+
+        private void ErrorsEncounteredEvent(object sender, string e)
+        {
+           this.Dispatcher.Invoke(()=> CustomMessageBox.Show(e));
         }
 
         private void InterestListView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -408,6 +414,7 @@ namespace AutomatedDesktopBackgroundUI
 
         private void EventSystem_DownloadCompleteEvent(object sender, bool e)
         {
+            this.Dispatcher.Invoke(() => CustomMessageBox.Show("Download Complete!"));
             this.Dispatcher.Invoke(() => downloadButton.IsEnabled = true);
             this.Dispatcher.Invoke(() => amountImagesDownloadedLabel.Content = "");
             this.Dispatcher.Invoke(() => amountImagesDownloadedLabel.Visibility = Visibility.Hidden);

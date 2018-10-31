@@ -20,6 +20,8 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public event EventHandler<string> ApplicationResetEvent;
 
+        public event EventHandler<string> OnErrorsEncounteredDuringDownloadEvent;
+
         public void InvokePercentChangeEvent(int percentage)
         {
             DownloadPercentageEvent?.Invoke(this, percentage);
@@ -62,6 +64,10 @@ namespace AutomatedDesktopBackgroundLibrary
         public void InvokeApplicationResetEvent()
         {
             ApplicationResetEvent?.Invoke(this, "Application was reset");
+        }
+        public void InvokeErrorsEncounteredEvent(string message)
+        {
+            OnErrorsEncounteredDuringDownloadEvent?.Invoke(this, message);
         }
     }
 }

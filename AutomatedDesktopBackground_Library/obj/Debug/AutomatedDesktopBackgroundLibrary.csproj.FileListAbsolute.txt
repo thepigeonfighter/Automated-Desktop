@@ -22,3 +22,6 @@ F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroun
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.csproj.CopyComplete
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.dll
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.pdb
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.Properties.Resources.resources
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.csproj.GenerateResource.cache
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Debug\AutomatedDesktopBackgroundLibrary.Utility.CustomMessageForm.resources

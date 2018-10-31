@@ -1,5 +1,6 @@
 ﻿using AutomatedDesktopBackgroundLibrary.DataConnection;
 using AutomatedDesktopBackgroundLibrary.StringExtensions;
+using AutomatedDesktopBackgroundLibrary.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -149,7 +150,6 @@ namespace AutomatedDesktopBackgroundLibrary
 
         private void Wc_DownloadFileCompleted(object sender, AsyncCompletedEventArgs e)
         {
-            // progressBar1.Value = 0;
 
             if (e.Cancelled)
             {
@@ -158,7 +158,7 @@ namespace AutomatedDesktopBackgroundLibrary
 
             if (e.Error != null) // We have an error! Retry a few times, then abort.
             {
-                MessageBox.Show(e.Error.InnerException.ToString());
+                CustomMessageBox.Show(e.Error.InnerException.ToString());
                 HandleError();
             }
             ExpectedDownloadAmount--;
@@ -180,14 +180,17 @@ namespace AutomatedDesktopBackgroundLibrary
                 GiveEachImageAnId();
                 if (errorIndex.Count > 0)
                 {
+                    GlobalConfig.EventSystem.
+                        InvokeErrorsEncounteredEvent($"Encountered {errorIndex.Count} errors in download process, " +
+                        $"corrupted files have been deleted and download is complete");
                     RemoveCorruptedImages();
                     images = images.Where(x => x.IsDownloaded).ToList();
+                    errorIndex.Clear();
                 }
                 if (images.Count > 0)
                 {
                     UpdateImageFile();
                 }
-                DisplayDownloadCompletionMessage();
             }
         }
     }

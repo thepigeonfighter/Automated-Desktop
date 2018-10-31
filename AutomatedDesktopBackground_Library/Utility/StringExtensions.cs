@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutomatedDesktopBackgroundLibrary.Utility;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -32,7 +33,7 @@ namespace AutomatedDesktopBackgroundLibrary.StringExtensions
             }
             catch
             {
-                MessageBox.Show(input);
+                CustomMessageBox.Show(input);
                 return "Invalid Format";
             }
         }

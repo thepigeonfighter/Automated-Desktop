@@ -1,5 +1,6 @@
 ﻿using AutomatedDesktopBackgroundLibrary;
 using AutomatedDesktopBackgroundLibrary.StringExtensions;
+using AutomatedDesktopBackgroundLibrary.Utility;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -77,7 +78,7 @@ namespace AutomatedDesktopBackgroundUI
         {
             if (!viewController.ChangeDesktopBackground())
             {
-                MessageBox.Show("No images are downloaded please download images before attempting to change the wallpaper.");
+                CustomMessageBox.Show("No images are downloaded please download images before attempting to change the wallpaper.");
             }
         }
 
