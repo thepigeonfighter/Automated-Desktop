@@ -1,0 +1,26 @@
+﻿<Window x:Class="AutomatedDesktopBackgroundUI.WarningWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutomatedDesktopBackgroundUI"
+        mc:Ignorable="d"
+        Title="WarningWindow" Height="250" Width="400"  Icon="pack://siteoforigin:,,,/Images/Icon.ico" AllowsTransparency="True"
+        Foreground="White" WindowStyle="None" ResizeMode="NoResize" VisualBitmapScalingMode="Fant" WindowStartupLocation="CenterScreen" >
+    <Window.Background>
+        <ImageBrush ImageSource="Images/MainWindowPane.png"/>
+    </Window.Background>
+    <Grid>
+        <Image HorizontalAlignment="Left" Height="151" Margin="17,21,0,0" VerticalAlignment="Top" Width="361" Source="Images/RoundedSquare.png" Stretch="Fill"/>
+        <CheckBox x:Name ="warningCheckBox"   HorizontalAlignment="Left" Margin="114,119,0,0" VerticalAlignment="Top" Foreground="Gray"  Height="16" Width="135">
+            <CheckBox.Content>
+                Do not warn again
+            </CheckBox.Content>
+        </CheckBox>
+        <TextBlock HorizontalAlignment="Left" Margin="55,40,0,0" TextWrapping="Wrap" 
+                   Text="The program is not closed, to close click the Exit Application Button" VerticalAlignment="Top" Height="75" Width="285" FontSize="16" Foreground="#FF5B5B5B" FontFamily="Tahoma"/>
+        <Button x:Name="CloseWarningWindowButton" Content="Close" HorizontalAlignment="Left" Margin="121,205,0,0" Padding="1,-1,1,1"  VerticalAlignment="Top" Width="159" Height="36" Background="#FFDBDBDB" Foreground="#FF5B5B5B" Click="CloseWarningWindowButton_Click"/>
+
+
+    </Grid>
+</Window>

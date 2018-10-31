@@ -24,13 +24,6 @@ namespace AutomatedDesktopBackgroundUI
             
         }
 
-        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            System.Windows.MessageBox.Show("Program only closes when the close program button is clicked");
-            e.Cancel = true;
-            HideWindow();
-        }
-
         /// <summary>
         /// I am leaving this in the code behind because it is specific to this UI
         /// This Builds a system tray icon so when the app is minimized it becomes a visible icon in the system tray
@@ -203,11 +196,20 @@ namespace AutomatedDesktopBackgroundUI
             window.Show();
         }
 
-        private void CloseProgramButton_Click(object sender, RoutedEventArgs e)
+        private void CloseWindowButtonClick(object sender, RoutedEventArgs e)
         {
-            this.Dispatcher.Invoke(() => viewController.CloseProgram());
+            HideWindow();
+            DisplayWarningWindow();
         }
 
+        private void DisplayWarningWindow()
+        {
+            if(viewController.ShouldDisplayWarning())
+            {
+                Window warningWindow = new WarningWindow();
+                warningWindow.Show();
+            }
+        }
         #region Background and Collection Buttons
 
         private void StartBackgroundRefreshButton_Copy_Click(object sender, RoutedEventArgs e)
@@ -294,7 +296,7 @@ namespace AutomatedDesktopBackgroundUI
         private void WireEvents()
         {
             this.StateChanged += OnResize;
-            this.Closing += MainWindow_Closing;
+           
             GlobalConfig.EventSystem.DownloadCompleteEvent += EventSystem_DownloadCompleteEvent;
             GlobalConfig.EventSystem.DownloadedImageEvent += EventSystem_DownloadedImageEvent;
             GlobalConfig.EventSystem.DownloadPercentageEvent += EventSystem_DownloadPercentageEvent;
@@ -473,6 +475,11 @@ namespace AutomatedDesktopBackgroundUI
                 this.Dispatcher.Invoke(() => stopCollectionRefreshButton.IsEnabled = false);
                 this.Dispatcher.Invoke(() => startCollectionRefreshButton.IsEnabled = true);
             }
+        }
+
+        private void ExitApplicationButtonClick(object sender, RoutedEventArgs e)
+        {
+            this.Dispatcher.Invoke(() => viewController.CloseWindow());
         }
     }
 }

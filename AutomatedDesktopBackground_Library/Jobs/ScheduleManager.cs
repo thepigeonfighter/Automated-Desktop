@@ -8,30 +8,33 @@ namespace AutomatedDesktopBackgroundLibrary.Scheduler
         //TODO set to decent times
         private static DateTime BackgroundSetAt = new DateTime(2008, 1, 1);
 
-        private static SettingsModel _settingsModel = new SettingsModel();
+        private static SettingsModel _settingsModel;
         private static DateTime _collectionChangedAt = new DateTime(2008, 1, 1);
         private static TimeSpan _backgroundRefreshSettings = new TimeSpan(0, 1, 0);
         private static TimeSpan _collectionRefreshSettings = new TimeSpan(1, 0, 0);
         private static DateTime NextBackgroundChangeAt = new DateTime(2008, 1, 1);
         private static DateTime NextCollectionChangeAt = new DateTime(2008, 1, 1);
+        private static bool _warnUserOnExit = true;
 
         static ScheduleManager()
         {
+            _settingsModel = new SettingsModel();
             SettingsModel tempSettings = _settingsModel.LoadSettings();
-            if (tempSettings != null)
-            {
-                ChangeBackgroundRefreshSettings(tempSettings.BackgroundRefreshSetting);
-                ChangeCollectionRefreshSettings(tempSettings.CollectionRefreshSetting);
-            }
-            else
-            {
-                SettingsModel defaultSettings = _settingsModel.GetDefaultSettings();
+            if(tempSettings != null) { _settingsModel = tempSettings; }
+             _backgroundRefreshSettings = _settingsModel.BackgroundRefreshSetting;
+            _collectionRefreshSettings = _settingsModel.CollectionRefreshSetting;
+            _warnUserOnExit = _settingsModel.ShowWarning;
 
-                ChangeBackgroundRefreshSettings(defaultSettings.BackgroundRefreshSetting);
-                ChangeCollectionRefreshSettings(defaultSettings.CollectionRefreshSetting);
-            }
         }
-
+        public static void UpdateWarningFlag(bool value)
+        {
+            _warnUserOnExit = value;
+            _settingsModel.SaveSettings(GetCurrentSettings());
+        }
+        public static bool GetWarningFlagStatus()
+        {
+            return _warnUserOnExit;
+        }
         public static TimeSpan CollectionRefreshSetting()
         {
             return _collectionRefreshSettings;
@@ -110,7 +113,9 @@ namespace AutomatedDesktopBackgroundLibrary.Scheduler
             SettingsModel currentSettings = new SettingsModel()
             {
                 BackgroundRefreshSetting = _backgroundRefreshSettings,
-                CollectionRefreshSetting = _collectionRefreshSettings
+                CollectionRefreshSetting = _collectionRefreshSettings,
+                ShowWarning = _warnUserOnExit
+
             };
             return currentSettings;
         }

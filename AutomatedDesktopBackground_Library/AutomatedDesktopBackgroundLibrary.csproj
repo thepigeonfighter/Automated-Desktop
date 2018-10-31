@@ -123,6 +123,7 @@
     <Compile Include="DataConnection\ObjectToTextProcessor.cs" />
     <Compile Include="Jobs\WallpaperSetter.cs" />
     <Compile Include="Utility\WindowManager.cs" />
+    <Compile Include="ViewController\WarningWindowController.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

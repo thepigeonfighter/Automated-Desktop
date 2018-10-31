@@ -1,9 +1,11 @@
-﻿using AutomatedDesktopBackgroundLibrary.StringExtensions;
+﻿using AutomatedDesktopBackgroundLibrary.Scheduler;
+using AutomatedDesktopBackgroundLibrary.StringExtensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
@@ -144,11 +146,14 @@ namespace AutomatedDesktopBackgroundLibrary
             return images.Count > 0;
         }
 
-        public void CloseProgram()
+        public void CloseWindow()
         {
             WindowManager.CloseRootWindow();
         }
-
+        public bool ShouldDisplayWarning()
+        {
+            return ScheduleManager.GetWarningFlagStatus();
+        }
         #region Background and Collection Controls
 
         public async Task StartCollectionRefresh()
