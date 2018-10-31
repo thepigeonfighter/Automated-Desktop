@@ -110,5 +110,10 @@ namespace AutomatedDesktopBackgroundUI
             // string path1 = @"C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\ReadMe.txt";
             Process.Start("notepad.exe", path);
         }
+
+        private void OnCloseSettingsClick(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
