@@ -49,13 +49,6 @@ namespace AutomatedDesktopBackgroundUI
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
             versionLabel.Content = $"v.{info.FileVersion}";
         }
-        private void OnResize(object sender, EventArgs e)
-        {
-            if (this.WindowState == WindowState.Minimized)
-            {
-                HideWindow();
-            }
-        }
 
         private void HideWindow()
         {
@@ -301,8 +294,7 @@ namespace AutomatedDesktopBackgroundUI
 
         private void WireEvents()
         {
-            this.StateChanged += OnResize;
-           
+          
             GlobalConfig.EventSystem.DownloadCompleteEvent += EventSystem_DownloadCompleteEvent;
             GlobalConfig.EventSystem.DownloadedImageEvent += EventSystem_DownloadedImageEvent;
             GlobalConfig.EventSystem.DownloadPercentageEvent += EventSystem_DownloadPercentageEvent;
@@ -493,6 +485,11 @@ namespace AutomatedDesktopBackgroundUI
         private void ExitApplicationButtonClick(object sender, RoutedEventArgs e)
         {
             this.Dispatcher.Invoke(() => viewController.CloseWindow());
+        }
+
+        private void OnMinimizeClick(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
         }
     }
 }

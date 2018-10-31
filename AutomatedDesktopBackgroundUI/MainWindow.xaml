@@ -8,7 +8,7 @@
         
         Title="MainWindow" Height="450" Width="900" WindowStartupLocation="CenterScreen" 
         MinWidth="900" MinHeight="450" Icon="pack://siteoforigin:,,,/Images/Icon.ico" AllowsTransparency="True"
-        Foreground="White" WindowStyle="None" ResizeMode="NoResize" VisualBitmapScalingMode="Fant" 
+        Foreground="White" WindowStyle="None" VisualBitmapScalingMode="Fant" ResizeMode="CanResizeWithGrip" 
             
         >
     <Window.Resources>
@@ -47,6 +47,44 @@
                             </VisualStateManager.VisualStateGroups>
                             <Border.Background >
                                 <ImageBrush x:Name="ImageBrush" ImageSource="Images/Settings Button2.png"  >
+                                </ImageBrush>
+                            </Border.Background>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="minimizeButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="OverridesDefaultStyle" Value="True"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button" >
+
+                        <Border Name="RootElement" ClipToBounds="False"  BorderThickness="5"  Width="50" Height="50" >
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+
+                                    <VisualState x:Name="Normal" />
+
+                                    <VisualState x:Name="MouseOver">
+                                        <Storyboard>
+                                            <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Width"  From="50"
+                            To="54" Duration="0:0:.1">
+
+                                            </DoubleAnimation>
+                                            <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Height"  From="50"
+                            To="54" Duration="0:0:.1">
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </VisualState>
+
+
+
+                                    <!--The Disabled state is omitted for brevity.-->
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border.Background >
+                                <ImageBrush x:Name="ImageBrush" ImageSource="Images/minimize button.png"  >
                                 </ImageBrush>
                             </Border.Background>
                         </Border>
@@ -208,6 +246,11 @@
             ToolTip="Shuts the application down" ContentStringFormat="Exit Application"
             HorizontalAlignment="Left" Margin="465,383,0,0" VerticalAlignment="Top" Width="219" Height="42" BorderBrush="{x:Null}" FontFamily="Tahoma" FontWeight="Bold"
                 Click="ExitApplicationButtonClick"/>
+        <Button Style="{StaticResource minimizeButtonStyle}" HorizontalAlignment="Left" Margin="705,16,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="OnMinimizeClick">
+            <Button.Background>
+                <ImageBrush ImageSource="Images/minimize button.png"/>
+            </Button.Background>
+        </Button>
 
     </Grid>
 </Window>

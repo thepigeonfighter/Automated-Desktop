@@ -11,7 +11,7 @@ using System.Windows;
 [assembly: AssemblyDescription("A Desktop that is always updating")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("thepigeonfighterstudio")]
-[assembly: AssemblyProduct("AutomatedDesktopBackgroundUI")]
+[assembly: AssemblyProduct("Automated Desktop")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
