@@ -1,0 +1,15 @@
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Debug\ChangeBackgroundOnce.exe.config
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Debug\ChangeBackgroundOnce.exe
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Debug\ChangeBackgroundOnce.pdb
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Debug\AutomatedDesktopBackgroundLibrary.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Debug\Quartz.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Debug\Newtonsoft.Json.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Debug\AutomatedDesktopBackgroundLibrary.pdb
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Debug\Quartz.pdb
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Debug\Quartz.xml
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Debug\Newtonsoft.Json.xml
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\obj\Debug\ChangeBackgroundOnce.csprojAssemblyReference.cache
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\obj\Debug\ChangeBackgroundOnce.csproj.CoreCompileInputs.cache
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\obj\Debug\ChangeBackgroundOnce.csproj.CopyComplete
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\obj\Debug\ChangeBackgroundOnce.exe
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\obj\Debug\ChangeBackgroundOnce.pdb

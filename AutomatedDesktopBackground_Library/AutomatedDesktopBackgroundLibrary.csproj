@@ -127,6 +127,7 @@
     <Compile Include="DataConnection\ImageGetter.cs" />
     <Compile Include="Model\ImageModel.cs" />
     <Compile Include="Model\InterestModel.cs" />
+    <Compile Include="Utility\WindowsShellExtension.cs" />
     <Compile Include="ViewController\MainViewController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseClasses\Links.cs" />

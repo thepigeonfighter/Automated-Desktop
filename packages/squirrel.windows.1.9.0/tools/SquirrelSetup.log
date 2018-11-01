@@ -294,3 +294,44 @@ File name: 'AutomatedDesktop.1.0.2.nupkg'
 2018-10-31 17:00:46> DeltaPackageBuilder: \lib\net45\Images\RoundedSquare.png hasn't changed, writing dummy file
 2018-10-31 17:00:46> DeltaPackageBuilder: \lib\net45\Images\Settings Button2.png hasn't changed, writing dummy file
 2018-10-31 17:00:46> Program: Building embedded zip file for Setup.exe
+2018-11-01 13:41:54> Program: Starting Squirrel Updater: releasify --C:\TempRelease\ChangeBackgroundReleases\ChangeBackGroundOnce.1.0.0.nupkg
+2018-11-01 13:44:00> Program: Starting Squirrel Updater: --releasify C:\TempRelease\ChangeBackgroundReleases\ChangeBackGroundOnce.1.0.0.nupkg
+2018-11-01 13:44:00> Program: Bootstrapper EXE found at:F:\Users\georg\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-11-01 13:44:00> Program: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\ChangeBackGroundOnce.1.0.0.nupkg
+2018-11-01 13:44:00> ReleasePackage: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\ChangeBackGroundOnce.1.0.0.nupkg => F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\ChangeBackGroundOnce-1.0.0-full.nupkg
+2018-11-01 13:44:00> ReleasePackage: Extracting dependent packages: []
+2018-11-01 13:44:00> ReleasePackage: Removing unnecessary data
+2018-11-01 13:44:00> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempa\ChangeBackGroundOnce.nuspec
+2018-11-01 13:44:01> Program: Building embedded zip file for Setup.exe
+2018-11-01 13:59:45> Program: Starting Squirrel Updater: --releasify C:\TempRelease\CreateMenuContextReleases\CreateMenuContext.1.0.0.nupkg
+2018-11-01 13:59:45> Program: Bootstrapper EXE found at:F:\Users\georg\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-11-01 13:59:45> Program: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\CreateMenuContext.1.0.0.nupkg
+2018-11-01 13:59:45> ReleasePackage: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\CreateMenuContext.1.0.0.nupkg => F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\CreateMenuContext-1.0.0-full.nupkg
+2018-11-01 13:59:45> ReleasePackage: Extracting dependent packages: []
+2018-11-01 13:59:45> ReleasePackage: Removing unnecessary data
+2018-11-01 13:59:45> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempa\CreateMenuContext.nuspec
+2018-11-01 13:59:45> Program: Building embedded zip file for Setup.exe
+2018-11-01 14:11:46> Program: Starting Squirrel Updater: --releasify C:\TempRelease\AutomatedDesktop.1.2.7.nupkg
+2018-11-01 14:11:46> Program: Bootstrapper EXE found at:F:\Users\georg\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-11-01 14:11:46> Program: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.2.7.nupkg
+2018-11-01 14:11:46> ReleasePackage: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.2.7.nupkg => F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop-1.2.7-full.nupkg
+2018-11-01 14:11:46> ReleasePackage: Extracting dependent packages: []
+2018-11-01 14:11:46> ReleasePackage: Removing unnecessary data
+2018-11-01 14:11:46> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempa\AutomatedDesktop.nuspec
+2018-11-01 14:11:47> Program: Building embedded zip file for Setup.exe
+2018-11-01 15:09:22> Program: Starting Squirrel Updater: --releasify C:\TempRelease\ChangeBackgroundReleases\ChangeBackGroundOnce.1.0.0.nupkg
+2018-11-01 15:09:22> Program: Bootstrapper EXE found at:F:\Users\georg\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-11-01 15:09:22> Program: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\ChangeBackGroundOnce.1.0.0.nupkg
+2018-11-01 15:09:22> ReleasePackage: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\ChangeBackGroundOnce.1.0.0.nupkg => F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\ChangeBackGroundOnce-1.0.0-full.nupkg
+2018-11-01 15:09:23> ReleasePackage: Extracting dependent packages: []
+2018-11-01 15:09:23> ReleasePackage: Removing unnecessary data
+2018-11-01 15:09:23> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempa\ChangeBackGroundOnce.nuspec
+2018-11-01 15:09:23> Program: Building embedded zip file for Setup.exe
+2018-11-01 15:35:12> Program: Starting Squirrel Updater: --releasify C:\TempRelease\ChangeBackgroundReleases\ChangeBackGroundOnce.1.0.1.nupkg
+2018-11-01 15:35:12> Program: Bootstrapper EXE found at:F:\Users\georg\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-11-01 15:35:12> Program: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\ChangeBackGroundOnce.1.0.1.nupkg
+2018-11-01 15:35:12> ReleasePackage: Creating release package: F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\ChangeBackGroundOnce.1.0.1.nupkg => F:\Users\georg\source\repos\AutomatedDesktopBackground\Releases\ChangeBackGroundOnce-1.0.1-full.nupkg
+2018-11-01 15:35:13> ReleasePackage: Extracting dependent packages: []
+2018-11-01 15:35:13> ReleasePackage: Removing unnecessary data
+2018-11-01 15:35:13> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempa\ChangeBackGroundOnce.nuspec
+2018-11-01 15:35:13> Program: Building embedded zip file for Setup.exe

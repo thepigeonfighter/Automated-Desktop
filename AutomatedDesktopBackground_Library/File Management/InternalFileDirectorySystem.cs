@@ -27,6 +27,8 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public readonly static string ImagesFolder = _imagesFolder.FullFilePath();
 
+        public readonly static string ChangeBackgroundOnceSource = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +@"\ChangeBackGroundOnce\ChangeBackgroundOnce.exe";
+
         public readonly static string ApplicationDirectory = FileSavePath;
 
         public static string GetFileEnding(this FileType file)

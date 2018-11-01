@@ -13,6 +13,7 @@ namespace AutomatedDesktopBackgroundLibrary
         public TimeSpan BackgroundRefreshSetting { get; set; } = new TimeSpan(0, 5, 0);
         public TimeSpan CollectionRefreshSetting { get; set; } = new TimeSpan(24, 0, 0);
         public bool ShowWarning { get; set; } = true;
+        public bool StartWithSettingsWindowOpen { get; set; } = false;
 
         public SettingsModel LoadSettings()
         {
@@ -24,7 +25,7 @@ namespace AutomatedDesktopBackgroundLibrary
             }
             else
             {
-                return null;
+                return new SettingsModel();
             }
         }
         public void SaveSettings(SettingsModel settings)

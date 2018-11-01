@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 
@@ -107,13 +108,57 @@ namespace AutomatedDesktopBackgroundUI
 
         private void OpenInstructionsButton_Click(object sender, RoutedEventArgs e)
         {
-            // string path1 = @"C:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\ReadMe.txt";
+            
             Process.Start("notepad.exe", path);
         }
 
         private void OnCloseSettingsClick(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private string GetAssembly()
+        {
+            var path = Assembly.GetExecutingAssembly().Location;
+            return path;
+        }
+
+        private void CheckBoxChanged(object sender, RoutedEventArgs e)
+        {
+            if (!File.Exists(InternalFileDirectorySystem.ChangeBackgroundOnceSource))
+            {
+                CustomMessageBox.Show("You have not installed the change background one exe. Without it installed this feature does not work");
+            }
+            else {
+
+                if (!WindowsShellExtension.IsElevated())
+                {
+
+                    SettingsModel newSettings = new SettingsModel().LoadSettings();
+                    newSettings.StartWithSettingsWindowOpen = true;
+                    newSettings.SaveSettings(newSettings);
+                    WindowManager.CloseRootWindow();
+                    WindowsShellExtension.RunAsAdmin(GetAssembly());
+                }
+                else
+                {
+                        WindowsShellExtension shell = new WindowsShellExtension();
+                        bool value = contextMenuCheckBox.IsChecked.HasValue ? contextMenuCheckBox.IsChecked.Value : false;
+                        if (value)
+                        {
+                            shell.CreateMenuOption(GetAssembly());
+                        }
+                        else
+                        {
+                            shell.RemoveMenuOption(GetAssembly());
+                        }
+                   
+                }
+
+            }
+            SettingsModel settings = new SettingsModel().LoadSettings();
+            settings.StartWithSettingsWindowOpen = false;
+            settings.SaveSettings(settings);
         }
     }
 }

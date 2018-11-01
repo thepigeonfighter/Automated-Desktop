@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-
 namespace AutomatedDesktopBackgroundLibrary
 {
     /// <summary>
@@ -13,6 +12,7 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             rootWindow = window;
         }
+
 
         public static void CloseRootWindow()
         {

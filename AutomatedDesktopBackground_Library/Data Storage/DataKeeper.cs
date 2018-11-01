@@ -45,6 +45,11 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             return _database.FileCollection;
         }
+        public static IFileCollection GetFreshFileSnapShot()
+        {
+            _database.UpdateAllLists();
+            return _database.FileCollection;
+        }
 
         public static void DeleteImage(ImageModel image, bool KeepRecord)
         {

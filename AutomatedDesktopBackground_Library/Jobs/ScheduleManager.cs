@@ -26,6 +26,7 @@ namespace AutomatedDesktopBackgroundLibrary.Scheduler
             _warnUserOnExit = _settingsModel.ShowWarning;
 
         }
+
         public static void UpdateWarningFlag(bool value)
         {
             _warnUserOnExit = value;

@@ -21,10 +21,11 @@ namespace AutomatedDesktopBackgroundUI
         {
             InitializeComponent();
             GetVersionNumber();
+            CheckSettings();
             WireEvents();
             BuildNotifyIcon();
             WireDependencies();
-            
+
         }
 
         /// <summary>
@@ -148,7 +149,7 @@ namespace AutomatedDesktopBackgroundUI
                     CustomMessageBox.Show("No internet Connection");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 CustomMessageBox.Show("Couldn't make this search");
                 CustomMessageBox.Show($"{ex.StackTrace}");
@@ -183,7 +184,7 @@ namespace AutomatedDesktopBackgroundUI
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 CustomMessageBox.Show("The Download Process encountered a bug");
                 CustomMessageBox.Show(ex.StackTrace);
@@ -205,7 +206,7 @@ namespace AutomatedDesktopBackgroundUI
 
         private void DisplayWarningWindow()
         {
-            if(viewController.ShouldDisplayWarning())
+            if (viewController.ShouldDisplayWarning())
             {
                 Window warningWindow = new WarningWindow();
                 warningWindow.Show();
@@ -228,7 +229,7 @@ namespace AutomatedDesktopBackgroundUI
                     CustomMessageBox.Show("No Images downloaded. Please download before some images before attempting to set the background.");
                 }
             }
-            catch ( Exception ex)
+            catch (Exception ex)
             {
 
                 CustomMessageBox.Show("The background refreshing process failed to start");
@@ -296,7 +297,7 @@ namespace AutomatedDesktopBackgroundUI
 
         private void WireEvents()
         {
-          
+
             GlobalConfig.EventSystem.DownloadCompleteEvent += EventSystem_DownloadCompleteEvent;
             GlobalConfig.EventSystem.DownloadedImageEvent += EventSystem_DownloadedImageEvent;
             GlobalConfig.EventSystem.DownloadPercentageEvent += EventSystem_DownloadPercentageEvent;
@@ -317,7 +318,7 @@ namespace AutomatedDesktopBackgroundUI
 
         private void ErrorsEncounteredEvent(object sender, string e)
         {
-           this.Dispatcher.Invoke(()=> CustomMessageBox.Show(e));
+            this.Dispatcher.Invoke(() => CustomMessageBox.Show(e));
         }
 
         private void InterestListView_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -421,7 +422,7 @@ namespace AutomatedDesktopBackgroundUI
 
         private void EventSystem_DownloadCompleteEvent(object sender, bool e)
         {
-            this.Dispatcher.Invoke(() => CustomMessageBox.Show("Download Complete!"));
+            if (e) { this.Dispatcher.Invoke(() => CustomMessageBox.Show("Download Complete!")); }
             this.Dispatcher.Invoke(() => downloadButton.IsEnabled = true);
             this.Dispatcher.Invoke(() => amountImagesDownloadedLabel.Content = "");
             this.Dispatcher.Invoke(() => amountImagesDownloadedLabel.Visibility = Visibility.Hidden);
@@ -499,6 +500,17 @@ namespace AutomatedDesktopBackgroundUI
         private void OnMinimizeClick(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
+        }
+
+        private void CheckSettings()
+        {
+            if(viewController.ShowSettingsWindow())
+            {
+                Window window = new SettingsWindow();
+                window.Show();
+                
+                
+            }
         }
     }
 }

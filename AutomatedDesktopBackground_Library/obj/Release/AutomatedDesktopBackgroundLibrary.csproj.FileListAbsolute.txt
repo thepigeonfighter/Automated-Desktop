@@ -24,3 +24,4 @@ F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroun
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Release\AutomatedDesktopBackgroundLibrary.csproj.CopyComplete
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Release\AutomatedDesktopBackgroundLibrary.dll
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Release\AutomatedDesktopBackgroundLibrary.pdb
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackground_Library\obj\Release\AutomatedDesktopBackgroundLibrary.csprojAssemblyReference.cache

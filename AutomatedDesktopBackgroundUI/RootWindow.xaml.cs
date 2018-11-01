@@ -1,5 +1,8 @@
 ﻿using AutomatedDesktopBackgroundLibrary;
 using Squirrel;
+using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -15,19 +18,25 @@ namespace AutomatedDesktopBackgroundUI
         {
             InitializeComponent();
             WindowManager.RegisterWindow(this);
+            this.Closing += OnApplicationClosed;
             Window window = new MainWindow();
             Task.Run(()=>CheckForUpdates());
             Hide();
             window.Show();
         }
+
+        private void OnApplicationClosed(object sender, CancelEventArgs e)
+        {
+            Task.Run(() => CheckForUpdates());
+        }
+
         private async Task CheckForUpdates()
         {
-            //TODO hook this up to an online repository
             string path = @"https://github.com/thepigeonfighter/Automated-Desktop";
             using (var manager = UpdateManager.GitHubUpdateManager(path))
             {
                 await manager.Result.UpdateApp();
-            }
+            }          
         }
 
     }

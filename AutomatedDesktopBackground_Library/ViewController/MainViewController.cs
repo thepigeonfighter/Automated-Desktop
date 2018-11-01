@@ -258,5 +258,19 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             _fileCollection = DataKeeper.GetFileSnapShot();
         }
+        public bool ShowSettingsWindow()
+        {
+            try
+            {
+                SettingsModel settings = new SettingsModel();
+                settings = settings.LoadSettings();
+                return settings.StartWithSettingsWindowOpen;
+            }
+            catch
+            {
+
+                return false;
+            }
+        }
     }
 }
