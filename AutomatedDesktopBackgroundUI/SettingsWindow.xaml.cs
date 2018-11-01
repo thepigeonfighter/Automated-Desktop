@@ -127,7 +127,7 @@ namespace AutomatedDesktopBackgroundUI
         {
             if (!File.Exists(InternalFileDirectorySystem.ChangeBackgroundOnceSource))
             {
-                CustomMessageBox.Show("You have not installed the change background one exe. Without it installed this feature does not work");
+                CustomMessageBox.Show("You have not installed the change background once exe. Without it installed this feature does not work");
             }
             else {
 

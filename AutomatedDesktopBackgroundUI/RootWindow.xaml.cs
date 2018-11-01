@@ -33,10 +33,13 @@ namespace AutomatedDesktopBackgroundUI
         private async Task CheckForUpdates()
         {
             string path = @"https://github.com/thepigeonfighter/Automated-Desktop";
-            using (var manager = UpdateManager.GitHubUpdateManager(path))
-            {
-                await manager.Result.UpdateApp();
-            }          
+
+                using (var manager = UpdateManager.GitHubUpdateManager(path))
+                {
+                    await manager.Result.UpdateApp();
+                     manager.Result.Dispose();
+                }
+
         }
 
     }
