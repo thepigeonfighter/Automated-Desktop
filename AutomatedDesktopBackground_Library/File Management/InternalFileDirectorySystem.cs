@@ -19,7 +19,11 @@ namespace AutomatedDesktopBackgroundLibrary
 
         private const string _settings = "Settings.txt";
 
+        private const string _wallpaperCache = "wallpaperCache.temp";
+
         public readonly static string SettingsFile = _settings.FullFilePath();
+
+        public readonly static string WallpaperCacheFile = _wallpaperCache.FullFilePath();
 
         public readonly static string ImageInfoFolder = _imageInfoFolderName.FullFilePath();
 

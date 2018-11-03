@@ -71,3 +71,7 @@ F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroun
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop.g.resources
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop.exe
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop.pdb
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\log4net.config
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\log4net.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\log4net.xml
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop_Content.g.cs

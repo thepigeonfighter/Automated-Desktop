@@ -9,13 +9,25 @@ namespace AutomatedDesktopBackgroundLibrary
     /// </summary>
     public class BackGroundPicker
     {
-        public void PickRandomBackground()
+        
+        public void PickRandomBackground(bool inAppRequest)
         {
-            if (!GlobalConfig.InCollectionRefresh)
+            if (inAppRequest)
+            {
+                if (!GlobalConfig.InCollectionRefresh)
+                {
+                    string imageUrl = GetImageFileDir();
+                    DataKeeper.UpdateWallpaper(imageUrl);
+                    WallpaperSetter.Set(imageUrl, WallpaperSetter.Style.Stretched);
+                }
+            }
+            else
             {
                 string imageUrl = GetImageFileDir();
                 DataKeeper.UpdateWallpaper(imageUrl);
                 WallpaperSetter.Set(imageUrl, WallpaperSetter.Style.Stretched);
+                string[] lines = new string[]{$"{imageUrl}","This is a temp file", "that alerts a file watcher " , "To update the application data"};
+                File.WriteAllLines(InternalFileDirectorySystem.WallpaperCacheFile, lines);
             }
         }
 

@@ -8,7 +8,7 @@ namespace AutomatedDesktopBackgroundLibrary
         public async Task Execute(IJobExecutionContext context)
         {
             BackGroundPicker picker = new BackGroundPicker();
-            await Task.Run(() => picker.PickRandomBackground()).ConfigureAwait(false);
+            await Task.Run(() => picker.PickRandomBackground(true)).ConfigureAwait(false);
         }
     }
 }

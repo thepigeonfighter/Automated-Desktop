@@ -20,7 +20,7 @@ namespace AutomatedDesktopBackgroundLibrary
             if (images.Count > 0)
             {
                 BackGroundPicker backGroundPicker = new BackGroundPicker();
-                backGroundPicker.PickRandomBackground();
+                backGroundPicker.PickRandomBackground(true);
                 return true;
             }
             else

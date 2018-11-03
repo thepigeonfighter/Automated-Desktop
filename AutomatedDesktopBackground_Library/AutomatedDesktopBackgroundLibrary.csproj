@@ -75,6 +75,7 @@
     <Compile Include="Data Storage\IDataStorageBuilder.cs" />
     <Compile Include="File Management\IFileCollection.cs" />
     <Compile Include="File Management\IFileListener.cs" />
+    <Compile Include="File Management\WallpaperChangeWatcher.cs" />
     <Compile Include="ImageFileProcessing\ImageModelExtensions.cs" />
     <Compile Include="Model\ImageModelBuilder.cs" />
     <Compile Include="Model\InterestBuilder.cs" />

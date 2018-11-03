@@ -173,13 +173,13 @@ namespace AutomatedDesktopBackgroundLibrary
                 {
                     await Task.Run(() => GlobalConfig.JobManager.StartBackgroundUpdatingAsync()).ConfigureAwait(false);
                     BackGroundPicker bg = new BackGroundPicker();
-                    bg.PickRandomBackground();
+                    bg.PickRandomBackground(true);
                 }
             }
             else
             {
                 BackGroundPicker bg = new BackGroundPicker();
-                bg.PickRandomBackground();
+                bg.PickRandomBackground(true);
                 await Task.Delay(300).ConfigureAwait(false);
                 await Task.Run(() => GlobalConfig.JobManager.StartBackgroundUpdatingAsync()).ConfigureAwait(false);
             }
@@ -223,7 +223,7 @@ namespace AutomatedDesktopBackgroundLibrary
             DataKeeper.DeleteImage(currentImage, true);
 
             BackGroundPicker bg = new BackGroundPicker();
-            bg.PickRandomBackground();
+            bg.PickRandomBackground(true);
         }
 
         public bool IsFavorited()

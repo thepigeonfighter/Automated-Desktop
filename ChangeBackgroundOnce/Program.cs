@@ -15,7 +15,7 @@ namespace ChangeBackgroundOnce
             if (images.Count > 0)
             {
                 BackGroundPicker backGroundPicker = new BackGroundPicker();
-                backGroundPicker.PickRandomBackground();
+                backGroundPicker.PickRandomBackground(false);
                 
             }
         }

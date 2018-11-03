@@ -96,7 +96,6 @@ namespace AutomatedDesktopBackgroundLibrary
             else
             {
                 Debug.WriteLine("Wallpaper file was not found in our records");
-                //signals that a file was found in the collection that has no records may need to invent a file cleaner
             }
         }
         #endregion
