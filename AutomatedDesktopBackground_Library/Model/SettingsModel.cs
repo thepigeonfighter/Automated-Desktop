@@ -14,6 +14,7 @@ namespace AutomatedDesktopBackgroundLibrary
         public TimeSpan CollectionRefreshSetting { get; set; } = new TimeSpan(24, 0, 0);
         public bool ShowWarning { get; set; } = true;
         public bool StartWithSettingsWindowOpen { get; set; } = false;
+        public bool HasDownloadedChangeOnceExe { get; set; } = File.Exists(InternalFileDirectorySystem.ChangeBackgroundOnceSource);
 
         public SettingsModel LoadSettings()
         {
@@ -33,5 +34,6 @@ namespace AutomatedDesktopBackgroundLibrary
             string json = JsonConvert.SerializeObject(settings);
             File.WriteAllText(InternalFileDirectorySystem.SettingsFile,json);
         }
+
     }
 }

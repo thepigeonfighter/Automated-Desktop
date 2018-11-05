@@ -21,11 +21,19 @@ namespace AutomatedDesktopBackgroundUI
         private readonly List<string> timeSettings = new List<string>();
         private readonly SettingsViewController viewController = new SettingsViewController();
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly string path;
+        private string path;
 
         public SettingsWindow()
         {
             log.Debug("Settings window opened");
+            BuildReadMe();
+            InitializeComponent();
+            WireupLists();
+            SetUpEvents();
+            SetConextMenuState();
+        }
+        private void BuildReadMe()
+        {
             string contents = Properties.Resources.ReadMe;
             path = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
             path = Path.Combine(path, "ReadMe.txt");
@@ -43,14 +51,34 @@ namespace AutomatedDesktopBackgroundUI
                 }
                 log.Debug("Sucessfully created a readme file");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 log.Error("Failed to create a readme file");
                 log.Info(e.InnerException);
             }
+        }
+
+        private void SetUpEvents()
+        {
+            viewController.DownloadProgressReport += DownloadProgress;
+            viewController.InstallCompleted += InstallationComplete;
             this.Closing += SettingsWindow_Closing;
-            InitializeComponent();
-            WireupLists();
+        }
+
+        private void InstallationComplete(object sender, string e)
+        {
+            ShowContextMenuOption();
+            SettingsModel settings = new SettingsModel().LoadSettings();
+            settings.StartWithSettingsWindowOpen = false;
+            settings.HasDownloadedChangeOnceExe = true;
+            settings.SaveSettings(settings);
+            log.Info("Sucessfully Downloaded Change Once EXE ");
+            this.Dispatcher.Invoke(()=>downloadProgessLabel.Content = "");
+        }
+
+        private void DownloadProgress(object sender, string e)
+        {
+            this.Dispatcher.Invoke(()=>downloadProgessLabel.Content = e);
         }
 
         private void SettingsWindow_Closing(object sender, CancelEventArgs e)
@@ -155,8 +183,44 @@ namespace AutomatedDesktopBackgroundUI
             var path = Assembly.GetExecutingAssembly().Location;
             return path;
         }
-        //TODO Change this to where the check box will be disabled until the user has downloaded
-        //The change once button 
+        private void SetConextMenuState()
+        {
+            if(viewController.HasDownloadedChangeOnceExe())
+            {
+                ShowContextMenuOption();
+            }
+            else
+            {
+                ShowNeedToDownloadExe();
+            }
+        }
+        private void ShowNeedToDownloadExe()
+        {
+            downloadChangeOnceExeButton.Visibility = Visibility.Visible;
+            contextMenuCheckBox.Visibility = Visibility.Hidden;
+        }
+        private void ShowContextMenuOption()
+        {
+           this.Dispatcher.Invoke(()=> contextMenuCheckBox.Visibility = Visibility.Visible);
+           this.Dispatcher.Invoke(()=> downloadChangeOnceExeButton.Visibility = Visibility.Hidden);
+        }
+        private void ElevateProgram()
+        {
+            try
+            {
+                SettingsModel newSettings = new SettingsModel().LoadSettings();
+                newSettings.StartWithSettingsWindowOpen = true;
+                newSettings.SaveSettings(newSettings);
+                log.Info("Attempting to elevated permissions");
+                WindowManager.CloseRootWindow();
+                WindowsShellExtension.RunAsAdmin(GetAssembly());
+            }
+            catch (Exception ex)
+            {
+                log.Error("Something went wrong when trying to elevate permissions");
+                log.Info(ex.InnerException);
+            }
+        }
         private void CheckBoxChanged(object sender, RoutedEventArgs e)
         {
             if (!File.Exists(InternalFileDirectorySystem.ChangeBackgroundOnceSource))
@@ -167,21 +231,7 @@ namespace AutomatedDesktopBackgroundUI
 
                 if (!WindowsShellExtension.IsElevated())
                 {
-                    log.Info("User does not have elevated permissions");
-                    try
-                    {
-                        SettingsModel newSettings = new SettingsModel().LoadSettings();
-                        newSettings.StartWithSettingsWindowOpen = true;
-                        newSettings.SaveSettings(newSettings);
-                        log.Info("Attempting to elevated permissions");
-                        WindowManager.CloseRootWindow();
-                        WindowsShellExtension.RunAsAdmin(GetAssembly());
-                    }
-                    catch(Exception ex)
-                    {
-                        log.Error("Something went wrong when trying to elevate permissions");
-                        log.Info(ex.InnerException);
-                    }
+                    ElevateProgram();
                 }
                 else
                 {
@@ -221,6 +271,28 @@ namespace AutomatedDesktopBackgroundUI
                 log.Error("Failed to update settings");
                 log.Info(ex.InnerException);
             }
+        }
+
+        private void downloadChangeOnceExe_Click(object sender, RoutedEventArgs e)
+        {
+
+                try
+                {
+                    downloadChangeOnceExeButton.IsEnabled = false;
+                    viewController.DownloadChangeOnceExe();
+
+                }
+                catch(Exception ex)
+                {
+                    log.Error("Error in the downloading of change once EXE");
+                    log.Info(ex.InnerException.Message);
+                }
+            
+        }
+
+        private void ClearSettings_Click(object sender, RoutedEventArgs e)
+        {
+            viewController.ClearSettings();
         }
     }
 }

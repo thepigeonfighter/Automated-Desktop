@@ -21,4 +21,5 @@
     public enum JobType { BackgroundRefresh, CollectionRefresh }
 
     public enum FileType { ImageInfo, InterestInfo, ImageFile }
+
 }

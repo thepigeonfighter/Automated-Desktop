@@ -13,3 +13,17 @@ F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\obj\
 F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\obj\Release\ChangeBackgroundOnce.csproj.CopyComplete
 F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\obj\Release\ChangeBackgroundOnce.exe
 F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\obj\Release\ChangeBackgroundOnce.pdb
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Release\DeltaCompressionDotNet.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Release\DeltaCompressionDotNet.MsDelta.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Release\DeltaCompressionDotNet.PatchApi.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Release\Mono.Cecil.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Release\Mono.Cecil.Mdb.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Release\Mono.Cecil.Pdb.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Release\Mono.Cecil.Rocks.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Release\NuGet.Squirrel.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Release\SharpCompress.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Release\Splat.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Release\Squirrel.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Release\NuGet.Squirrel.pdb
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Release\Splat.pdb
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Release\Squirrel.pdb

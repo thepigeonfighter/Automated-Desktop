@@ -145,10 +145,13 @@
         <Button x:Name="backgroundRefreshButton" ContentStringFormat="Change"  Style="{StaticResource simpleButtonStyle}" HorizontalAlignment="Left" Margin="157,188,0,0" VerticalAlignment="Top" Width="138" Height="27" Click="BackgroundRefreshButton_Click"/>
         <Button x:Name="collectionRefreshButton" ContentStringFormat="Change"  Style="{StaticResource simpleButtonStyle}" HorizontalAlignment="Left" Margin="157,284,0,0" VerticalAlignment="Top" Width="138" Height="27" RenderTransformOrigin="0.55,0.091" Click="CollectionRefreshButton_Click"/>
         <Label Content="File Save Path" HorizontalAlignment="Left" Margin="28,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
-        <Button x:Name="resetApplicationButton" Content="Reset Application"  HorizontalAlignment="Left" Margin="550,370,0,0" VerticalAlignment="Top" Width="190" Height="31" Click="ResetApplicationButton_Click" Background="#FFE41B1B"/>
+        <Button x:Name="resetApplicationButton" Content="Reset Application"  HorizontalAlignment="Left" Margin="560,370,0,0" VerticalAlignment="Top" Width="190" Height="31" Click="ResetApplicationButton_Click" Background="#FFE41B1B"/>
         <Label x:Name="fileSavePathLabel" Content="" HorizontalAlignment="Left" Margin="28,46,0,0" VerticalAlignment="Top" Width="502"/>
         <Button x:Name="openInstructionsButton"  Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Open Instructions" HorizontalAlignment="Left" Margin="550,143,0,0" VerticalAlignment="Top" Width="210" Height="33" Click="OpenInstructionsButton_Click"/>
         <Button x:Name="closeSettingsButton" Style="{StaticResource closeApplicationStyle}" Margin="732,10,10,382" Click="OnCloseSettingsClick"/>
         <CheckBox x:Name="contextMenuCheckBox" Content="Context Menu Button" HorizontalAlignment="Left" Margin="560,199,0,0" VerticalAlignment="Top" Width="190" Height="30" Padding="10,1,0,0" FontFamily="Tahoma" FontSize="16" Checked="CheckBoxChanged" Unchecked="CheckBoxChanged" />
+        <Button x:Name="downloadChangeOnceExeButton"  Style="{StaticResource simpleButtonStyle}" ToolTip="This will download and install a program that allows you to skip to the next background whenever you want by right clicking and selecting the Change Background Option" ContentStringFormat="Download Shortcut" HorizontalAlignment="Left" Margin="550,246,0,0" VerticalAlignment="Top" Width="210" Height="33" Click="downloadChangeOnceExe_Click"/>
+        <Label x:Name="downloadProgessLabel" Content="" HorizontalAlignment="Left" Margin="560,285,0,0" VerticalAlignment="Top" Width="190" FontFamily="Tahoma"/>
+        <Button x:Name="clearSettingsButton"  Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Clear Settings" HorizontalAlignment="Left" Margin="550,332,0,0" VerticalAlignment="Top" Width="210" Height="33" Click="ClearSettings_Click"/>
     </Grid>
 </Window>

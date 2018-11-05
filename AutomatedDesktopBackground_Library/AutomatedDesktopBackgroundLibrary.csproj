@@ -44,6 +44,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -97,6 +98,7 @@
     <Compile Include="Data Storage\JsonDataConnector.cs" />
     <Compile Include="API Classes\UnsplashUrlBuilder.cs" />
     <Compile Include="Data Storage\TextFileConnector.cs" />
+    <Compile Include="Utility\ChangeOnceProgramDownloader.cs" />
     <Compile Include="Utility\CustomMessageBox.cs" />
     <Compile Include="Utility\CustomMessageForm.cs">
       <SubType>Form</SubType>
