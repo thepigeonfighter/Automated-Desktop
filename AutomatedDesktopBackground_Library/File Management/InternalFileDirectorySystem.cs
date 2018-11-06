@@ -58,7 +58,7 @@ namespace AutomatedDesktopBackgroundLibrary
             get
             {
                 string baseUrl = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                string fullUrl = baseUrl + @"\DesktopBackgrounds";
+                string fullUrl = baseUrl + @"\AutomatedDesktop\Data";
                 return Directory.CreateDirectory(fullUrl).FullName;
             }
             set { FileSavePath = value; }

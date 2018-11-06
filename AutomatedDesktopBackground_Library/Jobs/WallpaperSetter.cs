@@ -18,7 +18,8 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             Tiled,
             Centered,
-            Stretched
+            Stretched,
+            Fit
         }
 
         public static void Set(string url, Style style)
@@ -51,6 +52,11 @@ namespace AutomatedDesktopBackgroundLibrary
             {
                 key.SetValue("WallpaperStyle", 1.ToString());
                 key.SetValue("TileWallpaper", 1.ToString());
+            }
+            if (style == Style.Fit)
+            {
+                key.SetValue("WallpaperStyle", 3.ToString());
+                key.SetValue("TileWallpaper", 0.ToString());
             }
 
             SystemParametersInfo(SPI_SETDESKWALLPAPER,

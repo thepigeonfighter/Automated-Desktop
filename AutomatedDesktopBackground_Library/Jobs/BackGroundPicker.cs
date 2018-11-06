@@ -18,14 +18,14 @@ namespace AutomatedDesktopBackgroundLibrary
                 {
                     string imageUrl = GetImageFileDir();
                     DataKeeper.UpdateWallpaper(imageUrl);
-                    WallpaperSetter.Set(imageUrl, WallpaperSetter.Style.Stretched);
+                    WallpaperSetter.Set(imageUrl, WallpaperSetter.Style.Fit);
                 }
             }
             else
             {
                 string imageUrl = GetImageFileDir();
                 DataKeeper.UpdateWallpaper(imageUrl);
-                WallpaperSetter.Set(imageUrl, WallpaperSetter.Style.Stretched);
+                WallpaperSetter.Set(imageUrl, WallpaperSetter.Style.Fit);
                 string[] lines = new string[]{$"{imageUrl}","This is a temp file", "that alerts a file watcher " , "To update the application data"};
                 File.WriteAllLines(InternalFileDirectorySystem.WallpaperCacheFile, lines);
             }

@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 
-[assembly: log4net.Config.XmlConfigurator(ConfigFile = "log4net.config", Watch = true)]
 namespace AutomatedDesktopBackgroundUI
 {
     /// <summary>
@@ -20,7 +19,7 @@ namespace AutomatedDesktopBackgroundUI
         private readonly WallpaperChangeWatcher watcher = new WallpaperChangeWatcher();
         public RootWindow()
         {
-            
+                        
             InitializeComponent();
             WindowManager.RegisterWindow(this);
             this.Closing += OnApplicationClosed;
@@ -44,7 +43,7 @@ namespace AutomatedDesktopBackgroundUI
             catch(Exception e)
             {
                 log.Error("Failed to start watching wallpaper file");
-                log.Info(e.Message);
+                log.Info(e.InnerException.Message);
             }
         }
         private void OnApplicationClosed(object sender, CancelEventArgs e)
@@ -69,7 +68,7 @@ namespace AutomatedDesktopBackgroundUI
             catch(Exception e)
             {
                 log.Error("The update manager was not created sucessfully");
-                log.Info($"{e.Message.ToString()}");
+                log.Info($"{e.InnerException.Message.ToString()}");
             }
 
         }

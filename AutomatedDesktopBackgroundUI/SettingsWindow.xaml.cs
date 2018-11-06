@@ -108,7 +108,7 @@ namespace AutomatedDesktopBackgroundUI
             backgroundCombobox.ItemsSource = timeSettings;
             collectionComboBox.ItemsSource = timeSettings;
             SetTimes();
-            fileSavePathLabel.Content = StringExtensions.GetApplicationDirectory();
+            fileSavePathLabel.Content = InternalFileDirectorySystem.ApplicationDirectory;
         }
 
         private void BackgroundRefreshButton_Click(object sender, RoutedEventArgs e)
