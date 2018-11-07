@@ -44,26 +44,6 @@ namespace AutomatedDesktopBackgroundLibrary.StringExtensions
             return interest;
         }
 
-        public static DirectoryInfo CreateDirectory(this string dirName)
-        {
-            return Directory.CreateDirectory($"{FileSavePath}/{dirName}");
-        }
-
-        private static string FileSavePath
-        {
-            get
-            {
-                string baseUrl = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
-                string fullUrl = baseUrl + @"\DesktopBackgrounds";
-                return Directory.CreateDirectory(fullUrl).FullName;
-            }
-            set { FileSavePath = value; }
-        }
-
-        public static string FullFilePath(this string fileName)
-        {
-            return $@"{FileSavePath}\{fileName}";
-        }
 
         public static string GetImageFileName(this string hreflink)
         {
@@ -74,9 +54,5 @@ namespace AutomatedDesktopBackgroundLibrary.StringExtensions
             return filename;
         }
 
-        public static string GetApplicationDirectory()
-        {
-            return FileSavePath;
-        }
     }
 }

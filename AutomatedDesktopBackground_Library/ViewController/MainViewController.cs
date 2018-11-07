@@ -138,6 +138,20 @@ namespace AutomatedDesktopBackgroundLibrary
                 IsDownloading = true;
             }
         }
+        public bool ChangeDesktopBackground()
+        {
+            List<ImageModel> images = DataKeeper.GetFileSnapShot().AllImages;
+            if (images.Count > 0)
+            {
+                BackGroundPicker backGroundPicker = new BackGroundPicker();
+                backGroundPicker.PickRandomBackground(true);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         public bool AreAnyImagesDownloaded()
         {
@@ -171,7 +185,7 @@ namespace AutomatedDesktopBackgroundLibrary
             {
                 if (refreshState == PageRefreshState.None || refreshState == PageRefreshState.ColOnly)
                 {
-                    await Task.Run(() => GlobalConfig.JobManager.StartBackgroundUpdatingAsync()).ConfigureAwait(false);
+                    await GlobalConfig.JobManager.StartBackgroundUpdatingAsync();
                     BackGroundPicker bg = new BackGroundPicker();
                     bg.PickRandomBackground(true);
                 }

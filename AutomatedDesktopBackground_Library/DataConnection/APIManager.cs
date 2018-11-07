@@ -23,12 +23,6 @@ namespace AutomatedDesktopBackgroundLibrary
             return rootObject;
         }
 
-        private void HandleNoResults()
-        {
-            GlobalConfig.EventSystem.InvokeResultNotFoundEvent();
-            GlobalConfig.EventSystem.InvokeDownloadCompleteEvent(false);
-        }
-
         public async Task GetImagesBySearch(string query, bool userRequested)
         {
             GlobalConfig.InCollectionRefresh = true;
@@ -54,6 +48,11 @@ namespace AutomatedDesktopBackgroundLibrary
             {
                 throw new System.Exception("No matching interest found file system out of sync...");
             }
+        }
+        private void HandleNoResults()
+        {
+            GlobalConfig.EventSystem.InvokeResultNotFoundEvent();
+            GlobalConfig.EventSystem.InvokeDownloadCompleteEvent(false);
         }
 
         private int GetNextPage(InterestModel interest)
@@ -86,7 +85,7 @@ namespace AutomatedDesktopBackgroundLibrary
             _imageGetter.ExpectedDownloadAmount = rootObject.results.Count;
             foreach (Result r in rootObject.results)
             {
-                _imageGetter.GetImage(r.urls.full, query, userRequested);
+                _imageGetter.GetImage(r.urls.full, query,r.description, userRequested);
             }
         }
 

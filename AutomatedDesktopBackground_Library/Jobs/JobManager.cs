@@ -23,7 +23,7 @@ namespace AutomatedDesktopBackgroundLibrary
                     {"quartz.serializer.type", "binary" }
                 };
             StdSchedulerFactory factory = new StdSchedulerFactory(prop);
-            scheduler = await Task.Run(() => factory.GetScheduler()).ConfigureAwait(false);
+            scheduler = await  factory.GetScheduler();
         }
         public async Task StartBackgroundUpdatingAsync()
         {
@@ -34,7 +34,7 @@ namespace AutomatedDesktopBackgroundLibrary
                 int refreshRate = (int)Math.Round(Scheduler.ScheduleManager.BackgroundRefreshSetting().TotalSeconds);
                 ITrigger trigger = TriggerBuilder.Create().WithIdentity(BackgroundJob).StartAt(DateTime.Now.AddSeconds(refreshRate)).WithSimpleSchedule(x =>
                  x.WithIntervalInSeconds(refreshRate).RepeatForever()).Build();
-                await Task.Run(() => scheduler.ScheduleJob(jobDetail, trigger)).ConfigureAwait(false);
+                await scheduler.ScheduleJob(jobDetail, trigger);
             }
             catch (SchedulerException se)
             {
@@ -52,7 +52,7 @@ namespace AutomatedDesktopBackgroundLibrary
                // ITrigger trigger = TriggerBuilder.Create().WithIdentity(CollectionsJob).StartAt(DateTime.Now.AddSeconds(refreshRate)).WithSimpleSchedule(x =>
                  ITrigger trigger = TriggerBuilder.Create().WithIdentity(CollectionsJob).StartNow().WithSimpleSchedule(x =>
                  x.WithIntervalInSeconds(refreshRate).RepeatForever()).Build();
-                await Task.Run(() => scheduler.ScheduleJob(jobDetail, trigger)).ConfigureAwait(false);
+                await scheduler.ScheduleJob(jobDetail, trigger);
             }
             catch (SchedulerException se)
             {
@@ -64,7 +64,8 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             if (scheduler != null)
             {
-                await Task.Run(() => scheduler.Shutdown()).ConfigureAwait(false);
+                await scheduler.Clear();
+               
             }
         }
 
@@ -73,9 +74,9 @@ namespace AutomatedDesktopBackgroundLibrary
             JobKey key = JobKey.Create(BackgroundJob);
             if (scheduler != null)
             {
-                if (await Task.Run(() => scheduler.CheckExists(key)).ConfigureAwait(false))
+                if (await scheduler.CheckExists(key))
                 {
-                    await Task.Run(() => scheduler.DeleteJob(key)).ConfigureAwait(false);
+                    await  scheduler.DeleteJob(key);
                 }
             }
         }
@@ -85,9 +86,9 @@ namespace AutomatedDesktopBackgroundLibrary
             JobKey key = JobKey.Create(CollectionsJob);
             if (scheduler != null)
             {
-                if (await Task.Run(() => scheduler.CheckExists(key)).ConfigureAwait(false))
+                if (await scheduler.CheckExists(key))
                 {
-                    await Task.Run(() => scheduler.DeleteJob(key)).ConfigureAwait(false);
+                    await scheduler.DeleteJob(key);
                 }
             }
 
@@ -100,10 +101,10 @@ namespace AutomatedDesktopBackgroundLibrary
                 switch (jobType)
                 {
                     case JobType.BackgroundRefresh:
-                        return await Task.Run(() => scheduler.CheckExists(JobKey.Create(BackgroundJob))).ConfigureAwait(false);
+                        return await  scheduler.CheckExists(JobKey.Create(BackgroundJob));
 
                     case JobType.CollectionRefresh:
-                        return await Task.Run(() => scheduler.CheckExists(JobKey.Create(CollectionsJob))).ConfigureAwait(false);
+                        return await scheduler.CheckExists(JobKey.Create(CollectionsJob));
 
                     default:
                         return false;

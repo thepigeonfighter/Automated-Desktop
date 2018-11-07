@@ -20,7 +20,6 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
         {
             request.Lines = File.ReadAllLines(request.FilePath).ToList();
             request.SucessfulOperation = true;
-            //  OnQueueEnableEvent(this, new EventArgs());
             return request;
         }
 
@@ -126,14 +125,14 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
 
         public void DeleteAllFiles()
         {
-            string path = StringExtensions.StringExtensions.GetApplicationDirectory();
+            string path = InternalFileDirectorySystem.ApplicationDirectory;
             try
             {
                 Directory.Delete(path, true);
             }
             catch (IOException)
             {
-                CustomMessageBox.Show("Please close any open files before attempting to reset application.");
+                
             }
             GlobalConfig.EventSystem.InvokeApplicationResetEvent();
         }

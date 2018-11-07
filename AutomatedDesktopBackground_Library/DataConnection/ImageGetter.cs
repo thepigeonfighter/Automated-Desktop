@@ -30,12 +30,12 @@ namespace AutomatedDesktopBackgroundLibrary
         /// <param name="userRequested">
         /// represents whether the user has specifically requested this download or if it is a background operation
         /// </param>
-        public void GetImage(string imageUrl, string folderName, bool userRequested)
+        public void GetImage(string imageUrl, string folderName,string description, bool userRequested)
         {
             totalDownloadsRequested = ExpectedDownloadAmount;
             InterestModel interest = folderName.GetInterestByName();
             Directory.CreateDirectory($@"{InternalFileDirectorySystem.ImagesFolder}\{interest.Name}");
-            ImageModel imageToDownload = _imageBuilder.Build(imageUrl, interest);
+            ImageModel imageToDownload = _imageBuilder.Build(imageUrl,description, interest);
             DownloadFile(imageToDownload);
             _IsUserRequested = userRequested;
         }

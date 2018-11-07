@@ -394,13 +394,13 @@ namespace AutomatedDesktopBackgroundUI
                 if (viewController.IsFavorited())
                 {
                     this.Dispatcher.Invoke(() =>
-                    LikeImageButton.IsEnabled = false
+                    LikeImageButton.Visibility = Visibility.Hidden
                     );
                 }
                 else
                 {
                     this.Dispatcher.Invoke(() =>
-                    LikeImageButton.IsEnabled = true
+                    LikeImageButton.Visibility = Visibility.Visible
                     );
                 }
             }
@@ -467,7 +467,7 @@ namespace AutomatedDesktopBackgroundUI
         private void FavoriteAImage_Click(object sender, RoutedEventArgs e)
         {
             this.Dispatcher.Invoke(() => viewController.SetImageAsFavorite());
-            this.Dispatcher.Invoke(() => LikeImageButton.IsEnabled = false);
+            this.Dispatcher.Invoke(() => LikeImageButton.Visibility= Visibility.Hidden);
         }
 
         private void HateImage_Click(object sender, RoutedEventArgs e)
@@ -547,6 +547,19 @@ namespace AutomatedDesktopBackgroundUI
                 window.Show();
                 
                 
+            }
+        }
+
+        private void NextBackground_Click(object sender, RoutedEventArgs e)
+        {
+            if (!viewController.ChangeDesktopBackground())
+            {
+                log.Debug("Settings window did not find any photos");
+                CustomMessageBox.Show("No images are downloaded please download images before attempting to change the wallpaper.");
+            }
+            else
+            {
+                log.Info("User has forced that background to be changed");
             }
         }
     }

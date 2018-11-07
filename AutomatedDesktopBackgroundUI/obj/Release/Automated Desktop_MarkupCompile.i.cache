@@ -10,11 +10,11 @@ none
 false
 TRACE
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\App.xaml
-4-1357155454
+51134819487
 1-1575529357
 131632206621
 332125983373
-MainWindow.xaml;RootWindow.xaml;SettingsWindow.xaml;WarningWindow.xaml;
+MainWindow.xaml;Resources\StyleDictionary.xaml;RootWindow.xaml;SettingsWindow.xaml;WarningWindow.xaml;
 
 False
 

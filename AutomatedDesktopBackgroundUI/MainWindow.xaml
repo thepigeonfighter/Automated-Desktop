@@ -11,169 +11,6 @@
         Foreground="White" WindowStyle="None" VisualBitmapScalingMode="Fant" 
             
         >
-    <Window.Resources>
-
-        <Style x:Key="myHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
-            <Setter Property="Visibility" Value="Collapsed" />
-        </Style>
-        <Style x:Key="settingsButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="OverridesDefaultStyle" Value="True"></Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button" >
-
-                        <Border Name="RootElement" ClipToBounds="False"  BorderThickness="5"  Width="50" Height="50" >
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-
-                                    <VisualState x:Name="Normal" />
-
-                                    <VisualState x:Name="MouseOver">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Width"  From="50"
-                            To="54" Duration="0:0:.1">
-
-                                            </DoubleAnimation>
-                                            <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Height"  From="50"
-                            To="54" Duration="0:0:.1">
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </VisualState>
-
-
-
-                                    <!--The Disabled state is omitted for brevity.-->
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <Border.Background >
-                                <ImageBrush x:Name="ImageBrush" ImageSource="Images/Settings Button2.png"  >
-                                </ImageBrush>
-                            </Border.Background>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="minimizeButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="OverridesDefaultStyle" Value="True"></Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button" >
-
-                        <Border Name="RootElement" ClipToBounds="False"  BorderThickness="5"  Width="50" Height="50" >
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-
-                                    <VisualState x:Name="Normal" />
-
-                                    <VisualState x:Name="MouseOver">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Width"  From="50"
-                            To="54" Duration="0:0:.1">
-
-                                            </DoubleAnimation>
-                                            <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Height"  From="50"
-                            To="54" Duration="0:0:.1">
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </VisualState>
-
-
-
-                                    <!--The Disabled state is omitted for brevity.-->
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <Border.Background >
-                                <ImageBrush x:Name="ImageBrush" ImageSource="Images/minimize button.png"  >
-                                </ImageBrush>
-                            </Border.Background>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="closeApplicationStyle" TargetType="{x:Type Button}">
-            <Setter Property="OverridesDefaultStyle" Value="True"></Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button" >
-
-                        <Border Name="RootElement" ClipToBounds="False"  BorderThickness="6"  Width="50" Height="50" >
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-
-                                    <VisualState x:Name="Normal" />
-
-                                    <VisualState x:Name="MouseOver">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Width"  From="50"
-                            To="54" Duration="0:0:.1">
-
-                                            </DoubleAnimation>
-                                            <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Height"  From="50"
-                            To="54" Duration="0:0:.1">
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </VisualState>
-
-
-
-                                    <!--The Disabled state is omitted for brevity.-->
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <Border.Background >
-                                <ImageBrush x:Name="ImageBrush" ImageSource="Images/CloseButton.png"  >
-                                </ImageBrush>
-                            </Border.Background>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="simpleButtonStyle" TargetType="{x:Type Button}">
-            <Setter Property="OverridesDefaultStyle" Value="True"></Setter>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button" >
-
-                        <Border Name="RootElement"  >
-                            <TextBlock x:Name="buttonText" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="#FF535252" 
-                                       Text="{TemplateBinding ContentStringFormat}"/>
-
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-
-                                    <VisualState x:Name="Normal" />
-
-                                    <VisualState x:Name="MouseOver">
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="RootElement" Storyboard.TargetProperty="(Button.Opacity)"
-                                             From="1" To=".6" Duration="0:0:.1"                ></DoubleAnimation>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Disabled" >
-                                        <Storyboard>
-                                            <DoubleAnimation Storyboard.TargetName="RootElement" Storyboard.TargetProperty="(Button.Opacity)"
-                                             From="1" To=".2" Duration="0:0:.25"                ></DoubleAnimation>
-                                        </Storyboard>
-                                    </VisualState>
-
-
-
-                                    <!--The Disabled state is omitted for brevity.-->
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <Border.Background >
-                                <ImageBrush x:Name="ImageBrush" ImageSource="Images/Border.png"  >
-                                </ImageBrush>
-                            </Border.Background>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-    </Window.Resources>
 
     <Window.Background>
         <ImageBrush ImageSource="Images/MainWindowPane.png"/>
@@ -217,10 +54,10 @@
         <Button x:Name="startCollectionRefreshButton" Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Start" HorizontalAlignment="Left" Margin="785,131,0,0" VerticalAlignment="Top" Width="96" Click="StartCollectionRefreshButton_Copy_Click" Height="30" BorderBrush="{x:Null}" FontFamily="Tahoma" FontWeight="Bold" >
         </Button>
         <Label x:Name="currentImageLabel" Content="Current Image" HorizontalAlignment="Center" Padding="20,8,10,10" Margin="24,79,462,0" VerticalAlignment="Top" Width="414" Height="35" Background="{x:Null}" FontFamily="Tahoma" FontWeight="Bold" Foreground="#FF535252" FontSize="14"/>
-        <Button x:Name="LikeImageButton" Style="{StaticResource simpleButtonStyle}" ToolTip="Marks the image as a favorite so it will not be removed even if the image is removed."
-                ContentStringFormat="Love it!" Padding="5" HorizontalAlignment="Left" Margin="123,119,0,0" VerticalAlignment="Top" Width="140" Click="FavoriteAImage_Click" BorderBrush="{x:Null}" Height="31" FontFamily="Tahoma" FontWeight="Bold">
+        <Button x:Name="LikeImageButton" Style="{StaticResource loveItButtonStyle}" ToolTip="Marks the image as a favorite so it will not be removed even if its parent interest is removed."
+                 HorizontalAlignment="Left" Margin="222,112,0,0" VerticalAlignment="Top" Width="40" Click="FavoriteAImage_Click" BorderBrush="{x:Null}" FontFamily="Tahoma" FontWeight="Bold" Height="47">
         </Button>
-        <Button x:Name="HateImageButton" Padding="5" Style="{StaticResource simpleButtonStyle}" ToolTip="Deletes an image and bans the image from being downloaded again in the future" ContentStringFormat="Hate It!" HorizontalAlignment="Left" Margin="267,119,0,0" VerticalAlignment="Top" Width="140" Click="HateImage_Click" BorderBrush="{x:Null}" Height="31" FontFamily="Tahoma" FontWeight="Bold">
+        <Button x:Name="HateImageButton" Padding="5" Style="{StaticResource hateItButtonStyle}" ToolTip="Deletes an image and bans the image from being downloaded again in the future"  HorizontalAlignment="Left" Margin="267,114,0,0" VerticalAlignment="Top" Width="42" Click="HateImage_Click" BorderBrush="{x:Null}" Height="45" FontFamily="Tahoma" FontWeight="Bold">
         </Button>
         <ListView x:Name="interestListView" Padding="10" HorizontalAlignment="Left" Height="185" Margin="24,188,0,0" 
                   VerticalAlignment="Top" Width="350" SelectionChanged="InterestListView_SelectionChanged" 
@@ -251,6 +88,7 @@
                 <ImageBrush ImageSource="Images/minimize button.png"/>
             </Button.Background>
         </Button>
+        <Button x:Name="HateImageButton_Copy" Padding="5" Style="{StaticResource nextBackgroundStyle}" ToolTip="Skips to the next desktop background"  HorizontalAlignment="Left" Margin="314,116,0,0" VerticalAlignment="Top" Width="42" Click="NextBackground_Click" BorderBrush="{x:Null}" Height="45" FontFamily="Tahoma" FontWeight="Bold"/>
 
     </Grid>
 </Window>

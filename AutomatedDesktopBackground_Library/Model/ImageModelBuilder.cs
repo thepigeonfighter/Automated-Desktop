@@ -4,17 +4,18 @@ namespace AutomatedDesktopBackgroundLibrary
 {
     public class ImageModelBuilder
     {
-        public ImageModel Build(string imageUrl, InterestModel interest)
+        public ImageModel Build(string imageUrl,string description, InterestModel interest)
         {
             ImageModel image = new ImageModel
             {
-                Name = imageUrl.GetImageFileName(),
+                Name = description.MakePrettyString(),
                 Url = imageUrl
             };
-            image.LocalUrl = $@"{InternalFileDirectorySystem.ImagesFolder}\{interest.Name}\{image.Name}";
+            string nameWithoutwhiteSpace = image.Name.Replace(" ", "") +".JPEG";
+            image.LocalUrl = $@"{InternalFileDirectorySystem.ImagesFolder}\{interest.Name}\{nameWithoutwhiteSpace}";
             image.InterestId = interest.Id;
             image.InterestName = interest.Name;
-            image.InfoFileDir = $@"{InternalFileDirectorySystem.ImageInfoFolder}\{image.Name.Substring(0, image.Name.Length - 4)}{FileType.ImageInfo.GetFileEnding()}";
+            image.InfoFileDir = $@"{InternalFileDirectorySystem.ImageInfoFolder}\{nameWithoutwhiteSpace.Substring(0, nameWithoutwhiteSpace.Length - 4)}{FileType.ImageInfo.GetFileEnding()}";
             return image;
         }
     }
