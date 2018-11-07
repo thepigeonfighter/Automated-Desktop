@@ -174,7 +174,8 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             if (refreshState == PageRefreshState.None || refreshState == PageRefreshState.BGOnly)
             {
-                await Task.Run(() => GlobalConfig.JobManager.StartCollectionUpdatingAsync()).ConfigureAwait(false);
+                SetPageState(ButtonCommands.StartCollections);
+                await GlobalConfig.JobManager.StartCollectionUpdatingAsync();
                 GlobalConfig.CollectionsRefreshing = true;
             }
         }
@@ -185,6 +186,7 @@ namespace AutomatedDesktopBackgroundLibrary
             {
                 if (refreshState == PageRefreshState.None || refreshState == PageRefreshState.ColOnly)
                 {
+                    SetPageState(ButtonCommands.StartBackground);
                     await GlobalConfig.JobManager.StartBackgroundUpdatingAsync();
                     BackGroundPicker bg = new BackGroundPicker();
                     bg.PickRandomBackground(true);
@@ -195,7 +197,7 @@ namespace AutomatedDesktopBackgroundLibrary
                 BackGroundPicker bg = new BackGroundPicker();
                 bg.PickRandomBackground(true);
                 await Task.Delay(300).ConfigureAwait(false);
-                await Task.Run(() => GlobalConfig.JobManager.StartBackgroundUpdatingAsync()).ConfigureAwait(false);
+                await  GlobalConfig.JobManager.StartBackgroundUpdatingAsync();
             }
             GlobalConfig.BackgroundRefreshing = true;
         }
@@ -204,7 +206,7 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             if (refreshState != PageRefreshState.None || refreshState != PageRefreshState.ColOnly)
             {
-                await Task.Run(() => GlobalConfig.JobManager.StopBackgroundUpdatingAsync()).ConfigureAwait(false);
+                await GlobalConfig.JobManager.StopBackgroundUpdatingAsync();
             }
             GlobalConfig.BackgroundRefreshing = false;
         }
@@ -213,7 +215,7 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             if (refreshState != PageRefreshState.None || refreshState != PageRefreshState.BGOnly)
             {
-                await Task.Run(() => GlobalConfig.JobManager.StopCollectionUpdatingAsync()).ConfigureAwait(false);
+                await GlobalConfig.JobManager.StopCollectionUpdatingAsync();
             }
             GlobalConfig.BackgroundRefreshing = false;
         }

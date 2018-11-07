@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using log4net;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
@@ -7,19 +9,38 @@ namespace AutomatedDesktopBackgroundLibrary
     public static class DataKeeper
     {
         private static readonly IDataStorage _database = new DataStorageBuilder().Build(Database.JsonFile);
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         #region Image Functions
 
         public static ImageModel AddImage(ImageModel entry)
         {
-            _database.ImageFileProcessor.CreateEntry(entry);
+            try
+            {
+                _database.ImageFileProcessor.CreateEntry(entry);
+                log.Debug($"Have successfully added the image {entry.Name}");
+            }
+            catch(Exception ex)
+            {
+                log.Error($"Have failed to add the image {entry.Name}");
+                log.Info(ex.InnerException.Message);
+            }
             return entry;
         }
 
         public static void DeleteImageAndImageInfoEntry(ImageModel entry)
         {
-            _database.ImageFileProcessor.DeleteEntry(entry);
-            DeleteImage(entry, true);
+            try
+            {
+                _database.ImageFileProcessor.DeleteEntry(entry);
+                DeleteImage(entry, true);
+                log.Debug($"Deleted the image {entry.Name} ");
+            }
+            catch (Exception ex)
+            {
+                log.Error($"Have failed to delete the image {entry.Name}");
+                log.Info(ex.InnerException.Message);
+            }
         }
 
         #endregion Image Functions
@@ -28,13 +49,31 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public static void AddInterest(InterestModel interest)
         {
-            _database.InterestFileProcessor.CreateEntry(interest);
+            try
+            {
+                _database.InterestFileProcessor.CreateEntry(interest);
+                log.Debug($"Have added the interest {interest.Name}");
+            }
+            catch (Exception ex)
+            {
+                log.Error($"Have failed to add the interest{interest.Name}");
+                log.Info(ex.InnerException.Message);
+            }
         }
 
         public static void DeleteInterest(InterestModel interest)
         {
-            _database.InterestFileProcessor.DeleteEntry(interest);
-            _database.ImageFileProcessor.RemoveAllImagesByInterest(interest);
+            try
+            {
+                _database.InterestFileProcessor.DeleteEntry(interest);
+                _database.ImageFileProcessor.RemoveAllImagesByInterest(interest);
+                log.Debug($"Have deleted the interest{interest.Name}");
+            }
+            catch (Exception ex)
+            {
+                log.Error($"Have failed to delete the interest{interest.Name}");
+                log.Info(ex.InnerException.Message);
+            }
         }
 
         #endregion Interest Model Functions

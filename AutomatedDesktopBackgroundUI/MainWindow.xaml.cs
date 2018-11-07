@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using AutomatedDesktopBackgroundLibrary.Utility;
 using System.Windows.Input;
 using log4net;
+using System.Threading.Tasks;
 
 namespace AutomatedDesktopBackgroundUI
 {
@@ -247,8 +248,7 @@ namespace AutomatedDesktopBackgroundUI
             {
                 if (viewController.AreAnyImagesDownloaded())
                 {
-                    this.Dispatcher.Invoke(() => viewController.StartBackGroundRefresh());
-                    viewController.SetPageState(ButtonCommands.StartBackground);
+                    Task.Run(() => viewController.StartBackGroundRefresh()).ConfigureAwait(false);
                 }
                 else
                 {
@@ -271,9 +271,9 @@ namespace AutomatedDesktopBackgroundUI
             {
                 if (viewController.AreAnyImagesDownloaded())
                 {
-                    this.Dispatcher.Invoke(() =>
-                viewController.StartCollectionRefresh());
-                    viewController.SetPageState(ButtonCommands.StartCollections);
+                    
+                    Task.Run(()=>viewController.StartCollectionRefresh()).ConfigureAwait(false);
+                    
                 }
                 else
                 {
@@ -433,13 +433,13 @@ namespace AutomatedDesktopBackgroundUI
                         break;
                 }
 
-                connectionLabel.Content = "Connected";
-                connectionLabel.Foreground = System.Windows.Media.Brushes.Green;
+                this.Dispatcher.Invoke(()=>connectionLabel.Content = "Connected");
+                this.Dispatcher.Invoke(()=>connectionLabel.Foreground = System.Windows.Media.Brushes.Green);
             }
             else if (!GlobalConfig.IsConnected())
             {
-                connectionLabel.Content = "Offline";
-                connectionLabel.Foreground = System.Windows.Media.Brushes.Red;
+              this.Dispatcher.Invoke(()=>  connectionLabel.Content = "Offline");
+              this.Dispatcher.Invoke(()=> connectionLabel.Foreground = System.Windows.Media.Brushes.Red);
             }
         }
 

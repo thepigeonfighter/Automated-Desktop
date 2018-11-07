@@ -1,6 +1,8 @@
 ﻿using AutomatedDesktopBackgroundLibrary.ImageFileProcessing;
 using AutomatedDesktopBackgroundLibrary.ResponseClasses;
+using log4net;
 using Newtonsoft.Json;
+using System;
 using System.Linq;
 
 namespace AutomatedDesktopBackgroundLibrary.API
@@ -8,7 +10,7 @@ namespace AutomatedDesktopBackgroundLibrary.API
     public class APICaller : IAPICaller
     {
         private readonly IFileCollection _fileCollection;
-
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public APICaller(IFileCollection fileCollection)
         {
             _fileCollection = fileCollection;
@@ -16,24 +18,38 @@ namespace AutomatedDesktopBackgroundLibrary.API
 
         private RootObject GetUseableResults(string result)
         {
-            RootObject response = new RootObject();
-            return JsonConvert.DeserializeObject<RootObject>(result);
+            
+            RootObject response = JsonConvert.DeserializeObject<RootObject>(result);
+            log.Debug($"Found {response.results.Count} useable results");
+            return response;
         }
 
         public IRootObject GetWebResponse(string url)
         {
-            string customizedUrl = URLBuilder(url);
-            IAPIResult result = new APIResult();
-            string webResponse = result.GetResponse(customizedUrl);
-            RootObject rootObject = GetUseableResults(webResponse);
-            return rootObject;
+            try
+            {
+                log.Debug($"Trying to find useable results for {url} ");
+                string customizedUrl = URLBuilder(url);
+                IAPIResult result = new APIResult();
+                string webResponse = result.GetResponse(customizedUrl);
+                RootObject rootObject = GetUseableResults(webResponse);
+                return rootObject;
+            }
+            catch(Exception ex)
+            {
+                log.Error("Failed to get a usable web response");
+                log.Info(ex.InnerException.Message);
+                return null;
+            }
         }
 
         private string URLBuilder(string query)
         {
+            log.Debug($"building a url from the query {query}");
             IURLBuilder uRLBuilder = new UnsplashUrlBuilder();
             int pageNumber = GetNextPage(query);
             string url = uRLBuilder.BuildUrl(query, pageNumber);
+            log.Debug($"{query} has been converted to {url}");
             return url;
         }
 
