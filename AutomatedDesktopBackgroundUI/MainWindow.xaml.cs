@@ -111,7 +111,7 @@ namespace AutomatedDesktopBackgroundUI
             if (image != null)
             {
                 log.Info("Have found an existing wallpaper");
-                currentImageLabel.Content = $"Current image is {image.Name}";
+                currentImageTextBlock.Text = $"Current image: \"{image.Name}\"";
                 HateImageButton.IsEnabled = true;
                 if (!viewController.IsFavorited())
                 {
@@ -121,7 +121,7 @@ namespace AutomatedDesktopBackgroundUI
             else
             {
                 log.Info("No previous wallpaper found");
-                currentImageLabel.Content = "Unknown";
+                currentImageTextBlock.Text = "Unknown";
                 HateImageButton.IsEnabled = false;
                 LikeImageButton.IsEnabled = false;
             }
@@ -269,15 +269,22 @@ namespace AutomatedDesktopBackgroundUI
 
             try
             {
-                if (viewController.AreAnyImagesDownloaded())
+                if (!GlobalConfig.IsConnected())
                 {
-                    
-                    Task.Run(()=>viewController.StartCollectionRefresh()).ConfigureAwait(false);
-                    
+                    CustomMessageBox.Show("Not Connected to the internet. Please connect before attempting to refresh your collections");
                 }
                 else
                 {
-                    CustomMessageBox.Show("No Images downloaded. Please download before some images before attempting to set the background.");
+                    if (viewController.AreAnyImagesDownloaded())
+                    {
+
+                        Task.Run(() => viewController.StartCollectionRefresh()).ConfigureAwait(false);
+
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("No Images downloaded. Please download before some images before attempting to set the background.");
+                    }
                 }
             }
             catch (Exception ex)
@@ -371,7 +378,7 @@ namespace AutomatedDesktopBackgroundUI
             log.Info("Application reset has been triggered");
             interestListView.ItemsSource = viewController.interests;
             viewController.SetPageState(ButtonCommands.SetToStartState);
-            currentImageLabel.Content = "";
+            currentImageTextBlock.Text = "";
             interestListView.Items.Refresh();
         }
 
@@ -388,7 +395,7 @@ namespace AutomatedDesktopBackgroundUI
             if (currentWallpaper.Name != "Unknown")
             {
                 this.Dispatcher.Invoke(() =>
-                currentImageLabel.Content = $"Current image is {currentWallpaper.Name}"
+                currentImageTextBlock.Text = $"Current image : \"{currentWallpaper.Name}\""
                 );
                 this.Dispatcher.Invoke(() => HateImageButton.IsEnabled = true);
                 if (viewController.IsFavorited())
@@ -410,29 +417,7 @@ namespace AutomatedDesktopBackgroundUI
         {
             if (GlobalConfig.IsConnected())
             {
-                switch (viewController.refreshState)
-                {
-                    case PageRefreshState.BGAndCol:
-                        BGUpdating(true);
-                        ColUpdating(true);
-                        break;
-
-                    case PageRefreshState.BGOnly:
-                        BGUpdating(true);
-                        ColUpdating(false);
-                        break;
-
-                    case PageRefreshState.ColOnly:
-                        BGUpdating(false);
-                        ColUpdating(true);
-                        break;
-
-                    case PageRefreshState.None:
-                        BGUpdating(false);
-                        ColUpdating(false);
-                        break;
-                }
-
+                SetButtonState();
                 this.Dispatcher.Invoke(()=>connectionLabel.Content = "Connected");
                 this.Dispatcher.Invoke(()=>connectionLabel.Foreground = System.Windows.Media.Brushes.Green);
             }
@@ -440,6 +425,32 @@ namespace AutomatedDesktopBackgroundUI
             {
               this.Dispatcher.Invoke(()=>  connectionLabel.Content = "Offline");
               this.Dispatcher.Invoke(()=> connectionLabel.Foreground = System.Windows.Media.Brushes.Red);
+              SetButtonState();
+            }
+        }
+        private void SetButtonState()
+        {
+            switch (viewController.refreshState)
+            {
+                case PageRefreshState.BGAndCol:
+                    BGUpdating(true);
+                    ColUpdating(true);
+                    break;
+
+                case PageRefreshState.BGOnly:
+                    BGUpdating(true);
+                    ColUpdating(false);
+                    break;
+
+                case PageRefreshState.ColOnly:
+                    BGUpdating(false);
+                    ColUpdating(true);
+                    break;
+
+                case PageRefreshState.None:
+                    BGUpdating(false);
+                    ColUpdating(false);
+                    break;
             }
         }
 
