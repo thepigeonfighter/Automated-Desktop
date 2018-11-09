@@ -27,3 +27,5 @@ F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\
 F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Debug\NuGet.Squirrel.pdb
 F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Debug\Splat.pdb
 F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Debug\Squirrel.pdb
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Debug\log4net.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\ChangeBackgroundOnce\bin\Debug\log4net.xml

@@ -288,5 +288,6 @@ namespace AutomatedDesktopBackgroundLibrary
                 return false;
             }
         }
+
     }
 }

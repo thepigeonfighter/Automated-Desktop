@@ -75,4 +75,4 @@ F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroun
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\log4net.dll
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\log4net.xml
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Automated Desktop_Content.g.cs
-F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Resources\StyleDictionary.baml
+F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Styles.baml

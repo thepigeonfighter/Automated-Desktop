@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AutomatedDesktopBackgroundLibrary;
 using Squirrel;
@@ -30,14 +27,17 @@ namespace ChangeBackgroundOnce
             {
                 using (var manager = UpdateManager.GitHubUpdateManager(path))
                 {
+                    
                     await manager.Result.UpdateApp();
+                    manager.Result.RemoveShortcutForThisExe();
                     manager.Result.Dispose();
+                    
                 }
             }
             catch (Exception e)
             {
                 string text = $"Failed to update change background once. This is why {e.InnerException.Message} ";
-                string filepath = InternalFileDirectorySystem.ApplicationDirectory + @"/Error.txt";
+                string filepath = InternalFileDirectorySystem.ApplicationDirectory + @"/Logs/ChangeOnceUpdateError.txt";
                 File.WriteAllText(filepath, text);
             }
         }

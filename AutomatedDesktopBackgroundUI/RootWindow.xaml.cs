@@ -5,6 +5,7 @@ using Squirrel;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -22,8 +23,8 @@ namespace AutomatedDesktopBackgroundUI
                         
             InitializeComponent();
             WindowManager.RegisterWindow(this);
-            this.Closing += OnApplicationClosed;
             Window window = new MainWindow();
+            GlobalConfig.EventSystem.UpdateBackgroundEvent += BackgroundUpdating;
             log.Debug(" registered/ creating main window");
             log.Debug(" perfoming startup update check");
             Task.Run(()=>CheckForUpdates());
@@ -33,6 +34,12 @@ namespace AutomatedDesktopBackgroundUI
             StartWatchingForWallpaperChanges();
            
         }
+
+        private void BackgroundUpdating(object sender, string e)
+        {
+            Task.Run(() => CheckForUpdates());
+        }
+
         private void StartWatchingForWallpaperChanges()
         {
             try
@@ -46,11 +53,7 @@ namespace AutomatedDesktopBackgroundUI
                 log.Info(e.InnerException.Message);
             }
         }
-        private void OnApplicationClosed(object sender, CancelEventArgs e)
-        {
-            log.Debug("making a last check for application updates as program closing");
-            Task.Run(() => CheckForUpdates());
-        }
+
 
         private async Task CheckForUpdates()
         {
@@ -60,7 +63,14 @@ namespace AutomatedDesktopBackgroundUI
                 using (var manager = UpdateManager.GitHubUpdateManager(path))
                 {
                     log.Debug("succesfully created update client, now awaiting result");
-                    await manager.Result.UpdateApp();
+                    
+                    ReleaseEntry release = await manager.Result.UpdateApp();
+                    System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                    FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
+                    if(info.FileVersion.ToSemanticVersion()< release.Version)
+                    {
+                        UpdateManager.RestartApp();
+                    }
                     manager.Result.Dispose();
                     log.Info("sucessfully handed off the update results and have disposed the update manager");
                 }
@@ -72,6 +82,7 @@ namespace AutomatedDesktopBackgroundUI
             }
 
         }
+
 
     }
 }

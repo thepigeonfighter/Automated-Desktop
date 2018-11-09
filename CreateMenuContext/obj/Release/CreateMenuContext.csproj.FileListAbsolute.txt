@@ -13,3 +13,5 @@ F:\Users\georg\source\repos\AutomatedDesktopBackground\CreateMenuContext\obj\Rel
 F:\Users\georg\source\repos\AutomatedDesktopBackground\CreateMenuContext\obj\Release\CreateMenuContext.csproj.CopyComplete
 F:\Users\georg\source\repos\AutomatedDesktopBackground\CreateMenuContext\obj\Release\CreateMenuContext.exe
 F:\Users\georg\source\repos\AutomatedDesktopBackground\CreateMenuContext\obj\Release\CreateMenuContext.pdb
+F:\Users\georg\source\repos\AutomatedDesktopBackground\CreateMenuContext\bin\Release\log4net.dll
+F:\Users\georg\source\repos\AutomatedDesktopBackground\CreateMenuContext\bin\Release\log4net.xml

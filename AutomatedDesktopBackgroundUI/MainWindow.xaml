@@ -53,13 +53,13 @@
         </Button>
         <Button x:Name="startCollectionRefreshButton" Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Start" HorizontalAlignment="Left" Margin="785,131,0,0" VerticalAlignment="Top" Width="96" Click="StartCollectionRefreshButton_Copy_Click" Height="30" BorderBrush="{x:Null}" FontFamily="Tahoma" FontWeight="Bold" >
         </Button>
-        <Grid Margin="34,86,480,334">
+        <Grid Margin="42,86,470,334">
             <Viewbox HorizontalAlignment="Left">
                 <TextBlock x:Name="currentImageTextBlock" Foreground="#FF535252" FontFamily="Tahoma" HorizontalAlignment="Left" Height="22" >
-                    Current Image is: 
+                    Current Image is:
                 </TextBlock>
             </Viewbox>
-           <!-- <Label  Content= HorizontalAlignment="Center"  VerticalAlignment="Top" Width="441" Height="35" Background="{x:Null}" FontFamily="Tahoma" FontWeight="Bold" Foreground="#FF535252" Margin="0,-6,-46,0"/> -->
+            <!-- <Label  Content= HorizontalAlignment="Center"  VerticalAlignment="Top" Width="441" Height="35" Background="{x:Null}" FontFamily="Tahoma" FontWeight="Bold" Foreground="#FF535252" Margin="0,-6,-46,0"/> -->
         </Grid>
         <Button x:Name="LikeImageButton" Style="{StaticResource loveItButtonStyle}" ToolTip="Marks the image as a favorite so it will not be removed even if its parent interest is removed."
                  HorizontalAlignment="Left" Margin="222,112,0,0" VerticalAlignment="Top" Width="40" Click="FavoriteAImage_Click" BorderBrush="{x:Null}" FontFamily="Tahoma" FontWeight="Bold" Height="47">
@@ -95,7 +95,7 @@
                 <ImageBrush ImageSource="Images/minimize button.png"/>
             </Button.Background>
         </Button>
-        <Button x:Name="HateImageButton_Copy" Padding="5" Style="{StaticResource nextBackgroundStyle}" ToolTip="Skips to the next desktop background"  HorizontalAlignment="Left" Margin="314,116,0,0" VerticalAlignment="Top" Width="42" Click="NextBackground_Click" BorderBrush="{x:Null}" Height="45" FontFamily="Tahoma" FontWeight="Bold"/>
+        <Button x:Name="ChangeBackgroundButton" Padding="5" Style="{StaticResource nextBackgroundStyle}" ToolTip="Skips to the next desktop background"  HorizontalAlignment="Left" Margin="314,116,0,0" VerticalAlignment="Top" Width="42" Click="NextBackground_Click" BorderBrush="{x:Null}" Height="45" FontFamily="Tahoma" FontWeight="Bold"/>
 
     </Grid>
 </Window>

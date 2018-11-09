@@ -8,6 +8,8 @@ using AutomatedDesktopBackgroundLibrary.Utility;
 using System.Windows.Input;
 using log4net;
 using System.Threading.Tasks;
+using Squirrel;
+using System.Linq;
 
 namespace AutomatedDesktopBackgroundUI
 {
@@ -346,7 +348,6 @@ namespace AutomatedDesktopBackgroundUI
             viewController.OnPageStateChange += CheckPageState;
             this.MouseLeftButtonDown += DragWindow;
         }
-
         private void DragWindow(object sender, MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
@@ -573,5 +574,9 @@ namespace AutomatedDesktopBackgroundUI
                 log.Info("User has forced that background to be changed");
             }
         }
+
+
+
+
     }
 }

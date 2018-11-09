@@ -22,6 +22,7 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public event EventHandler<string> OnErrorsEncounteredDuringDownloadEvent;
 
+
         public void InvokePercentChangeEvent(int percentage)
         {
             DownloadPercentageEvent?.Invoke(this, percentage);
@@ -69,5 +70,6 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             OnErrorsEncounteredDuringDownloadEvent?.Invoke(this, message);
         }
+
     }
 }
