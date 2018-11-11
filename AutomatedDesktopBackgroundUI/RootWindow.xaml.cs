@@ -25,6 +25,7 @@ namespace AutomatedDesktopBackgroundUI
             WindowManager.RegisterWindow(this);
             Window window = new MainWindow();
             GlobalConfig.EventSystem.UpdateBackgroundEvent += BackgroundUpdating;
+            GlobalConfig.EventSystem.ShowCustomMessageBoxEvent += EventSystem_ShowCustomMessageBoxEvent;
             log.Debug(" registered/ creating main window");
             log.Debug(" perfoming startup update check");
             Task.Run(()=>CheckForUpdates());
@@ -33,6 +34,12 @@ namespace AutomatedDesktopBackgroundUI
             window.Show();
             StartWatchingForWallpaperChanges();
            
+        }
+
+        private void EventSystem_ShowCustomMessageBoxEvent(object sender, string e)
+        {
+            Window warningWindow =this.Dispatcher.Invoke(()=>new WarningWindow(e));
+            this.Dispatcher.Invoke(()=>warningWindow.Show());
         }
 
         private void BackgroundUpdating(object sender, string e)

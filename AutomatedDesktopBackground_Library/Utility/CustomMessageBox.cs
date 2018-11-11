@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace AutomatedDesktopBackgroundLibrary.Utility
 {
-    public static class CustomMessageBox
+    
+    public class CustomMessageBox
     {
-        public static void Show(string message)
+        public static void Show(string _message)
         {
-            Form form = new CustomMessageForm(message);
-            form.Show();
+            GlobalConfig.EventSystem.InvokeShowCustomMessageBoxEvent(_message);
         }
+
     }
 }

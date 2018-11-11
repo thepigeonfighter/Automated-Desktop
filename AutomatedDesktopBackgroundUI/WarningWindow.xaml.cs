@@ -12,6 +12,12 @@ namespace AutomatedDesktopBackgroundUI
         {
             InitializeComponent();
         }
+        public WarningWindow(string warningMessage)
+        {
+            InitializeComponent();
+           this.Dispatcher.Invoke(()=> warningCheckBox.Visibility = Visibility.Hidden);
+            this.Dispatcher.Invoke(()=>messageTextBlock.Text = warningMessage);
+        }
 
         private void CloseWarningWindowButton_Click(object sender, RoutedEventArgs e)
         {
