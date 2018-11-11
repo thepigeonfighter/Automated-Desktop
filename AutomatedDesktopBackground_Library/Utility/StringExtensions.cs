@@ -30,10 +30,11 @@ namespace AutomatedDesktopBackgroundLibrary.StringExtensions
                 }
                 string output = outputString.ToString();
                 return output.TrimEnd();
+                
             }
             catch
             {
-                CustomMessageBox.Show(input);
+                CustomMessageBox.Show(input + " was not a valid string");
                 return "Invalid Format";
             }
         }

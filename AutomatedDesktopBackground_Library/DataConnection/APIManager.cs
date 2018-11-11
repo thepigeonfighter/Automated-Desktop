@@ -85,7 +85,12 @@ namespace AutomatedDesktopBackgroundLibrary
             _imageGetter.ExpectedDownloadAmount = rootObject.results.Count;
             foreach (Result r in rootObject.results)
             {
-                _imageGetter.GetImage(r.urls.full, query,r.description, userRequested);
+                string name = query;
+                 if(r.description !=null)
+                {
+                    name = r.description;
+                }
+                _imageGetter.GetImage(r.urls.full, query,name, userRequested);
             }
         }
 

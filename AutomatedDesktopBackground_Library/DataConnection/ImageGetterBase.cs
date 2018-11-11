@@ -60,7 +60,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
             if (_IsUserRequested)
             {
                 GlobalConfig.EventSystem.InvokeDownloadImageEvent("Download Cancelled");
-                CustomMessageBox.Show("The download has been cancelled");
+               // CustomMessageBox.Show("The download has been cancelled");
             }
         }
 

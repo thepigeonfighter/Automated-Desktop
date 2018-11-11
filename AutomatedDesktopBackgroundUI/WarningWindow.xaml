@@ -11,15 +11,15 @@
         <ImageBrush ImageSource="Images/MainWindowPane.png"/>
     </Window.Background>
     <Grid>
-        <Image HorizontalAlignment="Left" Height="154" Margin="17,21,0,0" VerticalAlignment="Top" Width="361" Source="Images/RoundedSquare.png" Stretch="Fill"/>
+        <Image HorizontalAlignment="Left" Height="178" Margin="19,7,0,0" VerticalAlignment="Top" Width="361" Source="Images/RoundedSquare.png" Stretch="Fill"/>
         <CheckBox x:Name ="warningCheckBox"   HorizontalAlignment="Left" Margin="114,119,0,0" VerticalAlignment="Top" Foreground="Gray"  Height="16" Width="135">
             <CheckBox.Content>
                 Do not warn again
             </CheckBox.Content>
         </CheckBox>
-        <TextBlock HorizontalAlignment="Left" Margin="55,40,0,0" TextWrapping="Wrap" 
+        <TextBlock x:Name="messageTextBlock"  HorizontalAlignment="Left" Margin="55,40,0,0" TextWrapping="Wrap" 
                    Text="The program is not closed, to close click the Exit Application Button" VerticalAlignment="Top" Height="75" Width="285" FontSize="16" Foreground="#FF5B5B5B" FontFamily="Tahoma"/>
-        <Button x:Name="CloseWarningWindowButton" Content="Close" HorizontalAlignment="Left" Margin="114,190,0,0" Padding="1,-1,1,1"  VerticalAlignment="Top" Width="159" Height="36" Background="#FFDBDBDB" Foreground="#FF5B5B5B" Click="CloseWarningWindowButton_Click"/>
+        <Button x:Name="CloseWarningWindowButton" Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Close" HorizontalAlignment="Left" Margin="90,190,0,0" Padding="1,-1,1,1"  VerticalAlignment="Top" Width="226" Height="50" Background="#FFDBDBDB" Foreground="#FF5B5B5B" Click="CloseWarningWindowButton_Click"/>
 
 
     </Grid>

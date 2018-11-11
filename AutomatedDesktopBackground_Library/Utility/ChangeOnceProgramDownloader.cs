@@ -58,7 +58,8 @@ namespace AutomatedDesktopBackgroundLibrary.Utility
             }
             else
             {
-                CustomMessageBox.Show("Something went wrong when downloading Change Background Once EXE");
+                System.Windows.MessageBox.Show("Your error is here");
+              //  CustomMessageBox.Show("Something went wrong when downloading Change Background Once EXE");
             }
         }
         private void UnZipResults()

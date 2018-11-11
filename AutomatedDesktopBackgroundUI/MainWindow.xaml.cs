@@ -1,4 +1,5 @@
-﻿using AutomatedDesktopBackgroundLibrary;
+﻿
+using AutomatedDesktopBackgroundLibrary;
 using AutomatedDesktopBackgroundLibrary.StringExtensions;
 using System;
 using System.Diagnostics;
@@ -81,14 +82,16 @@ namespace AutomatedDesktopBackgroundUI
         {
             try
             {
-                log.Debug($"The interest named {interestListView.SelectedValue.ToString()} is trying to be removed ");
-                viewController.RemoveInterest(interestListView.SelectedValue.ToString());
+                string interestToRemove = interestListView.SelectedValue.ToString();
+                log.Debug($"The interest named {interestToRemove} is trying to be removed ");
+                viewController.RemoveInterest(interestToRemove);
                 interestListView.ItemsSource = viewController.interests;
                 interestListView.Items.Refresh();
-                log.Info($"The interest named {interestListView.SelectedValue.ToString()} has been removed");
+                log.Info($"The interest named {interestToRemove} has been removed");
             }
-            catch
+            catch(Exception ex)
             {
+
                 log.Warn($"The interest named {interestListView.SelectedValue.ToString()} could not be found");
                 CustomMessageBox.Show("Couldn't remove this interest");
             }
@@ -457,6 +460,7 @@ namespace AutomatedDesktopBackgroundUI
 
         private void EventSystem_DownloadPercentageEvent(object sender, int e)
         {
+           
             this.Dispatcher.Invoke(() => downloadProgressBar.Value = e);
         }
 
