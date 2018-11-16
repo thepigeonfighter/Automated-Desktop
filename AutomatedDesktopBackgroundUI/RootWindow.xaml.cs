@@ -24,11 +24,10 @@ namespace AutomatedDesktopBackgroundUI
             InitializeComponent();
             WindowManager.RegisterWindow(this);
             Window window = new MainWindow();
-            GlobalConfig.EventSystem.UpdateBackgroundEvent += BackgroundUpdating;
             GlobalConfig.EventSystem.ShowCustomMessageBoxEvent += EventSystem_ShowCustomMessageBoxEvent;
             log.Debug(" registered/ creating main window");
             log.Debug(" perfoming startup update check");
-            Task.Run(()=>CheckForUpdates());
+            CheckForUpdates().Wait();
             Hide();
             log.Debug("hiding root window/showing main window");
             window.Show();
@@ -40,11 +39,6 @@ namespace AutomatedDesktopBackgroundUI
         {
             Window warningWindow =this.Dispatcher.Invoke(()=>new WarningWindow(e));
             this.Dispatcher.Invoke(()=>warningWindow.Show());
-        }
-
-        private void BackgroundUpdating(object sender, string e)
-        {
-            Task.Run(() => CheckForUpdates());
         }
 
         private void StartWatchingForWallpaperChanges()
@@ -70,14 +64,7 @@ namespace AutomatedDesktopBackgroundUI
                 using (var manager = UpdateManager.GitHubUpdateManager(path))
                 {
                     log.Debug("succesfully created update client, now awaiting result");
-                    
-                    ReleaseEntry release = await manager.Result.UpdateApp();
-                    System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                    FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
-                    if(info.FileVersion.ToSemanticVersion()< release.Version)
-                    {
-                        UpdateManager.RestartApp();
-                    }
+                    await manager.Result.UpdateApp();
                     manager.Result.Dispose();
                     log.Info("sucessfully handed off the update results and have disposed the update manager");
                 }

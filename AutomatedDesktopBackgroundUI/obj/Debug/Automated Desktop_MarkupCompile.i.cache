@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\VSRepo\Automated-Desktop\AutomatedDesktopBackgroundUI\obj\Debug\
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\
 AutomatedDesktopBackgroundUI
 none
 false
 DEBUG;TRACE
-C:\VSRepo\Automated-Desktop\AutomatedDesktopBackgroundUI\App.xaml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\App.xaml
 5-1714005675
 1-1575529357
-131035900186
-33-672083257
+13741724106
+33-2002115602
 MainWindow.xaml;RootWindow.xaml;SettingsWindow.xaml;Styles.xaml;WarningWindow.xaml;
 
 False

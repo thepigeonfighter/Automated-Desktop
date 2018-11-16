@@ -76,3 +76,14 @@ F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroun
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\log4net.xml
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Automated Desktop_Content.g.cs
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Styles.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\AutomatedDesktopBackgroundUI.csprojAssemblyReference.cache
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\MainWindow.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\RootWindow.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\SettingsWindow.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\WarningWindow.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\App.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Automated Desktop_Content.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Automated Desktop_MarkupCompile.cache
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Automated Desktop_MarkupCompile.lref
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Automated Desktop.exe
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Automated Desktop.pdb
