@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace AutomatedDesktopBackgroundLibrary
@@ -31,9 +32,15 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public readonly static string ImagesFolder = _imagesFolder.FullFilePath();
 
-        public readonly static string ChangeBackgroundOnceSource = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) +@"\ChangeBackGroundOnce\ChangeBackgroundOnce.exe";
+        public readonly static string ChangeBackgroundOnceSource = Directory.GetCurrentDirectory() + @"\ChangeBackGroundOnce\ChangeBackgroundOnce.exe";
 
         public readonly static string ApplicationDirectory = FileSavePath;
+        private static string GetCurrentVersion()
+        {
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
+            return info.FileVersion;
+        }
 
         public static string GetFileEnding(this FileType file)
         {

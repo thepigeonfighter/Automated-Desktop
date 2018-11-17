@@ -1,1 +1,0 @@
-2018-11-05 21:56:36,888 [5] ERROR AutomatedDesktopBackgroundUI.RootWindow - The update manager was not created sucessfully

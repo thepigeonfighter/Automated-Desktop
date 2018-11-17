@@ -10,8 +10,6 @@ namespace AutomatedDesktopBackgroundLibrary
     public class SettingsViewController
     {
         private static readonly Regex _regex = new Regex("[^0-9]+"); //regex that matches disallowed text
-        public EventHandler<string> DownloadProgressReport;
-        public EventHandler<string> InstallCompleted;
         public bool IsTextAllowed(string text)
         {
             return !_regex.IsMatch(text);
@@ -96,29 +94,7 @@ namespace AutomatedDesktopBackgroundLibrary
             TimeSpan ts = ScheduleManager.BackgroundRefreshSetting();
             return ScheduleManager.GetReadableForm(ts);
         }
-        public bool HasDownloadedChangeOnceExe()
-        {
-            SettingsModel settings = new SettingsModel().LoadSettings();
-            return settings.HasDownloadedChangeOnceExe;
-        }
-        public void DownloadChangeOnceExe()
-        {
-            ChangeOnceProgramDownloader downloader = new ChangeOnceProgramDownloader();
-            downloader.DownloadProgressReport += DownloadProgress;
-            downloader.InstallationComplete += InstallationComplete;
-            downloader.DownloadApplication();
-            
-        }
 
-        private void InstallationComplete(object sender, string e)
-        {
-            InstallCompleted?.Invoke(this, "Success");
-        }
-
-        private void DownloadProgress(object sender, string e)
-        {
-            DownloadProgressReport?.Invoke(this, e);
-        }
         public void ClearSettings()
         {
             if(File.Exists(InternalFileDirectorySystem.SettingsFile))

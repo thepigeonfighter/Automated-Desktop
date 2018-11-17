@@ -12,5 +12,7 @@
         public static bool InCollectionRefresh = false;
         public static bool CollectionsRefreshing;
         public static bool BackgroundRefreshing;
+        //TODO remove this smelly bool 
+        public static bool SettingsWindowOpen;
     }
 }

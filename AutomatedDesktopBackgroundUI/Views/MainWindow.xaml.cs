@@ -11,6 +11,7 @@ using log4net;
 using System.Threading.Tasks;
 using Squirrel;
 using System.Linq;
+using System.Reflection;
 
 namespace AutomatedDesktopBackgroundUI
 {
@@ -30,6 +31,7 @@ namespace AutomatedDesktopBackgroundUI
             WireEvents();
             BuildNotifyIcon();
             WireDependencies();
+           
 
         }
 
@@ -221,8 +223,12 @@ namespace AutomatedDesktopBackgroundUI
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            Window window = new SettingsWindow();
-            window.Show();
+            if (!GlobalConfig.SettingsWindowOpen)
+            {
+                Window window = new SettingsWindow();
+                window.Show();
+                GlobalConfig.SettingsWindowOpen = true;
+            }
         }
 
         private void CloseWindowButtonClick(object sender, RoutedEventArgs e)
@@ -560,7 +566,7 @@ namespace AutomatedDesktopBackgroundUI
                 Window window = new SettingsWindow();
                 window.Topmost = true;
                 window.Show();
-               
+                GlobalConfig.SettingsWindowOpen = true;
                 
                 
             }

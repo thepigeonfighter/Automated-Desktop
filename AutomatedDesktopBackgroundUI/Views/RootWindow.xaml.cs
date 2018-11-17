@@ -3,9 +3,6 @@ using AutomatedDesktopBackgroundLibrary.File_Management;
 using log4net;
 using Squirrel;
 using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 

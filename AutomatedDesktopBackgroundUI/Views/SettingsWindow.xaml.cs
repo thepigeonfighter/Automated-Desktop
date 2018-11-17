@@ -1,5 +1,4 @@
 ﻿using AutomatedDesktopBackgroundLibrary;
-using AutomatedDesktopBackgroundLibrary.StringExtensions;
 using AutomatedDesktopBackgroundLibrary.Utility;
 using log4net;
 using System;
@@ -22,6 +21,7 @@ namespace AutomatedDesktopBackgroundUI
         private readonly SettingsViewController viewController = new SettingsViewController();
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private string path;
+        private bool contextMenuEnabled;
 
         public SettingsWindow()
         {
@@ -30,8 +30,7 @@ namespace AutomatedDesktopBackgroundUI
             InitializeComponent();
             WireupLists();
             SetUpEvents();
-            SetConextMenuState();
-            
+
         }
         private void BuildReadMe()
         {
@@ -61,26 +60,10 @@ namespace AutomatedDesktopBackgroundUI
 
         private void SetUpEvents()
         {
-            viewController.DownloadProgressReport += DownloadProgress;
-            viewController.InstallCompleted += InstallationComplete;
+
             this.Closing += SettingsWindow_Closing;
         }
 
-        private void InstallationComplete(object sender, string e)
-        {
-            ShowContextMenuOption();
-            SettingsModel settings = new SettingsModel().LoadSettings();
-            settings.StartWithSettingsWindowOpen = false;
-            settings.HasDownloadedChangeOnceExe = true;
-            settings.SaveSettings(settings);
-            log.Info("Sucessfully Downloaded Change Once EXE ");
-            this.Dispatcher.Invoke(()=>downloadProgessLabel.Content = "");
-        }
-
-        private void DownloadProgress(object sender, string e)
-        {
-            this.Dispatcher.Invoke(()=>downloadProgessLabel.Content = e);
-        }
 
         private void SettingsWindow_Closing(object sender, CancelEventArgs e)
         {
@@ -93,12 +76,13 @@ namespace AutomatedDesktopBackgroundUI
                     File.Delete(path);
                     log.Info("Deleted readme file");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     log.Warn("Readme file has not been removed");
                     log.Info(ex.InnerException);
                 }
             }
+            GlobalConfig.SettingsWindowOpen = false; 
         }
 
         private void WireupLists()
@@ -110,11 +94,13 @@ namespace AutomatedDesktopBackgroundUI
             collectionComboBox.ItemsSource = timeSettings;
             SetTimes();
             fileSavePathLabel.Content = InternalFileDirectorySystem.ApplicationDirectory;
+            contextMenuEnabled = new WindowsShellExtension().ContextMenuEnabled();
+            contextMenuCheckBox.IsChecked = contextMenuEnabled;
         }
 
         private void BackgroundRefreshButton_Click(object sender, RoutedEventArgs e)
         {
-            
+
             string amount = backgroundRefreshTextBox.Text;
             string timeType = backgroundCombobox.SelectedValue.ToString();
             TimeSettings ts = viewController.ConvertStringToTime(timeType);
@@ -169,7 +155,7 @@ namespace AutomatedDesktopBackgroundUI
         }
 
         private void OpenInstructionsButton_Click(object sender, RoutedEventArgs e)
-        {      
+        {
             Process.Start("notepad.exe", path);
         }
 
@@ -184,27 +170,6 @@ namespace AutomatedDesktopBackgroundUI
             var path = Assembly.GetExecutingAssembly().Location;
             return path;
         }
-        private void SetConextMenuState()
-        {
-            if(viewController.HasDownloadedChangeOnceExe())
-            {
-                ShowContextMenuOption();
-            }
-            else
-            {
-                ShowNeedToDownloadExe();
-            }
-        }
-        private void ShowNeedToDownloadExe()
-        {
-            downloadChangeOnceExeButton.Visibility = Visibility.Visible;
-            contextMenuCheckBox.Visibility = Visibility.Hidden;
-        }
-        private void ShowContextMenuOption()
-        {
-           this.Dispatcher.Invoke(()=> contextMenuCheckBox.Visibility = Visibility.Visible);
-           this.Dispatcher.Invoke(()=> downloadChangeOnceExeButton.Visibility = Visibility.Hidden);
-        }
         private void ElevateProgram()
         {
             try
@@ -216,7 +181,7 @@ namespace AutomatedDesktopBackgroundUI
                 //TODO close program the right way 
                 Application.Current.Shutdown();
                 WindowsShellExtension.RunAsAdmin(GetAssembly());
-                
+
             }
             catch (Exception ex)
             {
@@ -226,11 +191,8 @@ namespace AutomatedDesktopBackgroundUI
         }
         private void CheckBoxChanged(object sender, RoutedEventArgs e)
         {
-            if (!File.Exists(InternalFileDirectorySystem.ChangeBackgroundOnceSource))
+            if (contextMenuEnabled != contextMenuCheckBox.IsChecked)
             {
-                CustomMessageBox.Show("You have not installed the change background once exe. Without it installed this feature does not work");
-            }
-            else {
 
                 if (!WindowsShellExtension.IsElevated())
                 {
@@ -244,6 +206,7 @@ namespace AutomatedDesktopBackgroundUI
                         bool value = contextMenuCheckBox.IsChecked.HasValue ? contextMenuCheckBox.IsChecked.Value : false;
                         if (value)
                         {
+
                             log.Info("Creating the context menu button");
                             shell.CreateMenuOption(GetAssembly());
                         }
@@ -252,46 +215,32 @@ namespace AutomatedDesktopBackgroundUI
                             log.Info("Removing the context menu button");
                             shell.RemoveMenuOption(GetAssembly());
                         }
+                        contextMenuEnabled = value;
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         log.Error("Failed to add/remove context menu button");
                         log.Info(ex.InnerException);
                     }
-                   
+
+
+
                 }
-
-            }
-            try
-            {
-                SettingsModel settings = new SettingsModel().LoadSettings();
-                settings.StartWithSettingsWindowOpen = false;
-                settings.SaveSettings(settings);
-                log.Info("Sucessfully updated the settings");
-            }
-            catch(Exception ex)
-            {
-                log.Error("Failed to update settings");
-                log.Info(ex.InnerException);
-            }
-        }
-
-        private void downloadChangeOnceExe_Click(object sender, RoutedEventArgs e)
-        {
-
                 try
                 {
-                    downloadChangeOnceExeButton.IsEnabled = false;
-                    viewController.DownloadChangeOnceExe();
-
+                    SettingsModel settings = new SettingsModel().LoadSettings();
+                    settings.StartWithSettingsWindowOpen = false;
+                    settings.SaveSettings(settings);
+                    log.Info("Sucessfully updated the settings");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    log.Error("Error in the downloading of change once EXE");
-                    log.Info(ex.InnerException.Message);
+                    log.Error("Failed to update settings");
+                    log.Info(ex.InnerException);
                 }
-            
+            }
         }
+
 
         private void ClearSettings_Click(object sender, RoutedEventArgs e)
         {

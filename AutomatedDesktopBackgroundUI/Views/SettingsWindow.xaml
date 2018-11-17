@@ -16,17 +16,20 @@
         <Label Content="Collection Refresh Frequency" HorizontalAlignment="Left" Margin="18,220,0,0" VerticalAlignment="Top" Width="227" FontSize="16" FontWeight="Bold"/>
         <TextBox x:Name="collectionTextBox" HorizontalAlignment="Left" Height="23" Margin="70,256,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" PreviewTextInput="CheckIfNumber"/>
         <ComboBox x:Name="collectionComboBox" HorizontalAlignment="Left" Margin="283,256,0,0" VerticalAlignment="Top" Width="142"/>
-        <Button x:Name="changeBackgroundButton"  Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Change Current Background" HorizontalAlignment="Left" Margin="594,97,0,0" VerticalAlignment="Top" Width="210" Height="33" Click="ChangeBackgroundButton_Click"/>
+        <Button x:Name="changeBackgroundButton"  Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Change Current Background" HorizontalAlignment="Left" Margin="594,70,0,0" VerticalAlignment="Top" Width="210" Height="33" Click="ChangeBackgroundButton_Click"/>
         <Button x:Name="backgroundRefreshButton" ContentStringFormat="Change"  Style="{StaticResource simpleButtonStyle}" HorizontalAlignment="Left" Margin="157,183,0,0" VerticalAlignment="Top" Width="138" Height="32" Click="BackgroundRefreshButton_Click"/>
         <Button x:Name="collectionRefreshButton" ContentStringFormat="Change"  Style="{StaticResource simpleButtonStyle}" HorizontalAlignment="Left" Margin="157,284,0,0" VerticalAlignment="Top" Width="138" Height="36" RenderTransformOrigin="0.55,0.091" Click="CollectionRefreshButton_Click"/>
         <Label Content="File Save Path" HorizontalAlignment="Left" Margin="28,10,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
         <Button x:Name="resetApplicationButton" Content="Reset Application"  HorizontalAlignment="Left" Margin="604,367,0,0" VerticalAlignment="Top" Width="190" Height="31" Click="ResetApplicationButton_Click" Background="#FFE41B1B"/>
         <Label x:Name="fileSavePathLabel" Content="" HorizontalAlignment="Left" Margin="28,46,0,0" VerticalAlignment="Top" Width="502"/>
-        <Button x:Name="openInstructionsButton"  Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Open Instructions" HorizontalAlignment="Left" Margin="594,140,0,0" VerticalAlignment="Top" Width="210" Height="33" Click="OpenInstructionsButton_Click"/>
+        <Button x:Name="openInstructionsButton"  Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Open Instructions" HorizontalAlignment="Left" Margin="594,122,0,0" VerticalAlignment="Top" Width="210" Height="33" Click="OpenInstructionsButton_Click"/>
         <Button x:Name="closeSettingsButton" Style="{StaticResource closeApplicationStyle}" Margin="776,7,-34,385" Click="OnCloseSettingsClick"/>
-        <CheckBox x:Name="contextMenuCheckBox" Content="Context Menu Button" HorizontalAlignment="Left" Margin="604,196,0,0" VerticalAlignment="Top" Width="190" Height="30" Padding="10,1,0,0" FontFamily="Tahoma" FontSize="16" Checked="CheckBoxChanged" Unchecked="CheckBoxChanged" />
-        <Button x:Name="downloadChangeOnceExeButton"  Style="{StaticResource simpleButtonStyle}" ToolTip="This will download and install a program that allows you to skip to the next background whenever you want by right clicking and selecting the Change Background Option" ContentStringFormat="Download Shortcut" HorizontalAlignment="Left" Margin="594,243,0,0" VerticalAlignment="Top" Width="210" Height="33" Click="downloadChangeOnceExe_Click"/>
-        <Label x:Name="downloadProgessLabel" Content="" HorizontalAlignment="Left" Margin="604,282,0,0" VerticalAlignment="Top" Width="190" FontFamily="Tahoma"/>
+        <CheckBox x:Name="contextMenuCheckBox" Content="Context Menu Button" HorizontalAlignment="Left" Margin="604,282,0,0" VerticalAlignment="Top" Width="190" Height="30" Padding="10,1,0,0" FontFamily="Tahoma" FontSize="16" Checked="CheckBoxChanged" Unchecked="CheckBoxChanged" />
         <Button x:Name="clearSettingsButton"  Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Clear Settings" HorizontalAlignment="Left" Margin="594,329,0,0" VerticalAlignment="Top" Width="210" Height="33" Click="ClearSettings_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="594,183,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Height="86" Width="228">
+            Enabling this option causes a short cut to be added to your context menu when you click your right mouse button. Allowing you to change the background 
+            without needing to open the application window.
+        </TextBlock>
+        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="3"  HorizontalAlignment="Left" Height="149" Margin="572,171,0,0" VerticalAlignment="Top" Width="260"/>
     </Grid>
 </Window>

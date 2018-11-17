@@ -49,6 +49,11 @@ namespace AutomatedDesktopBackgroundLibrary.Utility
                 }
             }
         }
+        public bool ContextMenuEnabled()
+        {
+            var reg = Registry.ClassesRoot.OpenSubKey(Menu);
+            return reg != null;
+        }
         public void RemoveMenuOption(string executingAssembly)
         {
             if (!IsElevated())
