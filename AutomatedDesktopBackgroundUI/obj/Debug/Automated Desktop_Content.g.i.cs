@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("log4net.config")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("config/log4net.config")]
 
 

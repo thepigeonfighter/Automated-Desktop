@@ -162,7 +162,8 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public void CloseWindow()
         {
-            WindowManager.CloseRootWindow();
+            //TODO Close program the right way 
+            Application.Current.Shutdown();
         }
         public bool ShouldDisplayWarning()
         {

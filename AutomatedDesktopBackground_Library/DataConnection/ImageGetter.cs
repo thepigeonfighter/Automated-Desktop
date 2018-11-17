@@ -1,13 +1,13 @@
 ﻿using AutomatedDesktopBackgroundLibrary.DataConnection;
 using AutomatedDesktopBackgroundLibrary.StringExtensions;
-using AutomatedDesktopBackgroundLibrary.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Windows;
+using log4net;
+
 
 namespace AutomatedDesktopBackgroundLibrary
 {
@@ -17,7 +17,7 @@ namespace AutomatedDesktopBackgroundLibrary
     public class ImageGetter : ImageGetterBase
     {
         private readonly ImageModelBuilder _imageBuilder = new ImageModelBuilder();
-
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         /// <summary>
         /// Retrieves an image from the internet, and creates a new image entry in the database
         /// </summary>
@@ -36,6 +36,7 @@ namespace AutomatedDesktopBackgroundLibrary
             InterestModel interest = folderName.GetInterestByName();
             Directory.CreateDirectory($@"{InternalFileDirectorySystem.ImagesFolder}\{interest.Name}");
             ImageModel imageToDownload = _imageBuilder.Build(imageUrl,description, interest);
+            log.Debug($"Requesting to download an image named {imageToDownload.Name} from {imageUrl}");
             DownloadFile(imageToDownload);
             _IsUserRequested = userRequested;
         }
@@ -156,8 +157,7 @@ namespace AutomatedDesktopBackgroundLibrary
 
             if (e.Error != null) // We have an error! Retry a few times, then abort.
             {
-                //TODO Make these errors hook up to a log system to keep track of them 
-               // MessageBox.Show(e.Error.InnerException.ToString());
+                log.Warn($"This image has failed to download because {e.Error.InnerException.Message}");
                 HandleError();
             }
             ExpectedDownloadAmount--;

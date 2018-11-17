@@ -77,13 +77,51 @@ F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroun
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Automated Desktop_Content.g.cs
 F:\Users\georg\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Styles.baml
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\AutomatedDesktopBackgroundUI.csprojAssemblyReference.cache
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\MainWindow.g.cs
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\RootWindow.g.cs
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\SettingsWindow.g.cs
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\WarningWindow.g.cs
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\App.g.cs
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Automated Desktop_Content.g.cs
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Automated Desktop_MarkupCompile.cache
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Automated Desktop_MarkupCompile.lref
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Automated Desktop.exe
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Automated Desktop.pdb
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Automated Desktop.exe.config
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Automated Desktop.exe
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Automated Desktop.pdb
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\AutomatedDesktopBackgroundLibrary.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\DeltaCompressionDotNet.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\DeltaCompressionDotNet.MsDelta.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\DeltaCompressionDotNet.PatchApi.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\log4net.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Mono.Cecil.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Mono.Cecil.Mdb.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Mono.Cecil.Pdb.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Mono.Cecil.Rocks.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Newtonsoft.Json.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\NuGet.Squirrel.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Quartz.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\SharpCompress.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Splat.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Squirrel.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\AutomatedDesktopBackgroundLibrary.pdb
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\log4net.xml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Newtonsoft.Json.xml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\NuGet.Squirrel.pdb
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Quartz.pdb
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Quartz.xml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Splat.pdb
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Squirrel.pdb
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Automated Desktop.g.resources
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\AutomatedDesktopBackgroundUI.Properties.Resources.resources
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\AutomatedDesktopBackgroundUI.csproj.GenerateResource.cache
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\AutomatedDesktopBackgroundUI.csproj.CoreCompileInputs.cache
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\AutomatedDesktopBackgroundUI.csproj.CopyComplete
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Config\log4net.config
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\MainWindow.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\RootWindow.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\SettingsWindow.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\WarningWindow.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\App.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\App.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\MainWindow.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\RootWindow.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\SettingsWindow.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Config\Styles.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\WarningWindow.baml

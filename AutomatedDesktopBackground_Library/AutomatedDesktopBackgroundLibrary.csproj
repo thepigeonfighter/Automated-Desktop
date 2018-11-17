@@ -70,7 +70,6 @@
     <Compile Include="Data Storage\DataKeeper.cs" />
     <Compile Include="File Management\DirectoryNavigator.cs" />
     <Compile Include="File Management\FileCollection.cs" />
-    <Compile Include="File Management\GlobalSuppressions.cs" />
     <Compile Include="API Classes\IAPIManager.cs" />
     <Compile Include="API Classes\IAPIResult.cs" />
     <Compile Include="API Classes\IAPIResultConverter.cs" />
@@ -135,7 +134,6 @@
     <Compile Include="ViewController\SettingsViewController.cs" />
     <Compile Include="DataConnection\ObjectToTextProcessor.cs" />
     <Compile Include="Jobs\WallpaperSetter.cs" />
-    <Compile Include="Utility\WindowManager.cs" />
     <Compile Include="ViewController\WarningWindowController.cs" />
   </ItemGroup>
   <ItemGroup>

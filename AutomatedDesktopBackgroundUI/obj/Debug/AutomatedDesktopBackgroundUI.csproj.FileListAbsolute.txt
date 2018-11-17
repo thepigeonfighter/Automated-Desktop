@@ -125,3 +125,52 @@ C:\VSRepo\Automated-Desktop\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesk
 C:\VSRepo\Automated-Desktop\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI.csproj.CopyComplete
 C:\VSRepo\Automated-Desktop\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop.exe
 C:\VSRepo\Automated-Desktop\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop.pdb
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Automated Desktop.exe.config
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Automated Desktop.exe
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Automated Desktop.pdb
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\AutomatedDesktopBackgroundLibrary.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\DeltaCompressionDotNet.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\DeltaCompressionDotNet.MsDelta.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\DeltaCompressionDotNet.PatchApi.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\log4net.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Mono.Cecil.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Mono.Cecil.Mdb.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Mono.Cecil.Pdb.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Mono.Cecil.Rocks.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Newtonsoft.Json.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\NuGet.Squirrel.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Quartz.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\SharpCompress.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Splat.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Squirrel.dll
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\AutomatedDesktopBackgroundLibrary.pdb
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\log4net.xml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Newtonsoft.Json.xml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\NuGet.Squirrel.pdb
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Quartz.pdb
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Quartz.xml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Splat.pdb
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Squirrel.pdb
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI.csprojAssemblyReference.cache
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop_Content.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop_MarkupCompile.cache
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop_MarkupCompile.lref
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop.g.resources
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI.Properties.Resources.resources
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI.csproj.GenerateResource.cache
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI.csproj.CoreCompileInputs.cache
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI.csproj.CopyComplete
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop.exe
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop.pdb
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Config\log4net.config
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\MainWindow.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\RootWindow.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\SettingsWindow.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\WarningWindow.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\MainWindow.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\RootWindow.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\SettingsWindow.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Config\Styles.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\WarningWindow.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\App.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\App.baml
