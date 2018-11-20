@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:AutomatedDesktopBackgroundUI">
+    <SolidColorBrush x:Key="backgroundColor" Color="#FFDBDBDB"></SolidColorBrush>
+    <SolidColorBrush x:Key="fontColor" Color="#FF535252"></SolidColorBrush>
     <Style x:Key="myHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
         <Setter Property="Visibility" Value="Collapsed" />
     </Style>
@@ -233,8 +235,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button" >
 
-                    <Border Name="RootElement"  >
-                        <TextBlock x:Name="buttonText" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="#FF535252" 
+                    <Border Name="RootElement" BorderThickness="1" CornerRadius="3" BorderBrush="{StaticResource fontColor}">
+                        <TextBlock x:Name="buttonText" HorizontalAlignment="Center" VerticalAlignment="Center"  Foreground="{StaticResource fontColor}" 
                                        Text="{TemplateBinding ContentStringFormat}"/>
 
                         <VisualStateManager.VisualStateGroups>
@@ -260,10 +262,7 @@
                                 <!--The Disabled state is omitted for brevity.-->
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Border.Background >
-                            <ImageBrush x:Name="ImageBrush" ImageSource="/Automated Desktop;component/Images/Border.png"  >
-                            </ImageBrush>
-                        </Border.Background>
+                        
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

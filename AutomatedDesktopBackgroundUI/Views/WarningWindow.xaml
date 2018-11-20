@@ -5,22 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutomatedDesktopBackgroundUI"
         mc:Ignorable="d"
-        Title="WarningWindow" Height="250" Width="400"  Icon="pack://siteoforigin:,,,/Images/Icon.ico" AllowsTransparency="True"
-        Foreground="White" WindowStyle="None" ResizeMode="NoResize" VisualBitmapScalingMode="Fant" WindowStartupLocation="CenterScreen" >
-    <Window.Background>
-        <ImageBrush ImageSource="/Automated Desktop;component/Images/MainWindowPane.png"/>
-    </Window.Background>
-    <Grid>
-        <Image HorizontalAlignment="Left" Height="178" Margin="19,7,0,0" VerticalAlignment="Top" Width="361" Source="/Automated Desktop;component/Images/RoundedSquare.png" Stretch="Fill"/>
-        <CheckBox x:Name ="warningCheckBox"   HorizontalAlignment="Left" Margin="114,119,0,0" VerticalAlignment="Top" Foreground="Gray"  Height="16" Width="135">
-            <CheckBox.Content>
-                Do not warn again
-            </CheckBox.Content>
-        </CheckBox>
-        <TextBlock x:Name="messageTextBlock"  HorizontalAlignment="Left" Margin="55,40,0,0" TextWrapping="Wrap" 
-                   Text="The program is not closed, to close click the Exit Application Button" VerticalAlignment="Top" Height="75" Width="285" FontSize="16" Foreground="#FF5B5B5B" FontFamily="Tahoma"/>
-        <Button x:Name="CloseWarningWindowButton" Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Close" HorizontalAlignment="Left" Margin="90,190,0,0" Padding="1,-1,1,1"  VerticalAlignment="Top" Width="226" Height="50" Background="#FFDBDBDB" Foreground="#FF5B5B5B" Click="CloseWarningWindowButton_Click"/>
-
-
-    </Grid>
+        Title="WarningWindow" Height="150" Width="350"  Icon="pack://siteoforigin:,,,/Images/Icon.ico" AllowsTransparency="True"
+        WindowStyle="None" ResizeMode="NoResize" Background="Transparent" WindowStartupLocation="CenterScreen" >
+    <Border Background="{StaticResource backgroundColor}" BorderBrush="{StaticResource fontColor}" BorderThickness="1" CornerRadius="10">
+        <Grid Margin="-2,8,0,0">
+            <Border Margin="36,0,36,48" BorderBrush="{StaticResource fontColor}" BorderThickness="1" CornerRadius="2"/>
+            <CheckBox x:Name ="warningCheckBox"   HorizontalAlignment="Left" Margin="106,67,0,0" VerticalAlignment="Top" Foreground="Gray"  Height="16" Width="135">
+                <CheckBox.Content>
+                    Do not warn again
+                </CheckBox.Content>
+            </CheckBox>
+            <TextBlock x:Name="messageTextBlock"  HorizontalAlignment="Left" Margin="52,10,0,0" TextWrapping="Wrap" TextAlignment="Center"
+                   Text="The program is not closed, to close click the Exit Application Button" VerticalAlignment="Top" Height="70" Width="238" FontSize="14" Foreground="#FF5B5B5B" FontFamily="Tahoma"/>
+            <Button x:Name="CloseWarningWindowButton" Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Close" HorizontalAlignment="Left" Margin="78,104,0,0" Padding="1,-1,1,1"  VerticalAlignment="Top" Width="185" Height="26" Background="#FFDBDBDB" Foreground="#FF5B5B5B" Click="CloseWarningWindowButton_Click"/>
+        </Grid>
+    </Border>
 </Window>

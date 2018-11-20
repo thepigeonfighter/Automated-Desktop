@@ -8,33 +8,25 @@
         
         Title="MainWindow" Height="450" Width="900" WindowStartupLocation="CenterScreen" 
         MinWidth="900" MinHeight="450" Icon="pack://siteoforigin:,,,/Images/Icon.ico" AllowsTransparency="True"
-        Foreground="White" WindowStyle="None" VisualBitmapScalingMode="Fant" 
-            
+        WindowStyle="None" VisualBitmapScalingMode="Fant" 
+        Background="Transparent"
         >
-
-    <Window.Background>
-        <ImageBrush ImageSource="/Automated Desktop;component/Images/MainWindowPane.png"/>
-    </Window.Background>
-
+    <Border Background="{StaticResource backgroundColor}" BorderBrush="{StaticResource fontColor}" BorderThickness="2" CornerRadius="10">
     <Grid>
+        
         <Label x:Name="header" Content="Automated Desktop Background" HorizontalAlignment="Left" Padding="30,14,15,10" Margin="10,15,0,0" VerticalAlignment="Top" FontFamily="MS Gothic" FontSize="36" Foreground="#FF535252" Height="66" Width="661" RenderTransformOrigin="0.5,0.5" Background="{x:Null}"/>
-        <TextBox x:Name="queryTextBox" HorizontalAlignment="Left" Height="41" Padding="20,4,10,10" Margin="465,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="219" Background="#FF535252" SelectionBrush="#FF828587" Foreground="#FFDBDBDB" FontSize="18" FontWeight="Bold" >
-            <TextBox.BorderBrush>
-                <ImageBrush ImageSource="/Automated Desktop;component/Images/Border.png"/>
-            </TextBox.BorderBrush>
+        <TextBox x:Name="queryTextBox" HorizontalAlignment="Left" Height="41" Padding="20,4,10,10" Margin="465,194,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="219" Background="{StaticResource fontColor}" SelectionBrush="#FF828587" Foreground="{StaticResource backgroundColor}"  FontSize="18" FontWeight="Bold" >
+            
         </TextBox>
-        <Button x:Name="querySearchButton" Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Add Interest" HorizontalAlignment="Left" Margin="465,245,0,0" VerticalAlignment="Top" Width="219" Click="QuerySearchButton_Click" Height="42" BorderBrush="#FFDBDBDB" FontFamily="Tahoma" FontWeight="Bold">
+        <Button x:Name="querySearchButton" Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Add Interest" HorizontalAlignment="Left" Margin="465,245,0,0" VerticalAlignment="Top" Width="219" Click="QuerySearchButton_Click" Height="35" BorderBrush="#FFDBDBDB" FontFamily="Tahoma" FontWeight="Bold">
 
         </Button>
         <Label Content="Interests" HorizontalAlignment="Left" Margin="34,159.38,0,0" VerticalAlignment="Top" Width="74" FontSize="14" RenderTransformOrigin="0.527,0.804" Foreground="#FF535252" FontFamily="Tahoma"/>
-        <Button x:Name="removeInterestButton"  Style="{StaticResource simpleButtonStyle}" ToolTip="Removes any images that are associated with this interest unless they have been marked as favorite." ContentStringFormat="Remove Interest" HorizontalAlignment="Left" Margin="24,378,0,0" VerticalAlignment="Top" Width="152" Click="RemoveInterestButton_Click" BorderBrush="{x:Null}" Height="31" FontFamily="Tahoma" FontWeight="Bold">
-            <Button.Background>
-                <ImageBrush ImageSource="/Automated Desktop;component/Images/Border.png" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
-            </Button.Background>
+        <Button x:Name="removeInterestButton"  Style="{StaticResource simpleButtonStyle}" ToolTip="Removes any images that are associated with this interest unless they have been marked as favorite." ContentStringFormat="Remove Interest" HorizontalAlignment="Left" Margin="34,378,0,0" VerticalAlignment="Top" Width="152" Click="RemoveInterestButton_Click" BorderBrush="{x:Null}" Height="31" FontFamily="Tahoma" FontWeight="Bold">
         </Button>
         <Button x:Name="downloadButton" Style="{StaticResource simpleButtonStyle}" Padding="10"
                 ToolTip="Select an interest from the interest list to download a new collection." ContentStringFormat="Download New Collection"
-                HorizontalAlignment="Left" Margin="465,301,0,0" VerticalAlignment="Top" Width="219" Height="42" Click="DownloadButton_Click" BorderBrush="{x:Null}" FontFamily="Tahoma" FontWeight="Bold" >
+                HorizontalAlignment="Left" Margin="465,301,0,0" VerticalAlignment="Top" Width="219" Height="35" Click="DownloadButton_Click" BorderBrush="{x:Null}" FontFamily="Tahoma" FontWeight="Bold" >
 
         </Button>
         <ProgressBar x:Name="downloadProgressBar" HorizontalAlignment="Left" Height="15" Margin="475,358,0,0" VerticalAlignment="Top" Width="192" Foreground="#FF9CD4A6" />
@@ -45,13 +37,13 @@
         </Button>
         <Label x:Name="backgroundRefreshLabel" Content="Background is Refreshing" HorizontalAlignment="Left" Margin="451,95.03,0,0" VerticalAlignment="Top" Width="209" Height="29" Foreground="#FF535252" FontFamily="Tahoma" FontSize="14" FontWeight="Bold"/>
         <Label x:Name ="collectionRefreshLabel" Content="Collections are refreshing" HorizontalAlignment="Left" Margin="451,132,0,0" VerticalAlignment="Top" Width="196.228" Height="29" Foreground="#FF535252" FontFamily="Tahoma" FontSize="14" FontWeight="Bold"/>
-        <Button x:Name="stopBackgroundRefreshButton" Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Stop" HorizontalAlignment="Left" Margin="675,101,0,0" VerticalAlignment="Top" Width="96" Click="StopBackgroundRefreshButton_Click" BorderBrush="{x:Null}" Height="30" FontFamily="Tahoma" FontWeight="Bold">
+        <Button x:Name="stopBackgroundRefreshButton" Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Stop" HorizontalAlignment="Left" Margin="675,101,0,0" VerticalAlignment="Top" Width="85" Click="StopBackgroundRefreshButton_Click" BorderBrush="{x:Null}" Height="25" FontFamily="Tahoma" FontWeight="Bold">
         </Button>
-        <Button x:Name="stopCollectionRefreshButton" Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Stop" HorizontalAlignment="Left" Margin="675,131,0,0" VerticalAlignment="Top" Width="96" Click="StopCollectionRefreshButton_Click" Height="30" BorderBrush="{x:Null}" FontFamily="Tahoma" FontWeight="Bold">
+        <Button x:Name="stopCollectionRefreshButton" Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Stop" HorizontalAlignment="Left" Margin="675,136,0,0" VerticalAlignment="Top" Width="85" Click="StopCollectionRefreshButton_Click" Height="25" BorderBrush="{x:Null}" FontFamily="Tahoma" FontWeight="Bold">
         </Button>
-        <Button x:Name="startBackgroundRefreshButton"  Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Start" HorizontalAlignment="Left" Margin="785,100,0,0" VerticalAlignment="Top" Width="96" Click="StartBackgroundRefreshButton_Copy_Click" BorderBrush="{x:Null}" Height="30" FontFamily="Tahoma" FontWeight="Bold">
+        <Button x:Name="startBackgroundRefreshButton"  Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Start" HorizontalAlignment="Left" Margin="785,100,0,0" VerticalAlignment="Top" Width="85" Click="StartBackgroundRefreshButton_Copy_Click" BorderBrush="{x:Null}" Height="25" FontFamily="Tahoma" FontWeight="Bold" Foreground="{x:Null}">
         </Button>
-        <Button x:Name="startCollectionRefreshButton" Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Start" HorizontalAlignment="Left" Margin="785,131,0,0" VerticalAlignment="Top" Width="96" Click="StartCollectionRefreshButton_Copy_Click" Height="30" BorderBrush="{x:Null}" FontFamily="Tahoma" FontWeight="Bold" >
+        <Button x:Name="startCollectionRefreshButton" Style="{StaticResource simpleButtonStyle}" ContentStringFormat="Start" HorizontalAlignment="Left" Margin="785,136,0,0" VerticalAlignment="Top" Width="85" Click="StartCollectionRefreshButton_Copy_Click" Height="25" BorderBrush="{x:Null}" FontFamily="Tahoma" FontWeight="Bold" >
         </Button>
         <Grid Margin="42,86,470,334">
             <Viewbox HorizontalAlignment="Left">
@@ -66,31 +58,31 @@
         </Button>
         <Button x:Name="HateImageButton" Padding="5" Style="{StaticResource hateItButtonStyle}" ToolTip="Deletes an image and bans the image from being downloaded again in the future"  HorizontalAlignment="Left" Margin="267,114,0,0" VerticalAlignment="Top" Width="42" Click="HateImage_Click" BorderBrush="{x:Null}" Height="45" FontFamily="Tahoma" FontWeight="Bold">
         </Button>
-        <ListView x:Name="interestListView" Padding="10" HorizontalAlignment="Left" Height="185" Margin="24,188,0,0" 
+            <Border BorderBrush="{StaticResource fontColor}" BorderThickness="1" Margin="22,161,518,77" CornerRadius="3" />
+            <ListView x:Name="interestListView" Padding="10" HorizontalAlignment="Left" Height="185" Margin="24,188,0,0" 
                   VerticalAlignment="Top" Width="350" SelectionChanged="InterestListView_SelectionChanged" 
-                  BorderBrush="{x:Null}" Foreground="#FF5B5B5B"
+                  Foreground="#FF5B5B5B" Background="Transparent" BorderBrush="{x:Null}"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled" FontFamily="Tahoma" 
                   >
-            <ListView.Background>
-                <ImageBrush ImageSource="/Automated Desktop;component/Images/RoundedSquare.png"/>
-            </ListView.Background>
-            <ListView.View>
-                <GridView ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
-                    <GridViewColumn x:Name="InterestHeader" Header="Interest Name"  Width="200"  DisplayMemberBinding="{Binding Name}" >
-                    </GridViewColumn>
-                    <GridViewColumn x:Name="ResultsHeader" Header="Total Results" Width="200" DisplayMemberBinding="{Binding TotalImages}" >
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <Label x:Name="connectionLabel" Content="Connected" HorizontalAlignment="Left" Height="24" Margin="564,66.03,0,0" VerticalAlignment="Top" Width="182" Foreground="#FF5C9C68" FontWeight="Bold" FontFamily="SimSun"/>
+
+                <ListView.View>
+                    <GridView ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
+                        <GridViewColumn x:Name="InterestHeader" Header="Interest Name"  Width="200"  DisplayMemberBinding="{Binding Name}" >
+                        </GridViewColumn>
+                        <GridViewColumn x:Name="ResultsHeader" Header="Total Results" Width="200" DisplayMemberBinding="{Binding TotalImages}" >
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <Label x:Name="connectionLabel" Content="Connected" HorizontalAlignment="Left" Height="24" Margin="564,66.03,0,0" VerticalAlignment="Top" Width="182" Foreground="#FF5C9C68" FontWeight="Bold" FontFamily="SimSun"/>
         <Label x:Name="versionLabel" Content="v.1.2" HorizontalAlignment="Left" Margin="564,45.893,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,-0.308" Height="28" Width="46"/>
         <Label Content="Results" HorizontalAlignment="Left" Margin="235,159.38,0,0" VerticalAlignment="Top" Width="74" FontSize="14" RenderTransformOrigin="0.527,0.804" Foreground="#FF535252" FontFamily="Tahoma"/>
         <Button x:Name="quitApplicationButton" Style="{StaticResource simpleButtonStyle}" Padding="10"
             ToolTip="Shuts the application down" ContentStringFormat="Exit Application"
-            HorizontalAlignment="Left" Margin="465,383,0,0" VerticalAlignment="Top" Width="219" Height="42" BorderBrush="{x:Null}" FontFamily="Tahoma" FontWeight="Bold"
+            HorizontalAlignment="Left" Margin="465,383,0,0" VerticalAlignment="Top" Width="219" Height="35" BorderBrush="{x:Null}" FontFamily="Tahoma" FontWeight="Bold"
                 Click="ExitApplicationButtonClick"/>
-        <Button Style="{StaticResource minimizeButtonStyle}" HorizontalAlignment="Left" Margin="705,16,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="OnMinimizeClick">
+        <Button Style="{StaticResource minimizeButtonStyle}" HorizontalAlignment="Left" Margin="705,16,0,0" VerticalAlignment="Top" Width="50" Height="50" Click="OnMinimizeClick" Foreground="{x:Null}">
             <Button.Background>
                 <ImageBrush ImageSource="/Automated Desktop;component/Images/minimize button.png"/>
             </Button.Background>
@@ -98,4 +90,5 @@
         <Button x:Name="ChangeBackgroundButton" Padding="5" Style="{StaticResource nextBackgroundStyle}" ToolTip="Skips to the next desktop background"  HorizontalAlignment="Left" Margin="314,116,0,0" VerticalAlignment="Top" Width="42" Click="NextBackground_Click" BorderBrush="{x:Null}" Height="45" FontFamily="Tahoma" FontWeight="Bold"/>
 
     </Grid>
+    </Border>
 </Window>
