@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="AutomatedDesktopBackgroundUI.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AutomatedDesktopBackgroundUI.Views"
+             mc:Ignorable="d" d:DesignWidth="645" d:DesignHeight="420" 
+             >
+    <Grid Background="LightYellow">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--Cancel/Accept Buttons-->
+        <Grid Grid.Row="3" Grid.Column="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="AcceptSettings" Grid.Row="1" Grid.Column="1" Style="{StaticResource acceptSettingsStyle}"  ToolTip="Apply Settings" />
+            <Button x:Name="RevertSettings" Grid.Column="0" Style="{StaticResource revertSettingsStyle}" ToolTip="Reverts to previous settings"/>
+        </Grid>
+        
+
+    </Grid>
+</UserControl>

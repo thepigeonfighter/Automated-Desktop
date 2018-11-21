@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\Views\App.xaml
-51755539756
+9-1905465312
 1-1157800315
-121879290126
-33-2002115602
-Views\MainWindow.xaml;Views\RootWindow.xaml;Views\SettingsWindow.xaml;Config\Styles.xaml;Views\WarningWindow.xaml;
+261297815242
+1412001843005
+Views\CurrentImageView.xaml;Views\MainView.xaml;Views\MainWindow.xaml;Views\RootWindow.xaml;Views\SettingsView.xaml;Views\SettingsWindow.xaml;Config\Styles.xaml;Views\ShellView.xaml;Views\WarningWindow.xaml;
 
-True
+False
 

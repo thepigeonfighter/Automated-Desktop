@@ -13,28 +13,6 @@
                 <ControlTemplate TargetType="Button" >
 
                     <Border Name="RootElement" ClipToBounds="False"  BorderThickness="5"  Width="50" Height="50" >
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-
-                                <VisualState x:Name="Normal" />
-
-                                <VisualState x:Name="MouseOver">
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Width"  From="50"
-                            To="54" Duration="0:0:.1">
-
-                                        </DoubleAnimation>
-                                        <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Height"  From="50"
-                            To="54" Duration="0:0:.1">
-                                        </DoubleAnimation>
-                                    </Storyboard>
-                                </VisualState>
-
-
-
-                                <!--The Disabled state is omitted for brevity.-->
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
                         <Border.Background >
                             <ImageBrush x:Name="ImageBrush" ImageSource="/Automated Desktop;component/Images/Settings Button2.png"  >
                             </ImageBrush>
@@ -43,6 +21,68 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="RenderTransformOrigin" Value=".5,.5"/>
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="acceptSettingsStyle" TargetType="{x:Type Button}">
+        <Setter Property="OverridesDefaultStyle" Value="True"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button" >
+
+                    <Border Name="RootElement" ClipToBounds="False"  BorderThickness="5"  Width="50" Height="50" >
+                        <Border.Background >
+                            <ImageBrush x:Name="ImageBrush" ImageSource="/Automated Desktop;component/Images/Checkmark.png"  >
+                            </ImageBrush>
+                        </Border.Background>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="RenderTransformOrigin" Value=".5,.5"/>
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="revertSettingsStyle" TargetType="{x:Type Button}">
+        <Setter Property="OverridesDefaultStyle" Value="True"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button" >
+
+                    <Border Name="RootElement" ClipToBounds="False"  BorderThickness="5"  Width="50" Height="50" >
+                        <Border.Background >
+                            <ImageBrush x:Name="ImageBrush" ImageSource="/Automated Desktop;component/Images/Cancel.png"  >
+                            </ImageBrush>
+                        </Border.Background>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="RenderTransformOrigin" Value=".5,.5"/>
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
     </Style>
     <Style x:Key="loveItButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="OverridesDefaultStyle" Value="True"></Setter>
@@ -50,36 +90,24 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button" >
 
-                    <Border Name="RootElement" ClipToBounds="False"  BorderThickness="5"  Width="40" Height="40" >
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-
-                                <VisualState x:Name="Normal" />
-
-                                <VisualState x:Name="MouseOver">
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Width"  From="40"
-                            To="44" Duration="0:0:.1">
-
-                                        </DoubleAnimation>
-                                        <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Height"  From="40"
-                            To="44" Duration="0:0:.1">
-                                        </DoubleAnimation>
-
-                                    </Storyboard>
-                                </VisualState>
-                                <!--The Disabled state is omitted for brevity.-->
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
+                    <Border Name="RootElement" ClipToBounds="False" >
                         <Border.Background>
                             <ImageBrush ImageSource="/Images/Love it.png"/>
                         </Border.Background>
-
-
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="RenderTransformOrigin" Value=".5,.5"/>
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
     </Style>
     <Style x:Key="hateItButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="OverridesDefaultStyle" Value="True"></Setter>
@@ -87,27 +115,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button" >
 
-                    <Border Name="RootElement" ClipToBounds="False"  BorderThickness="5"  Width="40" Height="40" >
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-
-                                <VisualState x:Name="Normal" />
-
-                                <VisualState x:Name="MouseOver">
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Width"  From="40"
-                            To="44" Duration="0:0:.1">
-
-                                        </DoubleAnimation>
-                                        <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Height"  From="40"
-                            To="44" Duration="0:0:.1">
-                                        </DoubleAnimation>
-
-                                    </Storyboard>
-                                </VisualState>
-                                <!--The Disabled state is omitted for brevity.-->
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
+                    <Border Name="RootElement" ClipToBounds="False" >
                         <Border.Background>
                             <ImageBrush ImageSource="/Automated Desktop;component/Images/TrashIcon.png"/>
                         </Border.Background>
@@ -115,6 +123,16 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="RenderTransformOrigin" Value=".5,.5"/>
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
     </Style>
     <Style x:Key="nextBackgroundStyle" TargetType="{x:Type Button}">
         <Setter Property="OverridesDefaultStyle" Value="True"></Setter>
@@ -122,36 +140,24 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button" >
 
-                    <Border Name="RootElement" ClipToBounds="False"  BorderThickness="5"  Width="40" Height="40" >
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-
-                                <VisualState x:Name="Normal" />
-
-                                <VisualState x:Name="MouseOver">
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Width"  From="40"
-                            To="44" Duration="0:0:.1">
-
-                                        </DoubleAnimation>
-                                        <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Height"  From="40"
-                            To="44" Duration="0:0:.1">
-                                        </DoubleAnimation>
-
-                                    </Storyboard>
-                                </VisualState>
-                                <!--The Disabled state is omitted for brevity.-->
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
+                    <Border Name="RootElement" ClipToBounds="False">
                         <Border.Background>
                             <ImageBrush ImageSource="/Automated Desktop;component/Images/NextImageButton.png"/>
                         </Border.Background>
-
-
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="RenderTransformOrigin" Value=".5,.5"/>
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
     </Style>
     <Style x:Key="minimizeButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="OverridesDefaultStyle" Value="True"></Setter>
@@ -160,28 +166,6 @@
                 <ControlTemplate TargetType="Button" >
 
                     <Border Name="RootElement" ClipToBounds="False"  BorderThickness="5"  Width="50" Height="50" >
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-
-                                <VisualState x:Name="Normal" />
-
-                                <VisualState x:Name="MouseOver">
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Width"  From="50"
-                            To="54" Duration="0:0:.1">
-
-                                        </DoubleAnimation>
-                                        <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Height"  From="50"
-                            To="54" Duration="0:0:.1">
-                                        </DoubleAnimation>
-                                    </Storyboard>
-                                </VisualState>
-
-
-
-                                <!--The Disabled state is omitted for brevity.-->
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
                         <Border.Background >
                             <ImageBrush x:Name="ImageBrush" ImageSource="/Automated Desktop;component/Images/minimize button.png"  >
                             </ImageBrush>
@@ -190,6 +174,16 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="RenderTransformOrigin" Value=".5,.5"/>
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
     </Style>
     <Style x:Key="closeApplicationStyle" TargetType="{x:Type Button}">
         <Setter Property="OverridesDefaultStyle" Value="True"></Setter>
@@ -198,28 +192,6 @@
                 <ControlTemplate TargetType="Button" >
 
                     <Border Name="RootElement" ClipToBounds="False"  BorderThickness="6"  Width="50" Height="50" >
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-
-                                <VisualState x:Name="Normal" />
-
-                                <VisualState x:Name="MouseOver">
-                                    <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Width"  From="50"
-                            To="54" Duration="0:0:.1">
-
-                                        </DoubleAnimation>
-                                        <DoubleAnimation Storyboard.TargetName="RootElement"  Storyboard.TargetProperty="Height"  From="50"
-                            To="54" Duration="0:0:.1">
-                                        </DoubleAnimation>
-                                    </Storyboard>
-                                </VisualState>
-
-
-
-                                <!--The Disabled state is omitted for brevity.-->
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
                         <Border.Background >
                             <ImageBrush x:Name="ImageBrush" ImageSource="/Automated Desktop;component/Images/CloseButton.png"  >
                             </ImageBrush>
@@ -228,6 +200,16 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="RenderTransformOrigin" Value=".5,.5"/>
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
     </Style>
     <Style x:Key="simpleButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="OverridesDefaultStyle" Value="True"></Setter>

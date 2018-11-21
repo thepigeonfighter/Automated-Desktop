@@ -14,6 +14,8 @@ namespace AutomatedDesktopBackgroundUI
     /// </summary>
     public partial class App : Application
     {
+        //TODO uncomment this section to start logging
+        /*
         private static readonly ILog log = LogManager.GetLogger(typeof(App));
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -21,5 +23,6 @@ namespace AutomatedDesktopBackgroundUI
             log.Info("        =============  Started Logging  =============        ");
             base.OnStartup(e);
         }
+        */
     }
 }
