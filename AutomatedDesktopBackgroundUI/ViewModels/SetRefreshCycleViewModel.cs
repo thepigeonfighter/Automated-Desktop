@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace AutomatedDesktopBackgroundUI.ViewModels
 {
-    public class SetRefreshCycleViewModel:Screen, IDeactivate
+    public class SetRefreshCycleViewModel:Screen, ISettingScreen
     {
         #region Properties
         public BindableCollection<TimeModel> BackgroundTime { get; set; }
@@ -24,10 +24,10 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
             {
                 if (value != SelectedBackgroundTime)
                 {
-                    TimeModel selectedTime = BackgroundTime.FirstOrDefault(x => x.Time == value.Time);
+                    TimeModel selectedTime = CollectionTime.FirstOrDefault(x => x.Time == value.Time);
                     if (selectedTime != null)
                     {
-                        SelectedCollectionTimeIndex = BackgroundTime.IndexOf(selectedTime);
+                        SelectedCollectionTimeIndex = CollectionTime.IndexOf(selectedTime);
                     }
                     _selectedCollectionTime = value;
                     NotifyOfPropertyChange(() => SelectedCollectionTime);
@@ -76,28 +76,24 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
         #endregion
 
         #region Backing Vars
-        private TimeModel _selectedBackgroundTime;
+        private TimeModel _selectedBackgroundTime = new TimeModel();
 
         private int _selectedCollectionTimeIndex;
 
         private int _selectedBackgroundTimeIndex;
 
-        private ISessionContext _sessionContext;
-
         private SettingsModel _currentSettings;
 
-        private TimeModel _selectedCollectionTime;
-
-        private IEventAggregator _eventAggregator;
+        private TimeModel _selectedCollectionTime = new TimeModel();
         #endregion
 
         #region CTOR
 
-        public SetRefreshCycleViewModel(IEventAggregator eventAggregator, ISessionContext sessionContext, SettingsModel currentSettings)
+        public SetRefreshCycleViewModel( SettingsModel currentSettings)
         {
-            _sessionContext = sessionContext;
             _currentSettings = currentSettings;
-            _eventAggregator = eventAggregator;
+            SelectedBackgroundTime.Time = currentSettings.BackgroundRefreshTime;
+            SelectedCollectionTime.Time = currentSettings.CollectionRefreshTime;
             Initialize();
         }
         #endregion

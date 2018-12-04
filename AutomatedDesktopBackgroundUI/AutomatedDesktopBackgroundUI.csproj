@@ -119,6 +119,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Config\BooleanToVisibilityConverter.cs" />
     <Compile Include="Config\CommandNames.cs" />
+    <Compile Include="Config\ConfigKeyNames.cs" />
     <Compile Include="Config\InverseBooleanConverter.cs" />
     <Compile Include="Config\PropertyNames.cs" />
     <Compile Include="Config\ThemeProperties.cs" />
@@ -127,6 +128,11 @@
     <Compile Include="Models\RefreshStateModel.cs" />
     <Compile Include="Models\SettingsModel.cs" />
     <Compile Include="Models\TimeModel.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="SessionData\CommandControl.cs" />
     <Compile Include="SessionData\DataAccess.cs" />
     <Compile Include="SessionData\IDataAccess.cs" />
@@ -134,16 +140,21 @@
     <Compile Include="SessionData\SessionContext.cs" />
     <Compile Include="Utility\EventContainer.cs" />
     <Compile Include="Utility\StringExtensions.cs" />
+    <Compile Include="ViewModels\ConfigSettingsViewModel.cs" />
     <Compile Include="ViewModels\CurrentImageViewModel.cs" />
     <Compile Include="ViewModels\InterestEntryViewModel.cs" />
     <Compile Include="ViewModels\InterestInfoViewModel.cs" />
     <Compile Include="ViewModels\InterestListViewModel.cs" />
+    <Compile Include="ViewModels\ISettingScreen.cs" />
     <Compile Include="ViewModels\IShellViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RefreshStateViewModel.cs" />
     <Compile Include="ViewModels\SetRefreshCycleViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="Views\ConfigSettingsView.xaml.cs">
+      <DependentUpon>ConfigSettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CurrentImageView.xaml.cs">
       <DependentUpon>CurrentImageView.xaml</DependentUpon>
     </Compile>
@@ -174,6 +185,10 @@
     <Compile Include="Views\WarningWindow.xaml.cs">
       <DependentUpon>WarningWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\ConfigSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CurrentImageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -232,11 +247,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <Resource Include="Images\Skip.png" />
     <Resource Include="Images\Add_disabled.png" />
     <Resource Include="Images\TrashIcon-disabled.png" />
@@ -260,13 +270,9 @@
     </Content>
     <None Include="Config\packages.config" />
     <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config\App.config" />
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutomatedDesktopBackground_Library\AutomatedDesktopBackgroundLibrary.csproj">
@@ -275,6 +281,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Resources\readme.txt" />
   </ItemGroup>
   <ItemGroup>

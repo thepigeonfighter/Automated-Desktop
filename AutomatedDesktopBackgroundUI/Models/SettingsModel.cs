@@ -11,6 +11,7 @@ namespace AutomatedDesktopBackgroundUI.Models
         public TimeSpan CollectionRefreshTime { get; set; }
         public TimeSpan BackgroundRefreshTime { get; set; }
         public bool EnableContextMenuButton { get; set; }
-
+        public bool ShowSettingsWindowOnLoad { get; set; }
+        public bool ShowWarningOnWindowClose { get; set; }
     }
 }

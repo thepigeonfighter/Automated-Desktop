@@ -24,7 +24,9 @@ namespace AutomatedDesktopBackgroundUI.Config
         StopBackgroundRefreshing,
         StartCollectionRefreshing,
         StopCollectionRefreshing,
-        SettingsChanged
+        SettingsChanged,
+        ResetApplication,
+        QuitApplication
     }
     
 }

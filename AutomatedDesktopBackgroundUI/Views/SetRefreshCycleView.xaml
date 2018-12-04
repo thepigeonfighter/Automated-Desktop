@@ -6,57 +6,55 @@
              xmlns:local="clr-namespace:AutomatedDesktopBackgroundUI.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Border CornerRadius="10" BorderBrush="{StaticResource fontColor}" BorderThickness="1">
-        <Grid>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="10*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Viewbox Grid.Row="1" Grid.Column="1">
-                    <TextBlock Foreground="{StaticResource fontColor}" FontFamily="Tahoma">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Viewbox Grid.Row="1" Grid.Column="1" Height="{Binding ElementName=vb2, Path=ActualHeight}" HorizontalAlignment="Left">
+                <TextBlock Foreground="{StaticResource fontColor}" FontFamily="Tahoma">
                     Set Collection Cycle Times
-                    </TextBlock>
-                </Viewbox>
-                <Viewbox Grid.Row="3" Grid.Column="1">
-                    <TextBlock Foreground="{StaticResource fontColor}" FontFamily="Tahoma">
+                </TextBlock>
+            </Viewbox>
+            <Viewbox x:Name="vb2" Grid.Row="3" Grid.Column="1">
+                <TextBlock Foreground="{StaticResource fontColor}" FontFamily="Tahoma">
                     Set Background Cycle Times
-                    </TextBlock>
-                </Viewbox>
-            </Grid>
-            <Grid Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="7*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <ComboBox x:Name="CollectionTime" Grid.Column="1" Grid.Row="1" DisplayMemberPath="Name" SelectedIndex="{Binding Path=SelectedCollectionTimeIndex}" 
-                      FontFamily="Tahoma" Foreground="{StaticResource fontColor}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
-                </ComboBox>
-                <ComboBox x:Name="BackgroundTime" Grid.Column="1" Grid.Row="3" DisplayMemberPath="Name" SelectedIndex="{Binding Path=SelectedBackgroundTimeIndex}"
-                       FontFamily="Tahoma" Foreground="{StaticResource fontColor}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
-                </ComboBox>
-
-            </Grid>
+                </TextBlock>
+            </Viewbox>
         </Grid>
-    </Border>
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <ComboBox x:Name="CollectionTime" Grid.Column="1" Grid.Row="1" DisplayMemberPath="Name" SelectedIndex="{Binding Path=SelectedCollectionTimeIndex}" 
+                      FontFamily="Tahoma" Foreground="{StaticResource fontColor}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+            </ComboBox>
+            <ComboBox x:Name="BackgroundTime" Grid.Column="1" Grid.Row="3" DisplayMemberPath="Name" SelectedIndex="{Binding Path=SelectedBackgroundTimeIndex}"
+                       FontFamily="Tahoma" Foreground="{StaticResource fontColor}" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+            </ComboBox>
+
+        </Grid>
+    </Grid>
 </UserControl>

@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace AutomatedDesktopBackgroundUI.ViewModels
 {
-    public class ShellViewModel : Conductor<Screen>, IHandle<EventContainer>
+    public class ShellViewModel : Conductor<Screen>.Collection.OneActive, IHandle<EventContainer>
     {
 
         private SimpleContainer _simpleContainer;
@@ -112,6 +112,9 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
                     break;
                 case CommandNames.RevertSettings:
                     LoadMain();
+                    break;
+                case CommandNames.QuitApplication:
+                    TryClose();
                     break;
                 default:
                     break;

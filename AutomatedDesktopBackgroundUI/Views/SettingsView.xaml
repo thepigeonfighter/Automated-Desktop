@@ -15,23 +15,47 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="3*"/>
 
         </Grid.RowDefinitions>
         <!--Cancel/Accept Buttons-->
         <Grid Grid.Row="3" Grid.Column="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="AcceptSettings" Grid.Row="1" Grid.Column="1" Style="{StaticResource acceptSettingsStyle}"  ToolTip="Apply Settings" />
-            <Button x:Name="RevertSettings" Grid.Column="0" Style="{StaticResource revertSettingsStyle}" ToolTip="Reverts to previous settings"/>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="AcceptSettings" Grid.Row="1" Grid.Column="3" Style="{StaticResource acceptSettingsStyle}"  ToolTip="Apply Settings" />
+            <Button x:Name="RevertSettings" Grid.Column="1" Grid.Row="1" Style="{StaticResource revertSettingsStyle}" ToolTip="Reverts to previous settings"/>
         </Grid>
-        <ContentControl x:Name="SetRefreshCycleViewModel" Grid.Column="0" Grid.ColumnSpan="2">
-            
-        </ContentControl>
-
+        <Border Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Grid.RowSpan="2" BorderBrush="{StaticResource fontColor}" BorderThickness="1" CornerRadius="10"></Border>
+        <ContentControl x:Name="SetRefreshCycleViewModel" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1"/>
+        <ContentControl x:Name="ConfigSettingsViewModel" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"/>
+        <Grid Grid.Row="3" Grid.ColumnSpan="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="QuitApplication" Style="{StaticResource ResourceKey=simpleButtonStyle}" ContentStringFormat="Quit Application" Grid.Row="1" Grid.Column="1"/>
+            <Button x:Name="ResetApplication" Style="{StaticResource ResourceKey=simpleButtonStyle}" ContentStringFormat="Reset Application" Grid.Row="3" Grid.Column="1" />
+        </Grid>
 
     </Grid>
 </UserControl>

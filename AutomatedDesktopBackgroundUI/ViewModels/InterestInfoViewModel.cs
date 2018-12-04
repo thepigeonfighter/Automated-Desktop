@@ -2,6 +2,7 @@
 using AutomatedDesktopBackgroundUI.Config;
 using AutomatedDesktopBackgroundUI.Models;
 using AutomatedDesktopBackgroundUI.SessionData;
+using AutomatedDesktopBackgroundUI.Utility;
 using Caliburn.Micro;
 namespace AutomatedDesktopBackgroundUI.ViewModels
 {
@@ -94,11 +95,11 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
 
         public void RemoveInterest()
         {
-            _eventAggregator.PublishOnUIThread(CommandNames.RemoveInterest);
+            _eventAggregator.PublishOnUIThread(new EventContainer() { Command= CommandNames.RemoveInterest });
         }
         public void DownloadImages()
         {
-            _eventAggregator.PublishOnUIThread(CommandNames.DownloadCollection);
+            _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.DownloadCollection });
         }
         private string _downloadInfo ="";
 

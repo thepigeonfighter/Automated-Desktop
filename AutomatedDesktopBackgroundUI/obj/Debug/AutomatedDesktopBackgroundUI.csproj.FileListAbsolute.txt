@@ -194,3 +194,5 @@ F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debu
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\InterestEntryView.baml
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\SetRefreshCycleView.g.cs
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\SetRefreshCycleView.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\ConfigSettingsView.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\ConfigSettingsView.baml

@@ -63,6 +63,9 @@ namespace AutomatedDesktopBackgroundUI.SessionData
                 case CommandNames.SettingsChanged:
                     _dataAccess.UpdateSettings((SettingsModel)eventContainer.Data);
                     break;
+                case CommandNames.ResetApplication:
+                    _dataAccess.ResetApplication();
+                    break;
                 default:
                     break;
             }

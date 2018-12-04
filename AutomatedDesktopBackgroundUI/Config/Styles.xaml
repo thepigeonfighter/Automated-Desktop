@@ -125,7 +125,7 @@
 
                     <Border Name="RootElement" ClipToBounds="False" >
                         <Border.Background >
-                            <ImageBrush x:Name="ImageBrush" ImageSource="/Automated Desktop;component/Images/Checkmark.png"  >
+                            <ImageBrush x:Name="ImageBrush" ImageSource="/Automated Desktop;component/Images/Checkmark.png" Stretch="Uniform"  >
                             </ImageBrush>
                         </Border.Background>
                      </Border>
@@ -133,7 +133,7 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="RootElement" Property="Background">
                                 <Setter.Value>
-                                    <ImageBrush ImageSource="/Automated Desktop;component/Images/Checkmark_disabled.png"/>
+                                    <ImageBrush ImageSource="/Automated Desktop;component/Images/Checkmark_disabled.png" Stretch="Uniform" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>
@@ -177,7 +177,7 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="RootElement" Property="Background">
                                 <Setter.Value>
-                                    <ImageBrush ImageSource="/Automated Desktop;component/Images/Cancel_disabled.png"/>
+                                    <ImageBrush ImageSource="/Automated Desktop;component/Images/Cancel_disabled.png" Stretch="Uniform" />
                                 </Setter.Value>
                             </Setter>
                         </Trigger>

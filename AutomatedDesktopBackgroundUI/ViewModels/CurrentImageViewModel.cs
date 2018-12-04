@@ -1,6 +1,7 @@
 ﻿using AutomatedDesktopBackgroundUI.Config;
 using AutomatedDesktopBackgroundUI.Models;
 using AutomatedDesktopBackgroundUI.SessionData;
+using AutomatedDesktopBackgroundUI.Utility;
 using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
@@ -62,7 +63,7 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
         }
         public void SkipWallpaper()
         {
-            _eventAggregator.PublishOnUIThread(CommandNames.SkipWallpaper);
+            _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.SkipWallpaper });
             
         }
         public bool CanHateImage()
@@ -83,11 +84,11 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
         }
         public void HateImage()
         {
-            _eventAggregator.PublishOnUIThread(CommandNames.HateImage);
+            _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.HateImage });
         }
         public void LikeImage()
         {
-            _eventAggregator.PublishOnUIThread(CommandNames.LikeImage);
+            _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.LikeImage });
         }
         private bool _enableLikeButton;
 

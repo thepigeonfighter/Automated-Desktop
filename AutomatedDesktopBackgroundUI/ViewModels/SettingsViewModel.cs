@@ -12,9 +12,10 @@ using System.Windows;
 
 namespace AutomatedDesktopBackgroundUI.ViewModels
 {
-    public class SettingsViewModel:Conductor<Screen>.Collection.AllActive , IHandle<EventContainer>
+    public class SettingsViewModel:Conductor<object>.Collection.AllActive
     {
-        public SetRefreshCycleViewModel SetRefreshCycleViewModel { get; private set; }
+        public ISettingScreen SetRefreshCycleViewModel { get; private set; }
+        public ISettingScreen ConfigSettingsViewModel { get; private set; }
         private readonly IEventAggregator _eventAggregator;
         private ISessionContext _sessionContext;
         private SettingsModel _currentSettings;
@@ -24,17 +25,21 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
             _eventAggregator = eventAggregator;
             _sessionContext = sessionContext;
             _currentSettings = _sessionContext.CurrentSettings;
-            _eventAggregator.Subscribe(this);
-            SetRefreshCycleViewModel = new SetRefreshCycleViewModel( _eventAggregator , _sessionContext, _currentSettings);
+            SetRefreshCycleViewModel = new SetRefreshCycleViewModel( _currentSettings);
+            ConfigSettingsViewModel = new ConfigSettingsViewModel(_currentSettings);
 
             Items.Add(SetRefreshCycleViewModel);
-            
+            Items.Add(ConfigSettingsViewModel);
         }
 
         public void AcceptSettings()
         {
             //So slopy
             SettingsModel settings = SetRefreshCycleViewModel.GetSettings();
+            SettingsModel configSettings = ConfigSettingsViewModel.GetSettings();
+            settings.EnableContextMenuButton = configSettings.EnableContextMenuButton;
+            settings.ShowWarningOnWindowClose = configSettings.ShowWarningOnWindowClose;
+
             _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.SettingsChanged, Data = settings });
             _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.AcceptSettings});
         }
@@ -42,13 +47,21 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
         {
             _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.RevertSettings });
         }
-
-        public void Handle(EventContainer message)
+        public void ResetApplication()
         {
-            if(message.Command == CommandNames.SettingsChanged)
+            //TODO implement custom messagebox
+            if (MessageBox.Show("Are you sure you want to reset the application?", "Reset Application",
+                MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
             {
-                SettingsModel settings =(SettingsModel) message.Data;
+                _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.ResetApplication });
+                _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.RevertSettings });
             }
         }
+        public void QuitApplication()
+        {
+            _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.QuitApplication });
+           
+        }
+
     }
 }

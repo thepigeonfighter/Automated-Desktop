@@ -5,10 +5,11 @@ using AutomatedDesktopBackgroundUI.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-
+using AutomatedDesktopBackgroundUI.Properties;
 namespace AutomatedDesktopBackgroundUI.SessionData
 {
     public class DataAccess : IDataAccess, IFileListener, INotifyPropertyChanged
@@ -252,20 +253,35 @@ namespace AutomatedDesktopBackgroundUI.SessionData
 
         public Models.SettingsModel GetCurrentSettings()
         {
-            Models.SettingsModel settingsModel = new Models.SettingsModel()
+            Settings.Default.Upgrade();
+
+            Models.SettingsModel model = new Models.SettingsModel()
             {
-                BackgroundRefreshTime = ScheduleManager.BackgroundRefreshSetting(),
-                CollectionRefreshTime = ScheduleManager.CollectionRefreshSetting(),
-                //TODO hook this up
-                EnableContextMenuButton = false
+                ShowSettingsWindowOnLoad = Settings.Default.ShowSettingsWindow,
+                CollectionRefreshTime = Settings.Default.CollectionCycle,
+                BackgroundRefreshTime = Settings.Default.BGCycle,
+                EnableContextMenuButton = Settings.Default.ContextMenu,
+                ShowWarningOnWindowClose = Settings.Default.ShowWarning
+
             };
-            return settingsModel;
+            return model;
         }
 
         public void UpdateSettings(Models.SettingsModel settings)
         {
-            ScheduleManager.ChangeBackgroundRefreshSettings(settings.BackgroundRefreshTime);
-            ScheduleManager.ChangeCollectionRefreshSettings(settings.CollectionRefreshTime);
+            Settings.Default.CollectionCycle = settings.CollectionRefreshTime;
+            Settings.Default.BGCycle = settings.BackgroundRefreshTime;
+            Settings.Default.ContextMenu = settings.EnableContextMenuButton;
+            Settings.Default.ShowSettingsWindow = settings.ShowSettingsWindowOnLoad;
+            Settings.Default.ShowWarning = settings.ShowWarningOnWindowClose;
+            Settings.Default.Save();
+            OnPropertyChanged(PropertyNames.CurrentSettings);
+
+        }
+
+        public void ResetApplication()
+        {
+            _dataKeeper.ResetApplication();
         }
     }
 }

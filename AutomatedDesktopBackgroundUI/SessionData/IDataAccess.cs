@@ -27,7 +27,7 @@ namespace AutomatedDesktopBackgroundUI.SessionData
         void StartCollectionRefresh(RefreshStateModel model);
         void StopCollectionRefresh(RefreshStateModel model);
         void UpdateSettings(SettingsModel settings);
-
+        void ResetApplication();
 
     }
 }

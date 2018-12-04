@@ -1,6 +1,7 @@
 ﻿using AutomatedDesktopBackgroundUI.Config;
 using AutomatedDesktopBackgroundUI.Models;
 using AutomatedDesktopBackgroundUI.SessionData;
+using AutomatedDesktopBackgroundUI.Utility;
 using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
@@ -120,19 +121,19 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
         }
         public void StopBackgroundRefresh()
         {
-            _eventAggregator.PublishOnUIThread(CommandNames.StopBackgroundRefreshing);
+            _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.StopBackgroundRefreshing});
         }
         public void StartBackgroundRefresh()
         {
-            _eventAggregator.PublishOnUIThread(CommandNames.StartBackgroundRefreshing);
+            _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.StartBackgroundRefreshing });
         }
         public void StopCollectionRefresh()
         {
-            _eventAggregator.PublishOnUIThread(CommandNames.StopCollectionRefreshing);
+            _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.StopCollectionRefreshing });
         }
         public void StartCollectionRefresh()
         {
-            _eventAggregator.PublishOnUIThread(CommandNames.StartCollectionRefreshing);
+            _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.StartCollectionRefreshing });
         }
 
     }

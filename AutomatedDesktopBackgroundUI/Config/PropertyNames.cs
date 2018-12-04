@@ -18,4 +18,5 @@ namespace AutomatedDesktopBackgroundUI.Config
         public const string RefreshState = "RefreshState";
         public const string CurrentSettings = "CurrentSettings";
     }
+    
 }
