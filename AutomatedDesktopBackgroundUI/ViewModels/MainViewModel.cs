@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using AutomatedDesktopBackgroundUI.SessionData;
+using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +13,23 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
         public Screen CurrentImageViewModel { get; private set; }
 
         public Screen RefreshStateViewModel { get; private set; }
-        public MainViewModel()
+
+        public Screen InterestListViewModel { get; private set; }
+
+        public Screen InterestEntryViewModel { get; private set; }
+        
+
+        public MainViewModel(ISessionContext sessionContext, IEventAggregator eventAggregator)
         {
             //TODO build a view factory to abstract this 
-            CurrentImageViewModel = new CurrentImageViewModel();
-            RefreshStateViewModel = new RefreshStateViewModel();
+            CurrentImageViewModel = new CurrentImageViewModel(sessionContext,eventAggregator);
+            RefreshStateViewModel = new RefreshStateViewModel(sessionContext,eventAggregator);
+            InterestListViewModel = new InterestListViewModel(sessionContext,eventAggregator);
+            InterestEntryViewModel = new InterestEntryViewModel(sessionContext);
             Items.Add(CurrentImageViewModel);
             Items.Add(RefreshStateViewModel);
+            Items.Add(InterestListViewModel);
+            Items.Add(InterestEntryViewModel);
         }
     }
 }

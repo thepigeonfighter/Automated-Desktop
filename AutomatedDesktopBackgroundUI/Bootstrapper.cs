@@ -1,4 +1,7 @@
-﻿using AutomatedDesktopBackgroundUI.ViewModels;
+﻿using AutomatedDesktopBackgroundLibrary;
+using AutomatedDesktopBackgroundUI.SessionData;
+using AutomatedDesktopBackgroundUI.ViewModels;
+using AutomatedDesktopBackgroundUI.Views;
 using Caliburn.Micro;
 using System;
 using System.Collections.Generic;
@@ -12,27 +15,50 @@ namespace AutomatedDesktopBackgroundUI
     public class Bootstrapper:BootstrapperBase
     {
         private SimpleContainer container;
-        private IWindowManager windowManager = new WindowManager();
         public Bootstrapper()
         {
-            
             Initialize();
-
         }
 
         protected override void Configure()
         {
             container = new SimpleContainer();
-
-            container.Singleton<IWindowManager, WindowManager>();
-            windowManager =(IWindowManager) container.GetInstance(typeof(IWindowManager),"");
-            container.PerRequest<ShellViewModel>();
+             IEventAggregator _eventAggregator = new EventAggregator();
+             IDataStorageBuilder _dataStorageBuilder = new DataStorageBuilder();
+             IDataStorage _dataStorage = _dataStorageBuilder.Build(Database.JsonFile);
+             IDataKeeper _dataKeeper = new DataKeeper(_dataStorage);
+             ImageModelBuilder _imageBuilder = new ImageModelBuilder();
+             ImageGetter _imageGetter = new ImageGetter(_dataKeeper, _imageBuilder);
+             IAPIManager _apiManager = new APIManager(_imageGetter, _dataKeeper);
+             IDataAccess _dataAccess = new DataAccess(_dataKeeper, _apiManager);
+             ISessionContext _sessionContext = new SessionContext(_dataAccess);
+             CommandControl _commandControl = new CommandControl(_eventAggregator, _dataAccess, _sessionContext);
+            
+            container.Instance(_dataStorageBuilder);
+            container.Instance(_eventAggregator);
+            container.Instance(_dataStorage);
+            container.Instance(_dataKeeper);
+            container.Instance(_imageBuilder);
+            container.Instance(_imageGetter);
+            container.Instance(_apiManager);
+            container.Instance(_dataAccess);
+            container.Instance(_sessionContext);
+            container.Instance(_commandControl);
+           // IShellViewModel _shellViewModel = new ShellViewModel(container);
+          //  container.Singleton<ShellViewModel>();
+            
         }
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
-
-            //windowManager.ShowWindow( new ShellViewModel());
-            DisplayRootViewFor<ShellViewModel>();
+            //ShellViewModel shellViewModel =(ShellViewModel)container.GetInstance(typeof(ShellViewModel), null);
+            //  DisplayRootViewFor(typeof(ShellViewModel));
+            ShellViewModel shell =  new ShellViewModel(container);
+            var shellView = new ShellView();
+            ViewModelBinder.Bind(shell, shellView,this);
+            shellView.Show();
+            
+         
+            
         }
 
         protected override object GetInstance(Type service, string key)

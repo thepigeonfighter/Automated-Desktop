@@ -6,13 +6,15 @@
              xmlns:local="clr-namespace:AutomatedDesktopBackgroundUI.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Aqua">
+    <Grid Background="{StaticResource backgroundColor}">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <!--LeftHalf-->
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -24,11 +26,19 @@
             </Grid.RowDefinitions>
             <!--Current Image Area-->
             <Grid Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
-                <ContentControl x:Name="CurrentImageViewModel">
-                    
-                </ContentControl>
-                
+                <ContentControl x:Name="CurrentImageViewModel"/>
             </Grid>
+            <ContentControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" x:Name="InterestListViewModel"/>
+        </Grid>
+        <!--RightHalf-->
+        <Grid Grid.Column="2" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <!--RefreshingView-->
+            <ContentControl Grid.Column="0" Grid.Row="0" x:Name="RefreshStateViewModel"></ContentControl>
+            <ContentControl Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" x:Name="InterestEntryViewModel"/>
         </Grid>
     </Grid>
 </UserControl>

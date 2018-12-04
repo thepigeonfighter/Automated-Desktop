@@ -9,14 +9,14 @@ namespace ChangeBackgroundOnce
     {
         static void Main(string[] args)
         {
-            
-            List<ImageModel> images = DataKeeper.GetFreshFileSnapShot().AllImages;
-            if (images.Count > 0)
-            {
-                BackGroundPicker backGroundPicker = new BackGroundPicker();
-                backGroundPicker.PickRandomBackground(false);
+            //TODO NEED FACTORY HAAAALLLLPP
+           // List<ImageModel> images = DataKeeper.GetFreshFileSnapShot().AllImages;
+          //  if (images.Count > 0)
+          //  {
+              //  BackGroundPicker backGroundPicker = new BackGroundPicker();
+              //  backGroundPicker.PickRandomBackground(false);
                 
-            }
+          //  }
         }
 
     }

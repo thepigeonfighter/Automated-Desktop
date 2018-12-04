@@ -9,6 +9,7 @@ using System.Windows;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
+    /*
     public class MainViewController : IFileListener
     {
         public event EventHandler<string> OnPageStateChange;
@@ -291,4 +292,5 @@ namespace AutomatedDesktopBackgroundLibrary
         }
 
     }
+    */
 }

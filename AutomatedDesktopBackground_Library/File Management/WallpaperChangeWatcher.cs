@@ -10,8 +10,16 @@ namespace AutomatedDesktopBackgroundLibrary.File_Management
 {
     public class WallpaperChangeWatcher
     {
-        private FileSystemWatcher _watcher = new FileSystemWatcher();
+        private FileSystemWatcher _watcher;
+        private IDataKeeper _dataKeeper;
         private int writeCounter = 0;
+
+        public WallpaperChangeWatcher(FileSystemWatcher watcher, IDataKeeper dataKeeper)
+        {
+            _watcher = watcher;
+            _dataKeeper = dataKeeper;
+        }
+
         public void StartWatchingWallpaperFile()
         {
             string opener = "---------------This is the wallpaper watcher file--------------------------";
@@ -30,7 +38,7 @@ namespace AutomatedDesktopBackgroundLibrary.File_Management
                 try
                 {
                     string[] lines = File.ReadAllLines(InternalFileDirectorySystem.WallpaperCacheFile);
-                    DataKeeper.UpdateWallpaper(lines[0]);
+                    _dataKeeper.UpdateWallpaper(lines[0]);
                 }
                 catch
                 {

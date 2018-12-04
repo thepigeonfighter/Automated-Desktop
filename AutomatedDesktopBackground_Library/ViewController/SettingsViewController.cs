@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
+    /*
     public class SettingsViewController
     {
         private static readonly Regex _regex = new Regex("[^0-9]+"); //regex that matches disallowed text
@@ -103,4 +104,5 @@ namespace AutomatedDesktopBackgroundLibrary
             }
         }
     }
+    */
 }

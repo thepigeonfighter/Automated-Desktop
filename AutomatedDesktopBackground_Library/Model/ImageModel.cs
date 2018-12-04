@@ -14,6 +14,7 @@
         public bool IsFavorite { get; set; } = false;
         public string InterestName { get; set; }
         public bool IsWallpaper { get; set; }
+        public bool HasBeenSeen { get; set; }
 
         public ImageModel()
         {

@@ -5,19 +5,20 @@ using System.Threading.Tasks;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
-    public class APIManager : IFileListener
+    public class APIManager : IAPIManager
     {
-        private readonly ImageGetter _imageGetter = new ImageGetter();
-        private IFileCollection _fileCollection = new FileCollection();
+        private readonly ImageGetter _imageGetter;
+        private IDataKeeper _dataKeeper;
 
-        public APIManager()
+        public APIManager(ImageGetter imageGetter, IDataKeeper dataKeeper)
         {
-            DataKeeper.RegisterFileListener(this);
+            _imageGetter = imageGetter;
+            this._dataKeeper = dataKeeper;
         }
 
         public async Task<IRootObject> GetResults(string interestName)
         {
-            IAPICaller apiCaller = new API.APICaller(_fileCollection);
+            IAPICaller apiCaller = new API.APICaller(_dataKeeper.GetFileSnapShot());
             IRootObject rootObject = await Task.Run(() => apiCaller.GetWebResponse(interestName)).ConfigureAwait(false);
             if (rootObject.total == 0) { HandleNoResults(); }
             return rootObject;
@@ -26,11 +27,11 @@ namespace AutomatedDesktopBackgroundLibrary
         public async Task GetImagesBySearch(string query, bool userRequested)
         {
             GlobalConfig.InCollectionRefresh = true;
-            OnFileUpdate();
+
 
             try
             {
-                InterestModel interestModel = _fileCollection.AllInterests.FirstOrDefault(x => x.Name == query);
+                InterestModel interestModel = _dataKeeper.GetFileSnapShot().AllInterests.FirstOrDefault(x => x.Name == query);
                 if (interestModel.EntireCollectionDownloaded)
                 {
                     LocalDownload(query, userRequested);
@@ -63,7 +64,7 @@ namespace AutomatedDesktopBackgroundLibrary
             if (interest != null)
             {
                 int maxImages = interest.TotalImages;
-                int currentlyDownloadedImages = _fileCollection.AllImages.AllImagesByInterest(interest).Count;
+                int currentlyDownloadedImages = _dataKeeper.GetFileSnapShot().AllImages.AllImagesByInterest(interest).Count;
                 newPageNumber = (currentlyDownloadedImages / 10) + 1;
                 if (currentlyDownloadedImages % 10 != 0)
                 {
@@ -96,13 +97,9 @@ namespace AutomatedDesktopBackgroundLibrary
 
         private void LocalDownload(string query, bool userRequested)
         {
-            LocalImageGetter localImageGetter = new LocalImageGetter(_fileCollection);
+            LocalImageGetter localImageGetter = new LocalImageGetter(_dataKeeper,_imageGetter);
             localImageGetter.GetLocalImages(query, userRequested);
         }
 
-        public void OnFileUpdate()
-        {
-            _fileCollection = DataKeeper.GetFileSnapShot();
-        }
     }
 }

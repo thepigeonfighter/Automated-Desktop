@@ -117,29 +117,56 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Config\ColorConverter.cs" />
+    <Compile Include="Config\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Config\CommandNames.cs" />
+    <Compile Include="Config\InverseBooleanConverter.cs" />
+    <Compile Include="Config\PropertyNames.cs" />
+    <Compile Include="Config\ThemeProperties.cs" />
     <Compile Include="Models\CurrentImageModel.cs" />
-    <Compile Include="Models\InterestModel.cs" />
+    <Compile Include="Models\InterestInfoModel.cs" />
     <Compile Include="Models\RefreshStateModel.cs" />
+    <Compile Include="Models\SettingsModel.cs" />
+    <Compile Include="Models\TimeModel.cs" />
+    <Compile Include="SessionData\CommandControl.cs" />
+    <Compile Include="SessionData\DataAccess.cs" />
+    <Compile Include="SessionData\IDataAccess.cs" />
+    <Compile Include="SessionData\ISessionContext.cs" />
+    <Compile Include="SessionData\SessionContext.cs" />
+    <Compile Include="Utility\EventContainer.cs" />
+    <Compile Include="Utility\StringExtensions.cs" />
     <Compile Include="ViewModels\CurrentImageViewModel.cs" />
+    <Compile Include="ViewModels\InterestEntryViewModel.cs" />
+    <Compile Include="ViewModels\InterestInfoViewModel.cs" />
+    <Compile Include="ViewModels\InterestListViewModel.cs" />
+    <Compile Include="ViewModels\IShellViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RefreshStateViewModel.cs" />
+    <Compile Include="ViewModels\SetRefreshCycleViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\CurrentImageView.xaml.cs">
       <DependentUpon>CurrentImageView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\InterestEntryView.xaml.cs">
+      <DependentUpon>InterestEntryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InterestInfoView.xaml.cs">
+      <DependentUpon>InterestInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InterestListView.xaml.cs">
+      <DependentUpon>InterestListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RootWindow.xaml.cs">
-      <DependentUpon>RootWindow.xaml</DependentUpon>
+    <Compile Include="Views\RefreshStateView.xaml.cs">
+      <DependentUpon>RefreshStateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SetRefreshCycleView.xaml.cs">
+      <DependentUpon>SetRefreshCycleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\SettingsWindow.xaml.cs">
-      <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
@@ -151,31 +178,35 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainView.xaml">
+    <Page Include="Views\InterestEntryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Views\InterestInfoView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InterestListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="Views\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Views\RootWindow.xaml">
+    <Page Include="Views\RefreshStateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SetRefreshCycleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SettingsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -206,6 +237,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Images\Skip.png" />
+    <Resource Include="Images\Add_disabled.png" />
+    <Resource Include="Images\TrashIcon-disabled.png" />
+    <Resource Include="Images\TrashIcon.png" />
+    <Resource Include="Images\Add.png" />
+    <Resource Include="Images\Cancel_disabled.png" />
+    <Resource Include="Images\Refresh_disabled.png" />
+    <Resource Include="Images\Refresh.png" />
+    <Resource Include="Images\Checkmark_disabled.png" />
     <Resource Include="Images\Cancel.png" />
     <Resource Include="Images\Checkmark.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -214,7 +254,6 @@
     </EmbeddedResource>
     <Resource Include="Images\Love it.png" />
     <Resource Include="Images\Love it_disabled.png" />
-    <Resource Include="Images\TrashIcon.png" />
     <Resource Include="Images\NextImageButton.png" />
     <Content Include="Config\log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

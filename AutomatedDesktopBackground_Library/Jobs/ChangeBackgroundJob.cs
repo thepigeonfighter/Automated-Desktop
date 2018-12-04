@@ -1,14 +1,27 @@
-﻿using Quartz;
+﻿using AutomatedDesktopBackgroundLibrary.Utility;
+using Quartz;
 using System.Threading.Tasks;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
     public class ChangeBackgroundJob : IJob
     {
-        public async Task Execute(IJobExecutionContext context)
+        //TODO keep thinking about way to be able to use DI to get rid of the dependencies
+        public Task Execute(IJobExecutionContext context)
         {
-            BackGroundPicker picker = new BackGroundPicker();
-            await Task.Run(() => picker.PickRandomBackground(true)).ConfigureAwait(false);
+            IDataKeeper dataKeeper = BuildDataKeeper();
+            BackGroundPicker picker = new BackGroundPicker(dataKeeper);
+            return new Task(()=> picker.PickRandomBackground(true));
         }
+        private IDataKeeper BuildDataKeeper()
+        {
+            IDataStorageBuilder builder = new DataStorageBuilder();
+            IDataStorage dataStorage = builder.Build(Database.JsonFile);
+            IDataKeeper dataKeeper = new DataKeeper(dataStorage);
+            return dataKeeper;
+        }
+
+
+
     }
 }

@@ -7,33 +7,31 @@ using System.Windows;
 
 namespace AutomatedDesktopBackgroundLibrary.DataConnection
 {
-    public class ImageGetterBase : IFileListener
+    public class ImageGetterBase
     {
         protected bool _IsUserRequested;
-        protected IFileCollection _fileCollection;
 
-        /// <summary>
-        /// A list of any requests that resulted in an error.
-        /// </summary>
+
         protected List<int> errorIndex = new List<int>();
 
-        /// <summary>
-        /// The amount of downloads that the class expects to process
-        /// </summary>
         public int ExpectedDownloadAmount { get; set; }
 
-        /// <summary>
-        /// The amount of downloads that were originally requested
-        /// </summary>
+
         protected int totalDownloadsRequested;
 
         protected List<ImageModel> images = new List<ImageModel>();
+
         protected bool isLocalGet = false;
 
-        public ImageGetterBase()
+        protected IDataKeeper _dataKeeper;
+
+        protected ImageModelBuilder _imageBuilder;
+
+
+        public ImageGetterBase(IDataKeeper dataKeeper, ImageModelBuilder imageBuilder) 
         {
-            _fileCollection = DataKeeper.GetFileSnapShot();
-            DataKeeper.RegisterFileListener(this);
+            _imageBuilder = imageBuilder;
+            _dataKeeper = dataKeeper;
         }
 
         protected void HandleError()
@@ -60,7 +58,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
             if (_IsUserRequested)
             {
                 GlobalConfig.EventSystem.InvokeDownloadImageEvent("Download Cancelled");
-               // CustomMessageBox.Show("The download has been cancelled");
+                CustomMessageBox.Show("The download has been cancelled");
             }
         }
 
@@ -102,11 +100,11 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
             if (!isLocalGet)
             {
                 RemoveOldPhotos();
-                images.ForEach(x => DataKeeper.AddImage(x));
+                images.ForEach(x => _dataKeeper.AddImage(x));
             }
             else
             {
-                images.ForEach(x => DataKeeper.AddImage(x));
+                images.ForEach(x => _dataKeeper.AddImage(x));
                 RemovePhotosWhereIsDownloadedIsFalse();
             }
             images.Clear();
@@ -114,23 +112,23 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
 
         private void RemovePhotosWhereIsDownloadedIsFalse()
         {
-            List<ImageModel> photosToRemove = _fileCollection.AllImages.Where(x => !x.IsDownloaded).ToList();
-            photosToRemove.ForEach(x => DataKeeper.DeleteImage(x, true));
+            List<ImageModel> photosToRemove = _dataKeeper.GetFileSnapShot().AllImages.Where(x => !x.IsDownloaded).ToList();
+            photosToRemove.ForEach(x => _dataKeeper.DeleteImage(x, true));
         }
 
         private void RemoveOldPhotos()
         {
             int interestId = images[0].InterestId;
-            List<ImageModel> oldPhotos = _fileCollection.AllImages.Where(x => x.InterestId == interestId).ToList();
+            List<ImageModel> oldPhotos = _dataKeeper.GetFileSnapShot().AllImages.Where(x => x.InterestId == interestId).ToList();
             List<ImageModel> unFavoritePhotos = oldPhotos.Where(x => !x.IsFavorite).ToList();
             if (unFavoritePhotos.Count > 0)
             {
                 foreach (ImageModel i in unFavoritePhotos)
                 {
                     i.IsDownloaded = false;
-                    DataKeeper.DeleteImage(i, true);
+                    _dataKeeper.DeleteImage(i, true);
                 }
-                unFavoritePhotos.ForEach(x => DataKeeper.AddImage(x));
+                unFavoritePhotos.ForEach(x => _dataKeeper.AddImage(x));
             }
         }
 
@@ -139,7 +137,7 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
             int interestId = images[0].InterestId;
             //This sets every image in this ground to have an associated interestId
             images.ForEach(x => x.InterestId = interestId);
-            List<ImageModel> existingImages = _fileCollection.AllImages;
+            List<ImageModel> existingImages = _dataKeeper.GetFileSnapShot().AllImages;
             int currentId = 1;
             if (existingImages.Count > 0)
             {
@@ -154,11 +152,6 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                     currentId++;
                 }
             }
-        }
-
-        public void OnFileUpdate()
-        {
-            _fileCollection = DataKeeper.GetFileSnapShot();
         }
     }
 }

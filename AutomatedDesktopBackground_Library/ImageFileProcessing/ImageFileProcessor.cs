@@ -13,9 +13,11 @@ namespace AutomatedDesktopBackgroundLibrary
         private readonly IDatabaseConnector _database;
         private List<ImageModel> _images = new List<ImageModel>();
 
+
         public ImageFileProcessor(IDatabaseConnector database)
         {
             _database = database;
+            
         }
 
         public ImageModel CreateEntry(ImageModel entry)
@@ -28,8 +30,8 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public void DeleteEntry(ImageModel entry)
         {
-            _database.Delete(entry, entry.InfoFileDir);
-            OnFileAltered?.Invoke(this, LoadAllEntries());
+            _database.Delete(entry, entry.InfoFileDir,OnDeletionCompleted);
+            
         }
 
         public List<ImageModel> LoadAllEntries()
@@ -38,12 +40,12 @@ namespace AutomatedDesktopBackgroundLibrary
             return _images;
         }
 
-        public void RemoveAllImagesByInterest(InterestModel interest)
+        public void RemoveAllImagesByInterest(InterestModel interest, IFileCollection fileCollection)
         {
             try
             {
                 
-                List<ImageModel> images = DataKeeper.GetFileSnapShot().AllImages.AllImagesByInterest(interest);
+                List<ImageModel> images = fileCollection.AllImages.AllImagesByInterest(interest);
                 List<ImageModel> updatedImages = RemoveFavoritePhotos(images);
                 bool favoritesExist = images.Count > updatedImages.Count;
                 if (favoritesExist)
@@ -66,7 +68,7 @@ namespace AutomatedDesktopBackgroundLibrary
             foreach (ImageModel image in images)
             {
                 DeleteEntry(image);
-                _database.DeleteFile(image.LocalUrl);
+                _database.DeleteFile(image.LocalUrl,OnDeletionCompleted);
             }
         }
         private void DeleteEntireFolder(string interestName)
@@ -98,8 +100,13 @@ namespace AutomatedDesktopBackgroundLibrary
                 CreateEntry(oldWallpaper);
             }
             entry.IsWallpaper = true;
+            entry.HasBeenSeen = true;
             CreateEntry(entry);
             OnWallPaperUpdate?.Invoke(this, entry);
+        }
+        private void OnDeletionCompleted()
+        {
+            OnFileAltered?.Invoke(this, LoadAllEntries());
         }
     }
 }

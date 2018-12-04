@@ -61,8 +61,10 @@
   <ItemGroup>
     <Compile Include="API Classes\APICaller.cs" />
     <Compile Include="API Classes\APIResult.cs" />
+    <Compile Include="Data Storage\IDataKeeper.cs" />
     <Compile Include="DataConnection\FileRequest.cs" />
     <Compile Include="DataConnection\FileRequestsManager.cs" />
+    <Compile Include="DataConnection\IAPIManager.cs" />
     <Compile Include="DataConnection\ImageGetterBase.cs" />
     <Compile Include="DataConnection\LocalImageGetter.cs" />
     <Compile Include="Data Storage\DataStorage.cs" />
@@ -70,7 +72,7 @@
     <Compile Include="Data Storage\DataKeeper.cs" />
     <Compile Include="File Management\DirectoryNavigator.cs" />
     <Compile Include="File Management\FileCollection.cs" />
-    <Compile Include="API Classes\IAPIManager.cs" />
+    <Compile Include="API Classes\IAPICaller.cs" />
     <Compile Include="API Classes\IAPIResult.cs" />
     <Compile Include="API Classes\IAPIResultConverter.cs" />
     <Compile Include="Data Storage\IDataStorage.cs" />

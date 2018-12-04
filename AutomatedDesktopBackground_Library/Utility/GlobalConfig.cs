@@ -10,9 +10,42 @@
         public static JobManager JobManager = new JobManager();
         public static EventSystem EventSystem = new EventSystem();
         public static bool InCollectionRefresh = false;
-        public static bool CollectionsRefreshing;
-        public static bool BackgroundRefreshing;
+        private static bool _isCollectionRefreshing;
+        public static bool CollectionsRefreshing
+        {
+            get
+            {
+                return _isCollectionRefreshing;
+            }
+            set
+            {
+                if (value != CollectionsRefreshing)
+                {
+                    _isCollectionRefreshing = value;
+                    EventSystem.InvokeRefreshStatusChangedEvent();
+                }
+
+            }
+        }
+        private static bool _backgroundRefreshing;
+        public static bool BackgroundRefreshing
+        {
+            get
+            {
+                return _backgroundRefreshing;
+            }
+            set
+            {
+                if (value != BackgroundRefreshing)
+                {
+                    _backgroundRefreshing = value;
+                    EventSystem.InvokeRefreshStatusChangedEvent();
+                }
+
+            }
+        }
         //TODO remove this smelly bool 
         public static bool SettingsWindowOpen;
+        
     }
 }

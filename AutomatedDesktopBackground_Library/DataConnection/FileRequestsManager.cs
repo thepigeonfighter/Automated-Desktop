@@ -78,6 +78,10 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
                         File.Delete(request.FilePath);
                         GlobalConfig.EventSystem.InvokeImageHatingCompleteEvent();
                         OnDeletionCompleted?.Invoke(this, EventArgs.Empty);
+                        if(request.CallBack!=null)
+                        {
+                            request.CallBack();
+                        }
                         break;
                     }
                     await Task.Delay(2000).ConfigureAwait(false);

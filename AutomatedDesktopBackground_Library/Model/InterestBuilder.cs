@@ -6,7 +6,7 @@ namespace AutomatedDesktopBackgroundLibrary
 {
     public class InterestBuilder
     {
-        public async Task<InterestModel> Build(string interest, IFileCollection _fileCollection, APIManager manager)
+        public async Task<InterestModel> Build(string interest, IFileCollection _fileCollection, IAPIManager manager)
         {
             List<InterestModel> existinginterests = _fileCollection.AllInterests;
 

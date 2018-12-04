@@ -9,22 +9,27 @@ namespace AutomatedDesktopBackgroundLibrary
     /// </summary>
     public class BackGroundPicker
     {
-        
+        private IDataKeeper _dataKeeper;
+
+        public BackGroundPicker(IDataKeeper dataKeeper)
+        {
+            _dataKeeper = dataKeeper;
+        }
+
         public void PickRandomBackground(bool inAppRequest)
         {
             if (inAppRequest)
             {
-                if (!GlobalConfig.InCollectionRefresh)
-                {
+                
                     string imageUrl = GetImageFileDir();
-                    DataKeeper.UpdateWallpaper(imageUrl);
+                    _dataKeeper.UpdateWallpaper(imageUrl);
                     WallpaperSetter.Set(imageUrl, WallpaperSetter.Style.Fit);
-                }
+                
             }
             else
             {
                 string imageUrl = GetImageFileDir();
-                DataKeeper.UpdateWallpaper(imageUrl);
+                _dataKeeper.UpdateWallpaper(imageUrl);
                 WallpaperSetter.Set(imageUrl, WallpaperSetter.Style.Fit);
                 string[] lines = new string[]{$"{imageUrl}","This is a temp file", "that alerts a file watcher " , "To update the application data"};
                 File.WriteAllLines(InternalFileDirectorySystem.WallpaperCacheFile, lines);
@@ -40,7 +45,7 @@ namespace AutomatedDesktopBackgroundLibrary
                 string[] fileDir = Directory.GetFiles(dir, "*.jpeg");
                 imageFilePaths.AddRange(fileDir);
             }
-            ImageModel currentWallpaper = DataKeeper.GetFileSnapShot().CurrentWallpaper;
+            ImageModel currentWallpaper = _dataKeeper.GetFileSnapShot().CurrentWallpaper;
             if (currentWallpaper != null)
             {
                 string currentWallpaperDir = imageFilePaths.Find(x => x.Equals(currentWallpaper.LocalUrl));

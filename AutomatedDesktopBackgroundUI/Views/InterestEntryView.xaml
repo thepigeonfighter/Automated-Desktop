@@ -1,0 +1,82 @@
+﻿<UserControl x:Class="AutomatedDesktopBackgroundUI.Views.InterestEntryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AutomatedDesktopBackgroundUI.Views"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             mc:Ignorable="d" 
+             xmlns:cal="http://www.caliburnproject.org"
+             d:DesignHeight="451.22" d:DesignWidth="513.415">
+    <Border Background="{StaticResource greyColor}" CornerRadius="30">
+    <Grid >
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            
+        </Grid.RowDefinitions>
+        <Viewbox HorizontalAlignment="Left">
+            <TextBlock Foreground="{StaticResource fontColor}" Padding="10" TextWrapping="Wrap" >
+                Search for New Interests 
+            </TextBlock>
+        </Viewbox>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12*"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+                <Border Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" CornerRadius="10" 
+                        Background="{StaticResource fontColor}" >
+
+
+
+                    
+                   
+                   <TextBox x:Name="InterestName"   Background="#FF535252" BorderBrush="{x:Null}" 
+                      Foreground="{StaticResource backgroundColor}"  FontFamily="Tahoma" Margin="10" MaxLines="1" TextAlignment="Justify" FontSize="16" MinHeight="25" VerticalAlignment="Center" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="PreviewMouseDown">
+                                <cal:ActionMessage MethodName="OnSelected"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </TextBox>
+
+                    
+
+
+
+                </Border>
+                <Grid Grid.Column="3" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="*"/>
+
+                    </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+
+                </Grid.RowDefinitions>
+                <Button x:Name="Submit" Style="{StaticResource addButtonStyle}" Grid.Row="1" Grid.Column="1" ToolTip="Click to Add Interest"/>
+            </Grid>
+            
+        </Grid>
+            <Viewbox Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center">
+                <TextBlock Padding="20 0 20 20" TextAlignment="Center" Foreground="{StaticResource fontColor}">
+                    Add things you are interested in here <LineBreak/> to see photos related to them
+                </TextBlock>
+            </Viewbox>
+       
+
+    </Grid>
+    </Border>
+</UserControl>

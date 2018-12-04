@@ -15,6 +15,8 @@ namespace AutomatedDesktopBackgroundUI
     /// <summary>
     /// Interaction logic for SettingsWindow.xaml
     /// </summary>
+    /// 
+    /*
     public partial class SettingsWindow : Window
     {
         private readonly List<string> timeSettings = new List<string>();
@@ -247,4 +249,5 @@ namespace AutomatedDesktopBackgroundUI
             viewController.ClearSettings();
         }
     }
+    */
 }

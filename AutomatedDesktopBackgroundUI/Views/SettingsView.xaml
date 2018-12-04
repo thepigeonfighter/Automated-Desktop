@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:AutomatedDesktopBackgroundUI.Views"
              mc:Ignorable="d" d:DesignWidth="645" d:DesignHeight="420" 
              >
-    <Grid Background="LightYellow">
+    <Grid Background="{StaticResource backgroundColor}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -17,7 +17,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+
         </Grid.RowDefinitions>
         <!--Cancel/Accept Buttons-->
         <Grid Grid.Row="3" Grid.Column="3">
@@ -28,7 +28,10 @@
             <Button x:Name="AcceptSettings" Grid.Row="1" Grid.Column="1" Style="{StaticResource acceptSettingsStyle}"  ToolTip="Apply Settings" />
             <Button x:Name="RevertSettings" Grid.Column="0" Style="{StaticResource revertSettingsStyle}" ToolTip="Reverts to previous settings"/>
         </Grid>
-        
+        <ContentControl x:Name="SetRefreshCycleViewModel" Grid.Column="0" Grid.ColumnSpan="2">
+            
+        </ContentControl>
+
 
     </Grid>
 </UserControl>

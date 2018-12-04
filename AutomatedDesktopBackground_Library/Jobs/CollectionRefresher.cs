@@ -5,17 +5,25 @@ namespace AutomatedDesktopBackgroundLibrary
 {
     public class CollectionRefresher
     {
-        private List<InterestModel> allInterests = new List<InterestModel>();
-        private readonly APIManager apiManager = new APIManager();
+        private List<InterestModel> _allInterests;
+        private readonly IAPIManager _apiManager;
+        private IDataKeeper _dataKeeper;
+
+        public CollectionRefresher( IAPIManager apiManager, IDataKeeper dataKeeper)
+        {
+            
+            _apiManager = apiManager;
+            _dataKeeper = dataKeeper;
+            _allInterests = dataKeeper.GetFreshFileSnapShot().AllInterests;
+        }
 
         public async Task RefreshAllCollections()
         {
-            allInterests = DataKeeper.GetFileSnapShot().AllInterests;
-            if (allInterests.Count > 0)
+            if (_allInterests.Count > 0)
             {
-                foreach (InterestModel i in allInterests)
+                foreach (InterestModel i in _allInterests)
                 {
-                    await Task.Run(() => apiManager.GetImagesBySearch(i.Name, false)).ConfigureAwait(false);
+                    await Task.Run(() => _apiManager.GetImagesBySearch(i.Name, false)).ConfigureAwait(false);
                 }
             }
         }

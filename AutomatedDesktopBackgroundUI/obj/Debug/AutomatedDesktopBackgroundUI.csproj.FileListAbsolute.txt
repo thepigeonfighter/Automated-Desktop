@@ -163,13 +163,7 @@ F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debu
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop.exe
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop.pdb
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Config\log4net.config
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\MainWindow.g.cs
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\RootWindow.g.cs
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\SettingsWindow.g.cs
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\WarningWindow.g.cs
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\MainWindow.baml
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\RootWindow.baml
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\SettingsWindow.baml
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Config\Styles.baml
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\WarningWindow.baml
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\App.g.cs
@@ -190,3 +184,13 @@ F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debu
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\SettingsView.baml
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\CurrentImageView.g.cs
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\CurrentImageView.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\RefreshStateView.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\RefreshStateView.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\InterestListView.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\InterestListView.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\InterestInfoView.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\InterestInfoView.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\InterestEntryView.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\InterestEntryView.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\SetRefreshCycleView.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\SetRefreshCycleView.baml

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutomatedDesktopBackgroundUI.Views"
         mc:Ignorable="d"
-        Title="ShellView" Height="450" Width="800" WindowStyle="None" Background="Transparent" AllowsTransparency="True" ResizeMode="CanResizeWithGrip">
+        Title="ShellView" Height="450" Width="800" WindowStyle="None" Background="Transparent" AllowsTransparency="True" ResizeMode="CanResizeWithGrip" MinWidth="800" MinHeight="450" RenderOptions.BitmapScalingMode="HighQuality">
     <Border Background="{StaticResource backgroundColor}" CornerRadius="12" BorderBrush="{StaticResource fontColor}" BorderThickness="2">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -32,7 +32,13 @@
                     <RowDefinition Height="3*"/>
                 </Grid.RowDefinitions>
                 <!--Title-->
-                <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" Foreground="{StaticResource fontColor}" FontFamily="Tahoma" FontSize="40">Automated Wallpapers</Label>
+                <Viewbox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalAlignment="Left">
+                    <TextBlock Padding="0,0,30,7" Foreground="{StaticResource fontColor}" FontFamily="Tahoma">
+                        Automated Wallpapers
+                    </TextBlock>
+                    
+                </Viewbox>
+                
                 <!--Version Number + Connection Status-->
                 <Grid Grid.Row="1" Grid.Column="2">
                     <Grid.RowDefinitions>
@@ -43,8 +49,16 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Label x:Name="VersionNumber" Grid.Column="1" Content="v.1.4" FontFamily="Tahoma" Foreground="{StaticResource fontColor}" FontSize="8"/>
-                    <Label x:Name="ConnectionStatus" Grid.Column="1" Grid.Row="2" Content="{Binding Path=ConnectionStatus, Mode=OneWay}" FontFamily="Tahoma" Foreground="{Binding Path=ConnectionColor, Mode=OneWay}" FontSize="10"/>
+                    <Viewbox  Grid.Column="1"  HorizontalAlignment="Left" >
+                        <TextBlock x:Name="VersionNumber" FontFamily="Tahoma" Foreground="{StaticResource fontColor}" Padding="1">
+                            v1.4
+                        </TextBlock>
+                    </Viewbox>
+                    <Viewbox x:Name="ConnectionStatus" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left">
+                        <TextBlock Text="{Binding Path=ConnectionStatus, Mode=OneWay}" FontWeight="Bold" FontFamily="Tahoma" Foreground="{Binding Path=ConnectionColor, Mode=OneWay}" Padding="1">
+                            Connected
+                        </TextBlock>
+                    </Viewbox>
                 </Grid>
             </Grid>
             <!--Window Buttons-->
@@ -70,8 +84,7 @@
 
 
             </Grid>
-            <ContentControl x:Name="ActiveItem" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"> 
-                
+            <ContentControl x:Name="ActiveItem" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" >
             </ContentControl>
 
         </Grid>

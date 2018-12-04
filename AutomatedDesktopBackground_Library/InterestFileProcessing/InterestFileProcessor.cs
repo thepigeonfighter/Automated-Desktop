@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutomatedDesktopBackgroundLibrary.Utility;
+using System;
 using System.Collections.Generic;
 
 namespace AutomatedDesktopBackgroundLibrary
@@ -27,10 +28,12 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             if (entry != null)
             {
-                _database.Delete(entry, entry.InfoFileDir);
-
-                OnFileUpdate?.Invoke(this, LoadAllEntries());
+                _database.Delete(entry, entry.InfoFileDir,OnDeletionCompleted);                
             }
+        }
+        public void OnDeletionCompleted()
+        {
+            OnFileUpdate?.Invoke(this, LoadAllEntries());
         }
 
         public List<InterestModel> LoadAllEntries()

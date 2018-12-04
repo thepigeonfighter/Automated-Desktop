@@ -25,6 +25,13 @@ namespace AutomatedDesktopBackgroundUI.Views
         {
             InitializeComponent();
             BuildNotifyIcon();
+            this.MouseLeftButtonDown += DragWindow;
+        }
+
+        private void DragWindow(object sender, MouseButtonEventArgs e)
+        {
+                base.OnMouseLeftButtonDown(e);
+                this.DragMove();           
         }
 
         private void MinimizeWindow_Click(object sender, RoutedEventArgs e)

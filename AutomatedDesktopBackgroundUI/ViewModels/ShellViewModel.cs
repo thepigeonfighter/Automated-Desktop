@@ -1,52 +1,48 @@
 ﻿using AutomatedDesktopBackgroundLibrary;
+using AutomatedDesktopBackgroundUI.Config;
+using AutomatedDesktopBackgroundUI.SessionData;
+using AutomatedDesktopBackgroundUI.Utility;
 using Caliburn.Micro;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Media;
 
-namespace AutomatedDesktopBackgroundUI.ViewModels 
+namespace AutomatedDesktopBackgroundUI.ViewModels
 {
-    public class ShellViewModel:Conductor<Screen>, IHandle<string>
+    public class ShellViewModel : Conductor<Screen>, IHandle<EventContainer>
     {
-        private static IEventAggregator _eventAggregator;
-        private IWindowManager _windowManager;
-        public ShellViewModel(IWindowManager windowManager)
+
+        private SimpleContainer _simpleContainer;
+        private IEventAggregator _eventAggregator;
+        private ISessionContext _sessionContext;
+        private IDataAccess _dataAccess;
+       
+        public ShellViewModel(SimpleContainer simpleContainer)
         {
-            _windowManager = windowManager;
-            _eventAggregator = new EventAggregator();
+            _simpleContainer = simpleContainer;
+            _eventAggregator = (IEventAggregator) simpleContainer.GetInstance(typeof(IEventAggregator), null);
+            _sessionContext = (ISessionContext)simpleContainer.GetInstance(typeof(ISessionContext), null);
+            _dataAccess = (IDataAccess)simpleContainer.GetInstance(typeof(IDataAccess), null);
             _eventAggregator.Subscribe(this);
             UpdateConnectionStatus();
             LoadMain();
         }
-
-        public void Handle(string message)
+        private void BuildUpContainer()
         {
-            switch(message)
-            {
-                case "AcceptSettings":
-                LoadMain();
-                    break;
-                case "CheckConnection":
-                    UpdateConnectionStatus();
-                    break;
-                default:
-                    break;
-            }
 
+        }
+
+        private void SkipWallpaper()
+        {
+            _dataAccess.SkipCurrentImage();
         }
 
         public void LoadSettings()
         {
-            ActivateItem(new SettingsViewModel(_eventAggregator));
+            ActivateItem(new SettingsViewModel(_sessionContext,_eventAggregator));
         }
         public void LoadMain()
         {
-            ActivateItem(new MainViewModel());
+            ActivateItem(new MainViewModel(_sessionContext, _eventAggregator));
         }
         private bool _isConnected;
         public void UpdateConnectionStatus()
@@ -55,17 +51,15 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
         }
         public bool IsConnnected
         {
-            get {
-                
-                return _isConnected; }
+            get
+            {
+                return _isConnected;
+            }
             set
             {
-                if (value != _isConnected)
-                {
-                    _isConnected = value;
-                    SetConnectionContent();
-                }
-            
+                _isConnected = value;
+                SetConnectionContent();
+
             }
         }
         private string _connectionStatus;
@@ -94,12 +88,11 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
 
         private void SetConnectionContent()
         {
-            if(IsConnnected)
+            if (IsConnnected)
             {
                 ConnectionStatus = "Connected";                     //Green -ish
                 ConnectionColor = (SolidColorBrush)(new BrushConverter().ConvertFrom("#a6d785"));
             }
-            //TODO HOOK THIS UP
             else
             {
                 ConnectionStatus = "Offline";                       //Red -ish
@@ -107,6 +100,22 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
             }
         }
 
-
+        public void Handle(EventContainer eventContainer)
+        {
+            switch (eventContainer.Command)
+            {
+                case CommandNames.CheckConnection:
+                    UpdateConnectionStatus();
+                    break;
+                case CommandNames.AcceptSettings:
+                    LoadMain();
+                    break;
+                case CommandNames.RevertSettings:
+                    LoadMain();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

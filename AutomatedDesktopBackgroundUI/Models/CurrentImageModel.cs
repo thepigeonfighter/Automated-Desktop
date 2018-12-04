@@ -29,6 +29,16 @@ namespace AutomatedDesktopBackgroundUI.Models
             get { return _isLiked; }
             set { _isLiked = value; }
         }
+        private string _localUrl;
+
+        public string LocalUrl
+        {
+            get { return _localUrl; }
+            set { _localUrl = value; }
+        }
+
+
+
 
     }
 }
