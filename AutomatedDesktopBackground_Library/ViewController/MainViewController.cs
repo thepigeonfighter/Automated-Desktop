@@ -1,5 +1,4 @@
-﻿using AutomatedDesktopBackgroundLibrary.Scheduler;
-using AutomatedDesktopBackgroundLibrary.StringExtensions;
+﻿using AutomatedDesktopBackgroundLibrary.StringExtensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

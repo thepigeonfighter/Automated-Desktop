@@ -139,6 +139,10 @@
     <Compile Include="SessionData\ISessionContext.cs" />
     <Compile Include="SessionData\SessionContext.cs" />
     <Compile Include="Utility\EventContainer.cs" />
+    <Compile Include="Utility\IRefreshCycleServices.cs" />
+    <Compile Include="Utility\IShellService.cs" />
+    <Compile Include="Utility\RefreshCycleServices.cs" />
+    <Compile Include="Utility\ShellService.cs" />
     <Compile Include="Utility\StringExtensions.cs" />
     <Compile Include="ViewModels\ConfigSettingsViewModel.cs" />
     <Compile Include="ViewModels\CurrentImageViewModel.cs" />
@@ -264,7 +268,6 @@
     </EmbeddedResource>
     <Resource Include="Images\Love it.png" />
     <Resource Include="Images\Love it_disabled.png" />
-    <Resource Include="Images\NextImageButton.png" />
     <Content Include="Config\log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

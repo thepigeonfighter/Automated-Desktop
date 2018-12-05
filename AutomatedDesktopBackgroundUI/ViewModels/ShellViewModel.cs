@@ -1,9 +1,11 @@
 ﻿using AutomatedDesktopBackgroundLibrary;
 using AutomatedDesktopBackgroundUI.Config;
+using AutomatedDesktopBackgroundUI.Models;
 using AutomatedDesktopBackgroundUI.SessionData;
 using AutomatedDesktopBackgroundUI.Utility;
 using Caliburn.Micro;
 using System;
+using System.Windows;
 using System.Windows.Media;
 
 namespace AutomatedDesktopBackgroundUI.ViewModels
@@ -24,11 +26,23 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
             _dataAccess = (IDataAccess)simpleContainer.GetInstance(typeof(IDataAccess), null);
             _eventAggregator.Subscribe(this);
             UpdateConnectionStatus();
-            LoadMain();
+            _sessionContext.ForceSettingsUpdate();
+            StartUp();
         }
-        private void BuildUpContainer()
-        {
 
+        private void StartUp()
+        {
+            if(_sessionContext.CurrentSettings.ShowSettingsWindowOnLoad)
+            {
+                LoadSettings();
+                SettingsModel tempSettings = _sessionContext.CurrentSettings;
+                tempSettings.ShowSettingsWindowOnLoad = false;
+                _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.SettingsChanged, Data = tempSettings });
+            }
+            else if(!_sessionContext.CurrentSettings.ShowSettingsWindowOnLoad)
+            {
+                LoadMain();
+            }
         }
 
         private void SkipWallpaper()
@@ -91,7 +105,7 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
             if (IsConnnected)
             {
                 ConnectionStatus = "Connected";                     //Green -ish
-                ConnectionColor = (SolidColorBrush)(new BrushConverter().ConvertFrom("#a6d785"));
+                ConnectionColor = (SolidColorBrush)(new BrushConverter().ConvertFrom("#6e9e6a"));
             }
             else
             {
@@ -119,6 +133,18 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
                 default:
                     break;
             }
+        }
+        public void CloseWindow()
+        {
+            if (_sessionContext.CurrentSettings.ShowWarningOnWindowClose)
+            {
+                string message = "This does not close program, It only hides the window. To close program go to settings and click quit application";
+                MessageBox.Show(message, "Hide Window", MessageBoxButton.OK);
+            }
+        }
+        public void HateImage()
+        {
+            MessageBox.Show("hated ");
         }
     }
 }

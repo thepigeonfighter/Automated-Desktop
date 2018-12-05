@@ -1,4 +1,5 @@
 ﻿using AutomatedDesktopBackgroundUI.Models;
+using AutomatedDesktopBackgroundUI.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,12 +23,10 @@ namespace AutomatedDesktopBackgroundUI.SessionData
         void SkipCurrentImage();
         void DownloadCollection(InterestInfoModel item);
         void HateCurrentImage();
-        void StartBackgroundRefresh(RefreshStateModel model);
-        void StopBackgroundRefresh(RefreshStateModel  model);
-        void StartCollectionRefresh(RefreshStateModel model);
-        void StopCollectionRefresh(RefreshStateModel model);
         void UpdateSettings(SettingsModel settings);
         void ResetApplication();
+        void SetRefreshState(EventContainer eventContainer);
+        void UpdateContextMenu(EventContainer eventContainer);
 
     }
 }

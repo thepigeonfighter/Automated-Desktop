@@ -26,7 +26,7 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
             _sessionContext = sessionContext;
             _currentSettings = _sessionContext.CurrentSettings;
             SetRefreshCycleViewModel = new SetRefreshCycleViewModel( _currentSettings);
-            ConfigSettingsViewModel = new ConfigSettingsViewModel(_currentSettings);
+            ConfigSettingsViewModel = new ConfigSettingsViewModel(_currentSettings, _eventAggregator);
 
             Items.Add(SetRefreshCycleViewModel);
             Items.Add(ConfigSettingsViewModel);

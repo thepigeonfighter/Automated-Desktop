@@ -11,5 +11,6 @@ namespace AutomatedDesktopBackgroundUI.Utility
     {
         public CommandNames Command { get; set; }
         public object Data { get; set; }
+        
     }
 }

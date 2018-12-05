@@ -1,5 +1,4 @@
-﻿using AutomatedDesktopBackgroundLibrary.Scheduler;
-using AutomatedDesktopBackgroundLibrary.Utility;
+﻿using AutomatedDesktopBackgroundLibrary.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -63,7 +63,6 @@ namespace AutomatedDesktopBackgroundLibrary
                 0,
                 tempPath,
                 SPIF_UPDATEINIFILE | SPIF_SENDWININICHANGE);
-            Scheduler.ScheduleManager.OnBackgroundChange(DateTime.Now);
         }
     }
 }

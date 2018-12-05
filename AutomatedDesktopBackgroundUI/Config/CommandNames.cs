@@ -24,9 +24,14 @@ namespace AutomatedDesktopBackgroundUI.Config
         StopBackgroundRefreshing,
         StartCollectionRefreshing,
         StopCollectionRefreshing,
+        UpdateCollectionCycle,
+        UpdateBackgroundCycle,
         SettingsChanged,
         ResetApplication,
-        QuitApplication
+        QuitApplication,
+        AddContextMenuShortcut,
+        RemoveContextMenuShortcut
+
     }
     
 }

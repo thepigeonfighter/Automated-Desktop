@@ -90,7 +90,6 @@
     <Compile Include="ImageFileProcessing\ImageFileProcessor.cs" />
     <Compile Include="Model\ISaveable.cs" />
     <Compile Include="InterestFileProcessing\InterestFileProcessor.cs" />
-    <Compile Include="Model\SettingsModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -110,11 +109,11 @@
     <Compile Include="Jobs\ChangeBackgroundJob.cs" />
     <Compile Include="DataConnection\APIManager.cs" />
     <Compile Include="ResponseClasses\LiteImageResponseModel.cs" />
+    <Compile Include="Utility\IShellExtension.cs" />
     <Compile Include="Utility\ReaderWriterLockSlimExtensions.cs" />
     <Compile Include="Utility\StringExtensions.cs" />
     <Compile Include="Utility\EventSystem.cs" />
     <Compile Include="Jobs\JobManager.cs" />
-    <Compile Include="Jobs\ScheduleManager.cs" />
     <Compile Include="Model\TimeModel.cs" />
     <Compile Include="Jobs\BackGroundPicker.cs" />
     <Compile Include="Utility\GlobalConfig.cs" />

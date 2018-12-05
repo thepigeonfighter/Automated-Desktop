@@ -38,7 +38,7 @@
                     <RowDefinition Height="*"/>
 
                 </Grid.RowDefinitions>
-                <Button x:Name="LikeImage" Style="{StaticResource loveItButtonStyle}" IsEnabled="{Binding Path=EnableLikeButton}" Grid.Column="1" Grid.Row="1"/>
+                <Button x:Name="LikeImage" Style="{StaticResource loveItButtonStyle}" IsEnabled="{Binding Path=EnableLikeButton}" Grid.Column="1" Grid.Row="1" ToolTip="Like Current Image"/>
             </Grid>
             <!--Hate an Image Button-->
             <Grid  Grid.Column="2">
@@ -53,7 +53,7 @@
                     <RowDefinition Height="*"/>
 
                 </Grid.RowDefinitions>
-                <Button x:Name="HateImage" Style="{StaticResource hateItButtonStyle}" IsEnabled="{Binding Path=EnableHateButton}" Grid.Column="1" Grid.Row="1"/>
+                <Button x:Name="HateImage" Style="{StaticResource hateItButtonStyle}" IsEnabled="{Binding Path=EnableHateButton}" Grid.Column="1" Grid.Row="1" ToolTip="Delete Current Image"/>
             </Grid>
             <!--Next Image button-->
             <Grid  Grid.Column="3">
@@ -68,7 +68,7 @@
                     <RowDefinition Height="*"/>
 
                 </Grid.RowDefinitions>
-                <Button x:Name="SkipWallpaper" Style="{StaticResource nextBackgroundStyle}" Grid.Column="1" Grid.Row="1"/>
+                <Button x:Name="SkipWallpaper" Style="{StaticResource nextBackgroundStyle}" Grid.Column="1" Grid.Row="1" ToolTip="Skip Current Image"/>
             </Grid>
 
         </Grid>

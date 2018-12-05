@@ -272,22 +272,22 @@
 
                     <Border Name="RootElement" ClipToBounds="False">
                         <Border.Background>
-                            <ImageBrush ImageSource="/Automated Desktop;component/Images/NextImageButton.png" Stretch="Uniform"/>
+                            <ImageBrush  Stretch="Uniform" ImageSource="/Automated Desktop;component/Images/Skip.png"/>
                         </Border.Background>
                     </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="RenderTransformOrigin" Value=".5,.5"/>
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="RenderTransformOrigin" Value=".5,.5"/>
-                <Setter Property="RenderTransform">
-                    <Setter.Value>
-                        <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
-                    </Setter.Value>
-                </Setter>
-            </Trigger>
-        </Style.Triggers>
     </Style>
     <Style x:Key="minimizeButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="OverridesDefaultStyle" Value="True"></Setter>

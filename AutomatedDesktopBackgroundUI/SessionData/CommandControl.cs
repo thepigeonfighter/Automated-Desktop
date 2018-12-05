@@ -49,16 +49,16 @@ namespace AutomatedDesktopBackgroundUI.SessionData
                     _dataAccess.SkipCurrentImage();
                     break;
                 case CommandNames.StartBackgroundRefreshing:
-                    _dataAccess.StartBackgroundRefresh(_sessionContext.CurrentRefreshState);
+                    _dataAccess.SetRefreshState(eventContainer);
                     break;
                 case CommandNames.StopBackgroundRefreshing:
-                    _dataAccess.StopBackgroundRefresh(_sessionContext.CurrentRefreshState);
+                    _dataAccess.SetRefreshState(eventContainer);
                     break;
                 case CommandNames.StartCollectionRefreshing:
-                    _dataAccess.StartCollectionRefresh(_sessionContext.CurrentRefreshState);
+                    _dataAccess.SetRefreshState(eventContainer);
                     break;
                 case CommandNames.StopCollectionRefreshing:
-                    _dataAccess.StopCollectionRefresh(_sessionContext.CurrentRefreshState);
+                    _dataAccess.SetRefreshState(eventContainer);
                     break;
                 case CommandNames.SettingsChanged:
                     _dataAccess.UpdateSettings((SettingsModel)eventContainer.Data);
@@ -66,6 +66,13 @@ namespace AutomatedDesktopBackgroundUI.SessionData
                 case CommandNames.ResetApplication:
                     _dataAccess.ResetApplication();
                     break;
+                case CommandNames.AddContextMenuShortcut:
+                    _dataAccess.UpdateContextMenu(eventContainer);
+                    break;
+                case CommandNames.RemoveContextMenuShortcut:
+                    _dataAccess.UpdateContextMenu(eventContainer);
+                    break;
+
                 default:
                     break;
             }

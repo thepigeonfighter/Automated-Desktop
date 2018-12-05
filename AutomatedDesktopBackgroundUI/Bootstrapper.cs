@@ -1,4 +1,5 @@
 ﻿using AutomatedDesktopBackgroundLibrary;
+using AutomatedDesktopBackgroundLibrary.Utility;
 using AutomatedDesktopBackgroundUI.SessionData;
 using AutomatedDesktopBackgroundUI.ViewModels;
 using AutomatedDesktopBackgroundUI.Views;
@@ -30,7 +31,9 @@ namespace AutomatedDesktopBackgroundUI
              ImageModelBuilder _imageBuilder = new ImageModelBuilder();
              ImageGetter _imageGetter = new ImageGetter(_dataKeeper, _imageBuilder);
              IAPIManager _apiManager = new APIManager(_imageGetter, _dataKeeper);
-             IDataAccess _dataAccess = new DataAccess(_dataKeeper, _apiManager);
+            //TODO build a data access builder
+            IShellExtension _shellExtension = new WindowsShellExtension();
+             IDataAccess _dataAccess = new DataAccess(_dataKeeper, _apiManager, _shellExtension);
              ISessionContext _sessionContext = new SessionContext(_dataAccess);
              CommandControl _commandControl = new CommandControl(_eventAggregator, _dataAccess, _sessionContext);
             
@@ -41,6 +44,7 @@ namespace AutomatedDesktopBackgroundUI
             container.Instance(_imageBuilder);
             container.Instance(_imageGetter);
             container.Instance(_apiManager);
+            container.Instance(_shellExtension);
             container.Instance(_dataAccess);
             container.Instance(_sessionContext);
             container.Instance(_commandControl);
@@ -53,7 +57,8 @@ namespace AutomatedDesktopBackgroundUI
             //ShellViewModel shellViewModel =(ShellViewModel)container.GetInstance(typeof(ShellViewModel), null);
             //  DisplayRootViewFor(typeof(ShellViewModel));
             ShellViewModel shell =  new ShellViewModel(container);
-            var shellView = new ShellView();
+            IEventAggregator _eventAggregator = (IEventAggregator)container.GetInstance(typeof(IEventAggregator), null);
+            var shellView = new ShellView(_eventAggregator);
             ViewModelBinder.Bind(shell, shellView,this);
             shellView.Show();
             

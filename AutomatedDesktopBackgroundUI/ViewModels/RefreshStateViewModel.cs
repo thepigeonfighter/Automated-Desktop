@@ -121,19 +121,20 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
         }
         public void StopBackgroundRefresh()
         {
-            _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.StopBackgroundRefreshing});
+
+            _eventAggregator.PublishOnUIThread(new EventContainer() { Data= CurrentRefreshState, Command = CommandNames.StopBackgroundRefreshing});
         }
         public void StartBackgroundRefresh()
         {
-            _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.StartBackgroundRefreshing });
+            _eventAggregator.PublishOnUIThread(new EventContainer() { Data = CurrentRefreshState, Command = CommandNames.StartBackgroundRefreshing });
         }
         public void StopCollectionRefresh()
         {
-            _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.StopCollectionRefreshing });
+            _eventAggregator.PublishOnUIThread(new EventContainer() { Data = CurrentRefreshState, Command = CommandNames.StopCollectionRefreshing });
         }
         public void StartCollectionRefresh()
         {
-            _eventAggregator.PublishOnUIThread(new EventContainer() { Command = CommandNames.StartCollectionRefreshing });
+            _eventAggregator.PublishOnUIThread(new EventContainer() { Data = CurrentRefreshState, Command = CommandNames.StartCollectionRefreshing });
         }
 
     }

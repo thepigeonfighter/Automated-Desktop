@@ -8,22 +8,22 @@
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="15*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="4*"/>
-            <RowDefinition Height="4*"/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="7*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Viewbox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left">
+        <Viewbox x:Name="vb1" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left">
             <TextBlock Foreground="{StaticResource fontColor}" FontFamily="Tahoma" Padding="10" Text="{Binding Path=BackgroundMessage}" >
             </TextBlock>
         </Viewbox>
-        <Viewbox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left">
+        <Viewbox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Height="{Binding ElementName=vb1, Path=ActualHeight}">
             <TextBlock Foreground="{StaticResource fontColor}" FontFamily="Tahoma" Padding="10" Text="{Binding Path=CollectionMessage}">
             </TextBlock>
         </Viewbox>

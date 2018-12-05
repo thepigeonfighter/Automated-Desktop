@@ -18,5 +18,6 @@ namespace AutomatedDesktopBackgroundUI.SessionData
         RefreshStateModel CurrentRefreshState { get; set; }
         bool IsDownloading { get; set; }
         SettingsModel CurrentSettings { get; set; }
+        void ForceSettingsUpdate();
     }
 }

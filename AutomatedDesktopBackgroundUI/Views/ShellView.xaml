@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutomatedDesktopBackgroundUI.Views"
+        xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
         Title="ShellView" Height="450" Width="800" WindowStyle="None" Background="Transparent" AllowsTransparency="True" ResizeMode="CanResizeWithGrip" MinWidth="800" MinHeight="450" RenderOptions.BitmapScalingMode="HighQuality">
     <Border Background="{StaticResource backgroundColor}" CornerRadius="12" BorderBrush="{StaticResource fontColor}" BorderThickness="2">
@@ -40,8 +41,10 @@
                 </Viewbox>
                 
                 <!--Version Number + Connection Status-->
-                <Grid Grid.Row="1" Grid.Column="2">
+                <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="2">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
@@ -49,12 +52,12 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Viewbox  Grid.Column="1"  HorizontalAlignment="Left" >
+                    <Viewbox  Grid.Column="1" Grid.Row="1"  HorizontalAlignment="Left" >
                         <TextBlock x:Name="VersionNumber" FontFamily="Tahoma" Foreground="{StaticResource fontColor}" Padding="1">
                             v1.4
                         </TextBlock>
                     </Viewbox>
-                    <Viewbox x:Name="ConnectionStatus" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left">
+                    <Viewbox  Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left">
                         <TextBlock Text="{Binding Path=ConnectionStatus, Mode=OneWay}" FontWeight="Bold" FontFamily="Tahoma" Foreground="{Binding Path=ConnectionColor, Mode=OneWay}" Padding="1">
                             Connected
                         </TextBlock>
@@ -81,14 +84,13 @@
                     <Button x:Name="LoadSettings" Style="{StaticResource settingsButtonStyle}" Grid.Column="1"/>
                     <Button x:Name="MinimizeWindow" Style="{StaticResource minimizeButtonStyle}" Grid.Column="0" Click="MinimizeWindow_Click"/>
                 </Grid>
-
-
             </Grid>
             <ContentControl x:Name="ActiveItem" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" >
             </ContentControl>
 
-        </Grid>
 
+        </Grid>
     </Border>
+    
 
 </Window>

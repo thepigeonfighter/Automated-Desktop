@@ -48,6 +48,7 @@ namespace AutomatedDesktopBackgroundUI.SessionData
                 OnPropertyChanged(PropertyNames.CurrentWallpaper);
             }
         }
+
         public SettingsModel CurrentSettings
         {
             get { return _currentSettings; }
@@ -55,6 +56,18 @@ namespace AutomatedDesktopBackgroundUI.SessionData
                 _currentSettings = value;
                 OnPropertyChanged(PropertyNames.CurrentSettings);
             }
+        }
+
+        public bool IsDownloading
+        {
+            get
+            { return _isDownloading; }
+            set
+            {
+                _isDownloading = value;
+                OnPropertyChanged(PropertyNames.IsDownloading);
+            }
+
         }
 
         private SettingsModel _currentSettings;
@@ -69,6 +82,8 @@ namespace AutomatedDesktopBackgroundUI.SessionData
 
         private CurrentImageModel _currentWallpaper;
 
+        private bool _isDownloading;
+
 
         public SessionContext(IDataAccess dataAccess)
         {
@@ -81,7 +96,10 @@ namespace AutomatedDesktopBackgroundUI.SessionData
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
+        public void ForceSettingsUpdate()
+        {
+            CurrentSettings = _dataAccess.GetCurrentSettings();
+        }
         public void AddInterest(InterestInfoModel item)
         {
             Task.Run(() => _dataAccess.AddInterest(item));
@@ -110,7 +128,7 @@ namespace AutomatedDesktopBackgroundUI.SessionData
                     CurrentRefreshState = _dataAccess.GetCurrentRefreshState();
                     break;
                 case PropertyNames.CurrentSettings:
-                    CurrentSettings = _dataAccess.GetCurrentSettings();
+                    UpdateSettings();
                     break;
                 default:
                     Interests = _dataAccess.GetAllInterests();
@@ -119,17 +137,10 @@ namespace AutomatedDesktopBackgroundUI.SessionData
             }
 
         }
-        private bool _isDownloading;
-        public bool IsDownloading
+        private void UpdateSettings()
         {
-            get
-            { return _isDownloading; }
-            set
-            {
-                _isDownloading = value;
-                OnPropertyChanged(PropertyNames.IsDownloading);
-            }
-
+            CurrentSettings = _dataAccess.GetCurrentSettings();
+            _dataAccess.SetRefreshState(new Utility.EventContainer() { Command = CommandNames.UpdateBackgroundCycle, Data = CurrentRefreshState });
         }
     }
 }

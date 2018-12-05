@@ -23,6 +23,8 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
             _sessionContext = sessionContext;
             _eventAggregator = eventAggregator;
             CurrentImage = _sessionContext.CurrentWallpaper;
+            EnableHateButton = CanHateImage();
+            EnableLikeButton = CanLikeImage();
             _sessionContext.PropertyChanged += SessionContextPropertyChanged;
             this.Deactivated += CurrentImageViewModel_Deactivated;
         }

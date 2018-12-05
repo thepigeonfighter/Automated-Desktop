@@ -44,8 +44,7 @@
 
             }
         }
-        //TODO remove this smelly bool 
-        public static bool SettingsWindowOpen;
+
         
     }
 }

@@ -4,7 +4,7 @@
     {
         public void UpdateWarningTriggerValue(bool value)
         {
-            Scheduler.ScheduleManager.UpdateWarningFlag(!value);
+           // Scheduler.ScheduleManager.UpdateWarningFlag(!value);
         }
     }
 }

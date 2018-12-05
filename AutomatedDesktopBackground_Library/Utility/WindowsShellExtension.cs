@@ -6,13 +6,15 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace AutomatedDesktopBackgroundLibrary.Utility
 {
 
-    public class WindowsShellExtension
+    public class WindowsShellExtension : IShellExtension
     {
         private const string Menu = @"Directory\Background\shell\Change Desktop Image";
         private const string Command = @"Directory\Background\shell\Change Desktop Image\command";
@@ -79,23 +81,25 @@ namespace AutomatedDesktopBackgroundLibrary.Utility
                 }
             }
         }
-        public static void RunAsAdmin(string executingAssembly)
+        public void RunAsAdmin(string executingAssembly)
         {
-            using (var process = Process.Start(new ProcessStartInfo(executingAssembly, "/run_elevated_action")
+           
+            
+             using (var process = Process.Start(new ProcessStartInfo(executingAssembly, "/run_elevated_action")
             {
+                 Arguments = "Settings",
                 Verb = "runas"
+               
             }))
             {
                 process?.WaitForExit();
             }
+            
+
         }
 
-        private static void ElevatedAction()
-        {
-            MessageBox.Show($@"IsElevated: {IsElevated()}");
-        }
 
-        public static bool IsElevated()
+        public bool IsElevated()
         {
             using (var identity = WindowsIdentity.GetCurrent())
             {

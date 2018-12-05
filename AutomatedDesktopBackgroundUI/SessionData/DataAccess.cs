@@ -1,5 +1,4 @@
 ﻿using AutomatedDesktopBackgroundLibrary;
-using AutomatedDesktopBackgroundLibrary.Scheduler;
 using AutomatedDesktopBackgroundUI.Config;
 using AutomatedDesktopBackgroundUI.Models;
 using System;
@@ -10,12 +9,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using AutomatedDesktopBackgroundUI.Properties;
+using AutomatedDesktopBackgroundUI.Utility;
+using AutomatedDesktopBackgroundLibrary.Utility;
+
 namespace AutomatedDesktopBackgroundUI.SessionData
 {
     public class DataAccess : IDataAccess, IFileListener, INotifyPropertyChanged
     {
         private IDataKeeper _dataKeeper;
+        //Dependencies
         private InterestBuilder interestBuilder = new InterestBuilder();
+        private IRefreshCycleServices cycleServices = new RefreshCycleServices();
+        private IShellService shellService;
+
         private IFileCollection _fileCollection;
         private IAPIManager _apiManager;
 
@@ -23,12 +29,23 @@ namespace AutomatedDesktopBackgroundUI.SessionData
 
 
 
-        public DataAccess(IDataKeeper dataKeeper, IAPIManager apiManager)
+        public DataAccess(IDataKeeper dataKeeper, IAPIManager apiManager, IShellExtension shellExtension)
         {
             _dataKeeper = dataKeeper;
             _apiManager = apiManager;
             InitializeDataAccessLayer();
             GlobalConfig.EventSystem.OnRefreshStatusChange += RefreshStatusChange;
+            //TODO remove this into factory
+            shellService = new ShellService(shellExtension);
+            shellService.RestartRequest = OnRestartRequested;
+        }
+
+        private void OnRestartRequested()
+        {
+            Application.Current.Shutdown();
+
+            shellService.ElevateApplication();
+            
         }
 
         private void RefreshStatusChange(object sender, EventArgs e)
@@ -216,46 +233,41 @@ namespace AutomatedDesktopBackgroundUI.SessionData
         {
             _apiManager.GetImagesBySearch(item.Name, true);
         }
-        public void StartBackgroundRefresh(RefreshStateModel model)
-        {
-            if(!model.IsBackgroundRefreshing)
-            {
-                Task.Run(()=>GlobalConfig.JobManager.StartBackgroundUpdatingAsync()).ConfigureAwait(false);
-                GlobalConfig.BackgroundRefreshing = true;
-                SkipCurrentImage();
-            }
 
-        }
-        public void StopBackgroundRefresh(RefreshStateModel model)
+        public void SetRefreshState(EventContainer eventContainer)
         {
-            if (model.IsBackgroundRefreshing)
+            switch (eventContainer.Command)
             {
-                Task.Run(() => GlobalConfig.JobManager.StopBackgroundUpdatingAsync()).ConfigureAwait(false);
-                GlobalConfig.BackgroundRefreshing = false;
+                case CommandNames.StartBackgroundRefreshing:
+                    cycleServices.StartBackgroundJob((RefreshStateModel)eventContainer.Data);
+                    SkipCurrentImage();
+                    break;
+                case CommandNames.StopBackgroundRefreshing:
+                    cycleServices.StopBackgroundJob((RefreshStateModel)eventContainer.Data);
+                    break;
+                case CommandNames.StartCollectionRefreshing:
+                    cycleServices.StartCollectionJob((RefreshStateModel)eventContainer.Data);
+                    break;
+                case CommandNames.StopCollectionRefreshing:
+                    cycleServices.StopCollectionJob((RefreshStateModel)eventContainer.Data);
+                    break;
+                case CommandNames.UpdateBackgroundCycle:
+                    Task.Run(() => cycleServices.UpateBackgroundJobTimeAsync((RefreshStateModel)eventContainer.Data)).ConfigureAwait(false);
+                    break;
+                case CommandNames.UpdateCollectionCycle:
+                    Task.Run(() => cycleServices.UpdateCollectionJobTimeAsync((RefreshStateModel)eventContainer.Data)).ConfigureAwait(false);
+                    break;
+                default:
+                    break;
             }
         }
-        public void StartCollectionRefresh(RefreshStateModel model)
-        {
-            if (!model.IsCollectionRefreshing)
-            {
-                Task.Run(() => GlobalConfig.JobManager.StartCollectionUpdatingAsync()).ConfigureAwait(false);
-                GlobalConfig.CollectionsRefreshing = true;
-            }
-        }
-        public void StopCollectionRefresh(RefreshStateModel model)
-        {
-            if (model.IsCollectionRefreshing)
-            {
-                Task.Run(() => GlobalConfig.JobManager.StopCollectionUpdatingAsync()).ConfigureAwait(false);
-                GlobalConfig.CollectionsRefreshing = false;
-            }
-        }
-
-        public Models.SettingsModel GetCurrentSettings()
+        public SettingsModel GetCurrentSettings()
         {
             Settings.Default.Upgrade();
-
-            Models.SettingsModel model = new Models.SettingsModel()
+            bool contextMenuEnabled = shellService.IsContextMenuEnable();
+            Settings.Default.ContextMenu = contextMenuEnabled;
+            Settings.Default.Save();
+            SettingsModel model = new SettingsModel()
             {
                 ShowSettingsWindowOnLoad = Settings.Default.ShowSettingsWindow,
                 CollectionRefreshTime = Settings.Default.CollectionCycle,
@@ -267,7 +279,7 @@ namespace AutomatedDesktopBackgroundUI.SessionData
             return model;
         }
 
-        public void UpdateSettings(Models.SettingsModel settings)
+        public void UpdateSettings(SettingsModel settings)
         {
             Settings.Default.CollectionCycle = settings.CollectionRefreshTime;
             Settings.Default.BGCycle = settings.BackgroundRefreshTime;
@@ -276,6 +288,21 @@ namespace AutomatedDesktopBackgroundUI.SessionData
             Settings.Default.ShowWarning = settings.ShowWarningOnWindowClose;
             Settings.Default.Save();
             OnPropertyChanged(PropertyNames.CurrentSettings);
+
+        }
+        public void UpdateContextMenu(EventContainer eventContainer)
+        {
+            switch (eventContainer.Command)
+            {
+                case CommandNames.AddContextMenuShortcut:
+                    shellService.CreateShortCut();
+                    break;
+                case CommandNames.RemoveContextMenuShortcut:
+                    shellService.RemoveShortCut();
+                    break;
+                default:
+                    break;
+            }
 
         }
 
