@@ -25,7 +25,7 @@ namespace AutomatedDesktopBackgroundUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("01:00:00")]
+        [global::System.Configuration.DefaultSettingValueAttribute("02:00:00")]
         public global::System.TimeSpan CollectionCycle {
             get {
                 return ((global::System.TimeSpan)(this["CollectionCycle"]));
@@ -37,7 +37,7 @@ namespace AutomatedDesktopBackgroundUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("00:00:01")]
+        [global::System.Configuration.DefaultSettingValueAttribute("00:00:15")]
         public global::System.TimeSpan BGCycle {
             get {
                 return ((global::System.TimeSpan)(this["BGCycle"]));
@@ -73,7 +73,7 @@ namespace AutomatedDesktopBackgroundUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool ShowWarning {
             get {
                 return ((bool)(this["ShowWarning"]));

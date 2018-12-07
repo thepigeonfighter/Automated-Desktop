@@ -34,7 +34,6 @@ namespace AutomatedDesktopBackgroundLibrary.StringExtensions
             }
             catch
             {
-                CustomMessageBox.Show(input + " was not a valid string");
                 return "Invalid Format";
             }
         }

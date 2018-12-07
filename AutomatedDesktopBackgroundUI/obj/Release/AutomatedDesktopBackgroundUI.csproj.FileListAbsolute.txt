@@ -113,12 +113,9 @@ F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Rele
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\AutomatedDesktopBackgroundUI.csproj.GenerateResource.cache
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\AutomatedDesktopBackgroundUI.csproj.CoreCompileInputs.cache
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\AutomatedDesktopBackgroundUI.csproj.CopyComplete
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Config\log4net.config
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\WarningWindow.g.cs
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\App.g.cs
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\App.baml
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Config\Styles.baml
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\WarningWindow.baml
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Caliburn.Micro.dll
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Caliburn.Micro.Platform.Core.dll
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\Caliburn.Micro.Platform.dll
@@ -145,3 +142,6 @@ F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Rele
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\SetRefreshCycleView.baml
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\SettingsView.baml
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\ShellView.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\ConfigSettingsView.g.cs
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\Views\ConfigSettingsView.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Release\log4net.config

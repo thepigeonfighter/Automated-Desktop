@@ -1,4 +1,5 @@
-﻿using AutomatedDesktopBackgroundLibrary.Utility;
+﻿using AutomatedDesktopBackgroundLibrary.Jobs;
+using AutomatedDesktopBackgroundLibrary.Utility;
 using Quartz;
 using System.Threading.Tasks;
 
@@ -11,7 +12,8 @@ namespace AutomatedDesktopBackgroundLibrary
         {
             IDataKeeper dataKeeper = BuildDataKeeper();
             BackGroundPicker picker = new BackGroundPicker(dataKeeper);
-            return new Task(()=> picker.PickRandomBackground(true));
+            picker.PickRandomBackground(true);
+            return new Task(() => new JobResult() { Subject = "Background Changed", Sucess = true });
         }
         private IDataKeeper BuildDataKeeper()
         {

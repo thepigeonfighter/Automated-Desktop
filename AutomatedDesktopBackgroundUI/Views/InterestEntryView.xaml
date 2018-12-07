@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              xmlns:cal="http://www.caliburnproject.org"
              d:DesignHeight="451.22" d:DesignWidth="513.415">
-    <Border Background="{StaticResource greyColor}" CornerRadius="30">
+    <Border Background="{StaticResource greyColor}" CornerRadius="10">
     <Grid >
         
         <Grid.RowDefinitions>

@@ -13,7 +13,6 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
     public class ConfigSettingsViewModel:Screen ,ISettingScreen
     {
         
-        //TODO implement this!!!
         public bool IsContextMenuEnabled
         {
             get { return _isContextMenuEnabled; }

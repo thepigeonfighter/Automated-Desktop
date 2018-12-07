@@ -186,9 +186,6 @@
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\WarningWindow.xaml.cs">
-      <DependentUpon>WarningWindow.xaml</DependentUpon>
-    </Compile>
     <Page Include="Views\ConfigSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -237,10 +234,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\WarningWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -268,7 +261,7 @@
     </EmbeddedResource>
     <Resource Include="Images\Love it.png" />
     <Resource Include="Images\Love it_disabled.png" />
-    <Content Include="Config\log4net.config">
+    <Content Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Config\packages.config" />

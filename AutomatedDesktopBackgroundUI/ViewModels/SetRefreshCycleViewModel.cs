@@ -120,23 +120,26 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
             BindableCollection<TimeModel> times = new BindableCollection<TimeModel>();
             times.Add(new TimeModel() { Time = new TimeSpan(6, 0, 0) });
             times.Add(new TimeModel() { Time = new TimeSpan(12, 0, 0) });
-            times.Add(new TimeModel() { Time = new TimeSpan(24, 0, 0) });
-            times.Add(new TimeModel() { Time = new TimeSpan(48, 0, 0) });
-            times.Add(new TimeModel() { Time = new TimeSpan(96, 0, 0) });
-            times.Add(new TimeModel() { Time = new TimeSpan(192, 0, 0) });
-            times.Add(new TimeModel() { Time = new TimeSpan(384, 0, 0) });
+            times.Add(new TimeModel() { Time = new TimeSpan(1, 0, 0, 0) });
+            times.Add(new TimeModel() { Time = new TimeSpan(2, 0, 0, 0) });
+            times.Add(new TimeModel() { Time = new TimeSpan(4, 0, 0, 0) });
+            times.Add(new TimeModel() { Time = new TimeSpan(8, 0, 0, 0) });
+            times.Add(new TimeModel() { Time = new TimeSpan(16, 0, 0, 0) });
+            times.Add(new TimeModel() { Time = new TimeSpan(30, 0, 0, 0) });
             return times;
         }
         private BindableCollection<TimeModel> GetSampleBackgroundTimes()
         {
             BindableCollection<TimeModel> times = new BindableCollection<TimeModel>();
-            times.Add(new TimeModel() { Time = new TimeSpan(0, 0, 30) });
-            times.Add(new TimeModel() { Time = new TimeSpan(0, 1, 0) });
             times.Add(new TimeModel() { Time = new TimeSpan(0, 5, 0) });
-            times.Add(new TimeModel() { Time = new TimeSpan(0, 10, 0) });
             times.Add(new TimeModel() { Time = new TimeSpan(0, 15, 0) });
             times.Add(new TimeModel() { Time = new TimeSpan(0, 30, 0) });
             times.Add(new TimeModel() { Time = new TimeSpan(1, 0, 0) });
+            times.Add(new TimeModel() { Time = new TimeSpan(4, 0, 0) });
+            times.Add(new TimeModel() { Time = new TimeSpan(8, 0, 0) });
+            times.Add(new TimeModel() { Time = new TimeSpan(16, 0, 0) });
+            times.Add(new TimeModel() { Time = new TimeSpan(24, 0, 0) });
+            times.Add(new TimeModel() { Time = new TimeSpan(2,0, 0, 0) });
             return times;
         }
         

@@ -55,7 +55,7 @@ namespace AutomatedDesktopBackgroundLibrary
             }
             if (style == Style.Fit)
             {
-                key.SetValue("WallpaperStyle", 3.ToString());
+                key.SetValue("WallpaperStyle", 10.ToString());
                 key.SetValue("TileWallpaper", 0.ToString());
             }
 

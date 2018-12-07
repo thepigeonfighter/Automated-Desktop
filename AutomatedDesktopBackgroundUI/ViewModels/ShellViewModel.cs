@@ -5,6 +5,8 @@ using AutomatedDesktopBackgroundUI.SessionData;
 using AutomatedDesktopBackgroundUI.Utility;
 using Caliburn.Micro;
 using System;
+using System.Diagnostics;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Media;
 
@@ -56,6 +58,9 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
         }
         public void LoadMain()
         {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo fileVersionInfo = FileVersionInfo.GetVersionInfo(assembly.Location);          
+            VersionNumber =  $"v.{ fileVersionInfo.ProductVersion}";
             ActivateItem(new MainViewModel(_sessionContext, _eventAggregator));
         }
         private bool _isConnected;
@@ -99,6 +104,17 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
                 NotifyOfPropertyChange(() => ConnectionColor);
             }
         }
+        private string _versionNumber;
+
+        public string VersionNumber
+        {
+            get { return _versionNumber; }
+            set
+            { _versionNumber = value;
+                NotifyOfPropertyChange(() => VersionNumber);
+            }
+        }
+
 
         private void SetConnectionContent()
         {
@@ -138,7 +154,7 @@ namespace AutomatedDesktopBackgroundUI.ViewModels
         {
             if (_sessionContext.CurrentSettings.ShowWarningOnWindowClose)
             {
-                string message = "This does not close program, It only hides the window. To close program go to settings and click quit application";
+                string message = "This does not close program, It only hides the window. To close program go to settings, then click quit application";
                 MessageBox.Show(message, "Hide Window", MessageBoxButton.OK);
             }
         }

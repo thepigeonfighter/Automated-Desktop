@@ -9,12 +9,12 @@ AutomatedDesktopBackgroundUI
 none
 false
 TRACE
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\App.xaml
-5-1714005675
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\Views\App.xaml
+11916626603
 1-1575529357
-12-1308578590
-33-1617915338
-MainWindow.xaml;RootWindow.xaml;SettingsWindow.xaml;Styles.xaml;WarningWindow.xaml;
+532075454706
+141-1908924027
+Views\ConfigSettingsView.xaml;Views\CurrentImageView.xaml;Views\InterestEntryView.xaml;Views\InterestInfoView.xaml;Views\InterestListView.xaml;Views\MainView.xaml;Views\RefreshStateView.xaml;Views\SetRefreshCycleView.xaml;Views\SettingsView.xaml;Config\Styles.xaml;Views\ShellView.xaml;
 
 True
 

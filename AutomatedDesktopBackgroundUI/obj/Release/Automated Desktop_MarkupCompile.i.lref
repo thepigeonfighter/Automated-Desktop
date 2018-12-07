@@ -1,8 +1,14 @@
-﻿
-FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\App.xaml;;
-FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\MainWindow.xaml;;
-FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\RootWindow.xaml;;
-FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\SettingsWindow.xaml;;
-FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\Styles.xaml;;
-FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\WarningWindow.xaml;;
+﻿F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Release\GeneratedInternalTypeHelper.g.i.cs
+FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\Views\App.xaml;;
+FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\Views\ConfigSettingsView.xaml;;
+FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\Views\CurrentImageView.xaml;;
+FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\Views\InterestEntryView.xaml;;
+FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\Views\InterestInfoView.xaml;;
+FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\Views\InterestListView.xaml;;
+FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\Views\MainView.xaml;;
+FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\Views\RefreshStateView.xaml;;
+FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\Views\SetRefreshCycleView.xaml;;
+FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\Views\SettingsView.xaml;;
+FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\Config\Styles.xaml;;
+FF:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\Views\ShellView.xaml;;
 

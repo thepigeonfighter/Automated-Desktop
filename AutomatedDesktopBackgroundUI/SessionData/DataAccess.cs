@@ -263,7 +263,7 @@ namespace AutomatedDesktopBackgroundUI.SessionData
         }
         public SettingsModel GetCurrentSettings()
         {
-            Settings.Default.Upgrade();
+           
             bool contextMenuEnabled = shellService.IsContextMenuEnable();
             Settings.Default.ContextMenu = contextMenuEnabled;
             Settings.Default.Save();

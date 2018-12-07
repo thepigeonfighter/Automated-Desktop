@@ -162,10 +162,7 @@ F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debu
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\AutomatedDesktopBackgroundUI.csproj.CopyComplete
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop.exe
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Automated Desktop.pdb
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Config\log4net.config
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\WarningWindow.g.cs
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Config\Styles.baml
-F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\WarningWindow.baml
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\App.g.cs
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\App.baml
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\Caliburn.Micro.dll
@@ -196,3 +193,4 @@ F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debu
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\SetRefreshCycleView.baml
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\ConfigSettingsView.g.cs
 F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\obj\Debug\Views\ConfigSettingsView.baml
+F:\source\repos\AutomatedDesktopBackground\AutomatedDesktopBackgroundUI\bin\Debug\log4net.config

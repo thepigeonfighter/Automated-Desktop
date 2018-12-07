@@ -15,8 +15,7 @@ namespace AutomatedDesktopBackgroundUI
     /// </summary>
     public partial class App : Application
     {
-
-        private static readonly ILog log = LogManager.GetLogger(typeof(App));
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(typeof(App));
         protected override void OnStartup(StartupEventArgs e)
         {
             log4net.Config.XmlConfigurator.Configure();

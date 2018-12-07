@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-
+using log4net;
 namespace AutomatedDesktopBackgroundUI
 {
     public class Bootstrapper:BootstrapperBase

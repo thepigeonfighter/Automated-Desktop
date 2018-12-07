@@ -21,7 +21,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
-            
+
             <!--HEADER -->
             <Grid Grid.Row="1" Grid.Column="1">
                 <Grid.ColumnDefinitions>
@@ -37,9 +37,9 @@
                     <TextBlock Padding="0,0,30,7" Foreground="{StaticResource fontColor}" FontFamily="Tahoma">
                         Automated Wallpapers
                     </TextBlock>
-                    
+
                 </Viewbox>
-                
+
                 <!--Version Number + Connection Status-->
                 <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="2">
                     <Grid.RowDefinitions>
@@ -71,8 +71,8 @@
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="2*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="53"/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Grid.Column="1">
                     <Grid.ColumnDefinitions>
@@ -91,6 +91,6 @@
 
         </Grid>
     </Border>
-    
+
 
 </Window>

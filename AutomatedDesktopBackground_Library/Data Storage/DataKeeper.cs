@@ -130,7 +130,7 @@ namespace AutomatedDesktopBackgroundLibrary
         #region Wallpaper Functions
         public void UpdateWallpaper(string url)
         {
-            IFileCollection fileCollection = GetFileSnapShot();
+            IFileCollection fileCollection = GetFreshFileSnapShot();
             List<ImageModel> images = fileCollection.AllImages;
             ImageModel image = images.FirstOrDefault(x => x.LocalUrl == url);
             if (image != null)
