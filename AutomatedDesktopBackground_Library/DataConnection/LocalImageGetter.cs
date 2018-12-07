@@ -7,24 +7,26 @@ namespace AutomatedDesktopBackgroundLibrary
     //This class is a hot mess of garbage but works ok so i am going to leave it for now
     public class LocalImageGetter
     {
-        private readonly IFileCollection _fileCollection;
+        private IDataKeeper _dataKeeper;
+        private ImageGetter _imageGetter;
 
-        public LocalImageGetter(IFileCollection fileCollection)
+        public LocalImageGetter(IDataKeeper dataKeeper, ImageGetter imageGetter)
         {
-            _fileCollection = fileCollection;
+            _imageGetter = imageGetter;
+            _dataKeeper = dataKeeper;
         }
 
         private List<ImageModel> GetLocalImagesToDownload(string interestName)
         {
             List<ImageModel> output = new List<ImageModel>();
-            InterestModel interest = interestName.GetInterestByName();
+            InterestModel interest = _dataKeeper.GetFileSnapShot().AllInterests.First(x=>x.Name == interestName);
             const int defaultCollectionSize = 10;
             //On first time through this sets the entirecollectiondownloaded flag to true
             if (!interest.EntireCollectionDownloaded)
             {
                 UpdateInterest(interest);
             }
-            List<ImageModel> allImages = _fileCollection.AllImages;
+            List<ImageModel> allImages = _dataKeeper.GetFileSnapShot().AllImages;
             List<ImageModel> allImagesAssociatedByInterest = allImages.Where(x => x.InterestId == interest.Id).ToList();
             //Removes the images we are about to manipulate so that we do not create duplicate records
             allImagesAssociatedByInterest.ForEach(x => allImages.Remove(x));
@@ -95,12 +97,12 @@ namespace AutomatedDesktopBackgroundLibrary
             }
             allImagesAssociatedByInterest.ForEach(x => allImages.Add(x));
             allImages = allImages.OrderBy(x => x.Id).ToList();
-            allImages.ForEach(x => DataKeeper.AddImage(x));
+            allImages.ForEach(x => _dataKeeper.AddImage(x));
 
             return output;
         }
 
-        private static int GetIndexOfLastDownloadedPhoto(List<ImageModel> images)
+        private int GetIndexOfLastDownloadedPhoto(List<ImageModel> images)
         {
             try
             {
@@ -114,25 +116,23 @@ namespace AutomatedDesktopBackgroundLibrary
             }
         }
 
-        private static InterestModel UpdateInterest(InterestModel interest)
+        private InterestModel UpdateInterest(InterestModel interest)
         {
             InterestModel updatedInterest = interest;
 
             updatedInterest.EntireCollectionDownloaded = true;
-            DataKeeper.AddInterest(updatedInterest);
+            _dataKeeper.AddInterest(updatedInterest);
 
             return updatedInterest;
         }
 
-        private static void DownloadImages(List<ImageModel> imagesToDownload, bool userRequested)
+        private void DownloadImages(List<ImageModel> imagesToDownload, bool userRequested)
         {
-            ImageGetter imageGetter = new ImageGetter
-            {
-                ExpectedDownloadAmount = imagesToDownload.Count
-            };
+            _imageGetter.ExpectedDownloadAmount = imagesToDownload.Count;
+           
             foreach (ImageModel i in imagesToDownload)
             {
-                imageGetter.GetImageLocal(i, userRequested);
+                _imageGetter.GetImageLocal(i, userRequested);
             }
         }
 
@@ -142,7 +142,7 @@ namespace AutomatedDesktopBackgroundLibrary
             DownloadImages(imagesToDownload, userRequested);
         }
 
-        private static void SetIsDownloadedToFalse(List<ImageModel> images)
+        private void SetIsDownloadedToFalse(List<ImageModel> images)
         {
             List<ImageModel> updatedImages = new List<ImageModel>();
             foreach (ImageModel i in images)

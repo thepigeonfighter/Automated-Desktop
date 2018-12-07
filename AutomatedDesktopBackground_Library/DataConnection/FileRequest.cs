@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace AutomatedDesktopBackgroundLibrary.DataConnection
 {
@@ -11,5 +12,6 @@ namespace AutomatedDesktopBackgroundLibrary.DataConnection
         public string CopyPath { get; set; }
         public bool DeleteOrigin { get; set; }
         public ImageModel Image { get; set; }
+        public Action CallBack { get; set; }
     }
 }

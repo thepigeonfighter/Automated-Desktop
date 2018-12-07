@@ -31,7 +31,7 @@ namespace AutomatedDesktopBackgroundLibrary
 
         private void UpdateInterestFileEvent(object sender, List<InterestModel> e)
         {
-            FileCollection.AllInterests = e;
+            FileCollection.AllInterests = InterestFileProcessor.LoadAllEntries();
             Task.Run(() => UpdateFileListeners());
         }
 

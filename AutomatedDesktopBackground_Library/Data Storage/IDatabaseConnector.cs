@@ -11,8 +11,8 @@ namespace AutomatedDesktopBackgroundLibrary
         List<T> Load<T>(FileType fileType) where T : class, ISaveable, new();
         T LoadEntry<T>(string filePath) where T : class, ISaveable, new();
         void CreateEntry<T>(T item, string filePath) where T: class, ISaveable, new();
-        void Delete<T>(T item, string filePath) where T : class, ISaveable, new();
-        void DeleteFile(string filePath);
+        void Delete<T>(T item, string filePath, Action callBack) where T : class, ISaveable, new();
+        void DeleteFile(string filePath, Action callBack = null);
         void DeleteImages(List<ImageModel> images);
         void DeleteAllFiles();
     }

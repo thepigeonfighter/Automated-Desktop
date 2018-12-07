@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="AutomatedDesktopBackgroundUI.Views.RefreshStateView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AutomatedDesktopBackgroundUI.Views"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="237.805">
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="15*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="7*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Viewbox x:Name="vb1" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Left">
+            <TextBlock Foreground="{StaticResource fontColor}" FontFamily="Tahoma" Padding="10" Text="{Binding Path=BackgroundMessage}" >
+            </TextBlock>
+        </Viewbox>
+        <Viewbox Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" Height="{Binding ElementName=vb1, Path=ActualHeight}">
+            <TextBlock Foreground="{StaticResource fontColor}" FontFamily="Tahoma" Padding="10" Text="{Binding Path=CollectionMessage}">
+            </TextBlock>
+        </Viewbox>
+        <!--Start stop background refreshing-->
+        <Grid Grid.Column="3" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="StartBackgroundRefresh"  IsEnabled="{Binding Path=EnableBackgroundRefresh}"
+                    Style="{StaticResource refreshButtonStyle}" Grid.Row="1" Grid.Column="3"
+                    ToolTip="Start Refreshing"/>
+            <Button x:Name="StopBackgroundRefresh" IsEnabled="{Binding Path=EnableBackgroundRefresh, Converter={StaticResource ResourceKey=InverseBool}}"
+                    Style="{StaticResource revertSettingsStyle}" Grid.Row="1" Grid.Column="1" ToolTip="Stop Refreshing"/>
+        </Grid>
+        <!--Start stop collection refreshing-->
+        <Grid Grid.Column="3" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button x:Name="StartCollectionRefresh" Style="{StaticResource refreshButtonStyle}" IsEnabled="{Binding Path=EnableCollectionRefresh}" Grid.Row="1" Grid.Column="3"
+                    ToolTip="Start Refreshing"/>
+            <Button x:Name="StopCollectionRefresh" Style="{StaticResource revertSettingsStyle}" 
+                    IsEnabled="{Binding Path=EnableCollectionRefresh,Converter={StaticResource ResourceKey=InverseBool}}"
+                    Grid.Row="1" Grid.Column="1" ToolTip="Stop Refreshing"/>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -9,14 +9,22 @@ namespace ChangeBackgroundOnce
     {
         static void Main(string[] args)
         {
-            
-            List<ImageModel> images = DataKeeper.GetFreshFileSnapShot().AllImages;
-            if (images.Count > 0)
+
+            IDataKeeper dataKeeper = GetDataKeeper();
+            List<ImageModel> images = dataKeeper.GetFreshFileSnapShot().AllImages;
+           if (images.Count > 0)
             {
-                BackGroundPicker backGroundPicker = new BackGroundPicker();
+               BackGroundPicker backGroundPicker = new BackGroundPicker(dataKeeper);
                 backGroundPicker.PickRandomBackground(false);
                 
-            }
+           }
+        }
+        private static IDataKeeper GetDataKeeper()
+        {
+            IDataStorageBuilder builder = new DataStorageBuilder();
+            IDataStorage jsonStorage = builder.Build(Database.JsonFile);
+            IDataKeeper dataKeeper = new DataKeeper(jsonStorage);
+            return dataKeeper;
         }
 
     }

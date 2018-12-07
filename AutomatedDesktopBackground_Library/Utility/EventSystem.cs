@@ -22,6 +22,8 @@ namespace AutomatedDesktopBackgroundLibrary
 
         public event EventHandler<string> OnErrorsEncounteredDuringDownloadEvent;
 
+        public EventHandler OnRefreshStatusChange;
+
         public event EventHandler<string> ShowCustomMessageBoxEvent;
 
         public void InvokePercentChangeEvent(int percentage)
@@ -47,6 +49,10 @@ namespace AutomatedDesktopBackgroundLibrary
         public void InvokeStartedDownloadingEvent()
         {
             StartedDownloadingEvent?.Invoke(this, "Download Started");
+        }
+        public void InvokeRefreshStatusChangedEvent()
+        {
+            OnRefreshStatusChange?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>

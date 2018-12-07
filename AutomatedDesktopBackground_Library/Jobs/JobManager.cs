@@ -25,13 +25,13 @@ namespace AutomatedDesktopBackgroundLibrary
             StdSchedulerFactory factory = new StdSchedulerFactory(prop);
             scheduler = await  factory.GetScheduler();
         }
-        public async Task StartBackgroundUpdatingAsync()
+        public async Task StartBackgroundUpdatingAsync(TimeSpan time)
         {
             try
             {
                 await scheduler.Start().ConfigureAwait(false);
                 IJobDetail jobDetail = JobBuilder.Create<ChangeBackgroundJob>().WithIdentity(BackgroundJob).Build();
-                int refreshRate = (int)Math.Round(Scheduler.ScheduleManager.BackgroundRefreshSetting().TotalSeconds);
+                int refreshRate = (int)Math.Round(time.TotalSeconds);
                 ITrigger trigger = TriggerBuilder.Create().WithIdentity(BackgroundJob).StartAt(DateTime.Now.AddSeconds(refreshRate)).WithSimpleSchedule(x =>
                  x.WithIntervalInSeconds(refreshRate).RepeatForever()).Build();
                 await scheduler.ScheduleJob(jobDetail, trigger);
@@ -42,14 +42,13 @@ namespace AutomatedDesktopBackgroundLibrary
             }
         }
 
-        public async Task StartCollectionUpdatingAsync()
+        public async Task StartCollectionUpdatingAsync(TimeSpan time)
         {
             try
             {
                 await scheduler.Start().ConfigureAwait(false);
                 IJobDetail jobDetail = JobBuilder.Create<CollectionRefreshJob>().WithIdentity(CollectionsJob).Build();
-                int refreshRate = (int)Math.Round(Scheduler.ScheduleManager.CollectionRefreshSetting().TotalSeconds);
-               // ITrigger trigger = TriggerBuilder.Create().WithIdentity(CollectionsJob).StartAt(DateTime.Now.AddSeconds(refreshRate)).WithSimpleSchedule(x =>
+                int refreshRate = (int)Math.Round(time.TotalSeconds);
                  ITrigger trigger = TriggerBuilder.Create().WithIdentity(CollectionsJob).StartNow().WithSimpleSchedule(x =>
                  x.WithIntervalInSeconds(refreshRate).RepeatForever()).Build();
                 await scheduler.ScheduleJob(jobDetail, trigger);

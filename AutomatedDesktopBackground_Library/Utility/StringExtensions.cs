@@ -34,16 +34,10 @@ namespace AutomatedDesktopBackgroundLibrary.StringExtensions
             }
             catch
             {
-                CustomMessageBox.Show(input + " was not a valid string");
                 return "Invalid Format";
             }
         }
 
-        public static InterestModel GetInterestByName(this string interestName)
-        {
-            InterestModel interest = DataKeeper.GetFileSnapShot().AllInterests.FirstOrDefault(x => x.Name == interestName);
-            return interest;
-        }
 
 
         public static string GetImageFileName(this string hreflink)

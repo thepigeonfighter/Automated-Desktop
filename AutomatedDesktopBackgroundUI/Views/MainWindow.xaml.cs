@@ -15,7 +15,7 @@ using System.Reflection;
 
 namespace AutomatedDesktopBackgroundUI
 {
-
+    /*
     public partial class MainWindow : Window
     {
         private readonly MainViewController viewController = new MainViewController();
@@ -589,4 +589,5 @@ namespace AutomatedDesktopBackgroundUI
 
 
     }
+    */
 }

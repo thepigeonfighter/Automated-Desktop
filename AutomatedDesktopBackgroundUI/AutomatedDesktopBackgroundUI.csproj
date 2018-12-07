@@ -37,6 +37,15 @@
     <ApplicationIcon>Images\Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Caliburn.Micro, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.Core.3.2.0\lib\net45\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Platform.Core, Version=3.2.0.0, Culture=neutral, PublicKeyToken=8e5891231f2ed21f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\Caliburn.Micro.Platform.Core.dll</HintPath>
+    </Reference>
     <Reference Include="DeltaCompressionDotNet, Version=1.1.0.0, Culture=neutral, PublicKeyToken=1d14d6e5194e7f4a, processorArchitecture=MSIL">
       <HintPath>..\packages\DeltaCompressionDotNet.1.1.0\lib\net20\DeltaCompressionDotNet.dll</HintPath>
     </Reference>
@@ -86,6 +95,9 @@
     <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Runtime.Remoting" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.3.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -104,32 +116,113 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Views\RootWindow.xaml.cs">
-      <DependentUpon>RootWindow.xaml</DependentUpon>
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Config\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Config\CommandNames.cs" />
+    <Compile Include="Config\ConfigKeyNames.cs" />
+    <Compile Include="Config\InverseBooleanConverter.cs" />
+    <Compile Include="Config\PropertyNames.cs" />
+    <Compile Include="Config\ThemeProperties.cs" />
+    <Compile Include="Models\CurrentImageModel.cs" />
+    <Compile Include="Models\InterestInfoModel.cs" />
+    <Compile Include="Models\RefreshStateModel.cs" />
+    <Compile Include="Models\SettingsModel.cs" />
+    <Compile Include="Models\TimeModel.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsWindow.xaml.cs">
-      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    <Compile Include="SessionData\CommandControl.cs" />
+    <Compile Include="SessionData\DataAccess.cs" />
+    <Compile Include="SessionData\IDataAccess.cs" />
+    <Compile Include="SessionData\ISessionContext.cs" />
+    <Compile Include="SessionData\SessionContext.cs" />
+    <Compile Include="Utility\EventContainer.cs" />
+    <Compile Include="Utility\IRefreshCycleServices.cs" />
+    <Compile Include="Utility\IShellService.cs" />
+    <Compile Include="Utility\RefreshCycleServices.cs" />
+    <Compile Include="Utility\ShellService.cs" />
+    <Compile Include="Utility\StringExtensions.cs" />
+    <Compile Include="ViewModels\ConfigSettingsViewModel.cs" />
+    <Compile Include="ViewModels\CurrentImageViewModel.cs" />
+    <Compile Include="ViewModels\InterestEntryViewModel.cs" />
+    <Compile Include="ViewModels\InterestInfoViewModel.cs" />
+    <Compile Include="ViewModels\InterestListViewModel.cs" />
+    <Compile Include="ViewModels\ISettingScreen.cs" />
+    <Compile Include="ViewModels\IShellViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\RefreshStateViewModel.cs" />
+    <Compile Include="ViewModels\SetRefreshCycleViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="Views\ConfigSettingsView.xaml.cs">
+      <DependentUpon>ConfigSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\WarningWindow.xaml.cs">
-      <DependentUpon>WarningWindow.xaml</DependentUpon>
+    <Compile Include="Views\CurrentImageView.xaml.cs">
+      <DependentUpon>CurrentImageView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Compile Include="Views\InterestEntryView.xaml.cs">
+      <DependentUpon>InterestEntryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InterestInfoView.xaml.cs">
+      <DependentUpon>InterestInfoView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\InterestListView.xaml.cs">
+      <DependentUpon>InterestListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RefreshStateView.xaml.cs">
+      <DependentUpon>RefreshStateView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SetRefreshCycleView.xaml.cs">
+      <DependentUpon>SetRefreshCycleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShellView.xaml.cs">
+      <DependentUpon>ShellView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\ConfigSettingsView.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CurrentImageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InterestEntryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InterestInfoView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\InterestListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="Views\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="Views\RootWindow.xaml">
+    <Page Include="Views\RefreshStateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SettingsWindow.xaml">
+    <Page Include="Views\SetRefreshCycleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -137,7 +230,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\WarningWindow.xaml">
+    <Page Include="Views\ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -151,31 +244,31 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
+    <Resource Include="Images\Skip.png" />
+    <Resource Include="Images\Add_disabled.png" />
+    <Resource Include="Images\TrashIcon-disabled.png" />
+    <Resource Include="Images\TrashIcon.png" />
+    <Resource Include="Images\Add.png" />
+    <Resource Include="Images\Cancel_disabled.png" />
+    <Resource Include="Images\Refresh_disabled.png" />
+    <Resource Include="Images\Refresh.png" />
+    <Resource Include="Images\Checkmark_disabled.png" />
+    <Resource Include="Images\Cancel.png" />
+    <Resource Include="Images\Checkmark.png" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <Resource Include="Images\Love it.png" />
     <Resource Include="Images\Love it_disabled.png" />
-    <Resource Include="Images\TrashIcon.png" />
-    <Resource Include="Images\NextImageButton.png" />
-    <Content Include="Config\log4net.config">
+    <Content Include="log4net.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Config\packages.config" />
     <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Config\App.config" />
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutomatedDesktopBackground_Library\AutomatedDesktopBackgroundLibrary.csproj">
@@ -184,31 +277,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Include="Resources\readme.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Background Pane.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Background Pane_WBorder.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Border.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Settings Button2.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\CloseButton.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\RoundedSquare.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\MainWindowPane.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\minimize button.png" />

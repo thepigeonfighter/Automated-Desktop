@@ -54,7 +54,7 @@ namespace AutomatedDesktopBackgroundLibrary
             }
         }
 
-        public void DeleteFile(string filePath)
+        public void DeleteFile(string filePath, Action callBack = null)
         {
             using (_sync.Write())
             {
@@ -64,6 +64,7 @@ namespace AutomatedDesktopBackgroundLibrary
                     {
                         FileOperation = FileOperation.Delete,
                         FilePath = filePath,
+                        CallBack = callBack
                     };
                     if (_deletionQueue.Count > 0)
                     {
@@ -143,9 +144,9 @@ namespace AutomatedDesktopBackgroundLibrary
             }
         }
 
-        void IDatabaseConnector.Delete<T>(T item, string filePath)
+        void IDatabaseConnector.Delete<T>(T item, string filePath, Action callBack)
         {
-            DeleteFile(filePath);
+            DeleteFile(filePath, callBack);
         }
         List<T> IDatabaseConnector.Load<T>(FileType fileType)
         {

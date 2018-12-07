@@ -16,24 +16,16 @@ namespace AutomatedDesktopBackgroundLibrary
     /// </summary>
     public class ImageGetter : ImageGetterBase
     {
-        private readonly ImageModelBuilder _imageBuilder = new ImageModelBuilder();
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        /// <summary>
-        /// Retrieves an image from the internet, and creates a new image entry in the database
-        /// </summary>
-        /// <param name="imageUrl">
-        /// the download path that will be used to retrieve the image
-        /// </param>
-        ///
-        /// <param name="folderName">
-        /// the name of the folder that will store the image</param>
-        /// <param name="userRequested">
-        /// represents whether the user has specifically requested this download or if it is a background operation
-        /// </param>
+
+        public ImageGetter(IDataKeeper dataKeeper, ImageModelBuilder imageBuilder) : base(dataKeeper, imageBuilder)
+        {
+        }
+
         public void GetImage(string imageUrl, string folderName,string description, bool userRequested)
         {
             totalDownloadsRequested = ExpectedDownloadAmount;
-            InterestModel interest = folderName.GetInterestByName();
+            InterestModel interest = _dataKeeper.GetFileSnapShot().AllInterests.First(x=>x.Name == folderName);
             Directory.CreateDirectory($@"{InternalFileDirectorySystem.ImagesFolder}\{interest.Name}");
             ImageModel imageToDownload = _imageBuilder.Build(imageUrl,description, interest);
             log.Debug($"Requesting to download an image named {imageToDownload.Name} from {imageUrl}");
@@ -41,23 +33,6 @@ namespace AutomatedDesktopBackgroundLibrary
             _IsUserRequested = userRequested;
         }
 
-        /// <summary>
-        /// Retrieves an image from the internet, using an image entry that was previously downloaded
-        /// </summary>
-        /// <param name="imageUrl">
-        /// the download path that will be used to retrieve the image
-        /// </param>
-        /// <param name="downloadPath">
-        /// the path to which the image will be saved
-        /// </param>
-        ///
-        /// <param name="folderName">
-        /// the name of the folder that will store the image</param>
-        /// <param name="image">
-        /// </param>
-        /// <param name="userRequested">
-        /// represents whether the user has specifically requested this download or if it is a background operation
-        /// </param>
         public void GetImageLocal(ImageModel image, bool userRequested)
         {
             totalDownloadsRequested = ExpectedDownloadAmount;
@@ -67,21 +42,6 @@ namespace AutomatedDesktopBackgroundLibrary
             _IsUserRequested = userRequested;
             isLocalGet = true;
         }
-
-        /// <summary>
-        /// <para>Get the filename from a web url :</para>
-        /// <para>www.google.com/image.png -> returns : image.png</para>
-        ///
-        /// </summary>
-        /// <param name="hreflink">
-        /// </param>
-        /// <param name="imageUrl">
-        /// </param>
-        /// <param name="downloadPath"></param>
-        /// <param name="image">
-        /// </param>
-        /// <returns></returns>
-
         private void DownloadFileLocal(ImageModel image)
         {
             if (!IsHated(image.Url))
@@ -96,11 +56,6 @@ namespace AutomatedDesktopBackgroundLibrary
             }
         }
 
-        /// <summary>
-        /// Download a file asynchronously in the desktop path, show the download progress and save it with the original filename.
-        /// </summary>
-        /// <param name="image">
-        /// </param>
         private void DownloadFile(ImageModel image)
         {
             if (!IsHated(image.Url))
@@ -117,7 +72,7 @@ namespace AutomatedDesktopBackgroundLibrary
 
         private bool IsHated(string Url)
         {
-            List<ImageModel> hatedImages = DataKeeper.GetFileSnapShot().AllImages.Where(x => x.IsHated).ToList();
+            List<ImageModel> hatedImages = _dataKeeper.GetFileSnapShot().AllImages.Where(x => x.IsHated).ToList();
             if (hatedImages.Count == 0)
             {
                 return false;
@@ -133,12 +88,6 @@ namespace AutomatedDesktopBackgroundLibrary
             }
             return false;
         }
-
-        /// <summary>
-        ///  Show the progress of the download in a progressbar
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Wc_DownloadProgressChanged(object sender, DownloadProgressChangedEventArgs e)
         {
             if (_IsUserRequested)

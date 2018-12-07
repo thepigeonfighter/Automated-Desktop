@@ -6,18 +6,23 @@ using System.Linq;
 
 namespace AutomatedDesktopBackgroundLibrary
 {
-    public static class DataKeeper
+    public class DataKeeper : IDataKeeper
     {
-        private static readonly IDataStorage _database = new DataStorageBuilder().Build(Database.JsonFile);
+        private IDataStorage _dataStorageProcessor ;
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        public DataKeeper(IDataStorage database)
+        {
+            _dataStorageProcessor = database;
+        }
 
         #region Image Functions
 
-        public static ImageModel AddImage(ImageModel entry)
+        public ImageModel AddImage(ImageModel entry)
         {
             try
             {
-                _database.ImageFileProcessor.CreateEntry(entry);
+                _dataStorageProcessor.ImageFileProcessor.CreateEntry(entry);
                 log.Debug($"Have successfully added the image {entry.Name}");
             }
             catch(Exception ex)
@@ -28,11 +33,11 @@ namespace AutomatedDesktopBackgroundLibrary
             return entry;
         }
 
-        public static void DeleteImageAndImageInfoEntry(ImageModel entry)
+        public void DeleteImageAndImageInfoEntry(ImageModel entry)
         {
             try
             {
-                _database.ImageFileProcessor.DeleteEntry(entry);
+                _dataStorageProcessor.ImageFileProcessor.DeleteEntry(entry);
                 DeleteImage(entry, true);
                 log.Debug($"Deleted the image {entry.Name} ");
             }
@@ -47,11 +52,11 @@ namespace AutomatedDesktopBackgroundLibrary
 
         #region Interest Model Functions
 
-        public static void AddInterest(InterestModel interest)
+        public void AddInterest(InterestModel interest)
         {
             try
             {
-                _database.InterestFileProcessor.CreateEntry(interest);
+                _dataStorageProcessor.InterestFileProcessor.CreateEntry(interest);
                 log.Debug($"Have added the interest {interest.Name}");
             }
             catch (Exception ex)
@@ -61,12 +66,12 @@ namespace AutomatedDesktopBackgroundLibrary
             }
         }
 
-        public static void DeleteInterest(InterestModel interest)
+        public void DeleteInterest(InterestModel interest)
         {
             try
             {
-                _database.InterestFileProcessor.DeleteEntry(interest);
-                _database.ImageFileProcessor.RemoveAllImagesByInterest(interest);
+                _dataStorageProcessor.InterestFileProcessor.DeleteEntry(interest);
+                _dataStorageProcessor.ImageFileProcessor.RemoveAllImagesByInterest(interest, GetFileSnapShot());
                 log.Debug($"Have deleted the interest{interest.Name}");
             }
             catch (Exception ex)
@@ -80,57 +85,57 @@ namespace AutomatedDesktopBackgroundLibrary
 
         #region File Functions
 
-        public static IFileCollection GetFileSnapShot()
+        public IFileCollection GetFileSnapShot()
         {
-            return _database.FileCollection;
+            return _dataStorageProcessor.FileCollection;
         }
-        public static IFileCollection GetFreshFileSnapShot()
+        public IFileCollection GetFreshFileSnapShot()
         {
-            _database.UpdateAllLists();
-            return _database.FileCollection;
+            _dataStorageProcessor.UpdateAllLists();
+            return _dataStorageProcessor.FileCollection;
         }
 
-        public static void DeleteImage(ImageModel image, bool KeepRecord)
+        public void DeleteImage(ImageModel image, bool KeepRecord)
         {
             if (KeepRecord)
             {
                 image.IsDownloaded = false;
                 AddImage(image);
             }
-            _database.Database.DeleteFile(image.LocalUrl);
+            _dataStorageProcessor.Database.DeleteFile(image.LocalUrl);
         }
 
-        public static void DeleteGroupOfFiles(List<ImageModel> images)
+        public void DeleteGroupOfFiles(List<ImageModel> images)
         {
-            _database.Database.DeleteImages(images);
+            _dataStorageProcessor.Database.DeleteImages(images);
         }
 
-        public static void RegisterFileListener(IFileListener fileListener)
+        public void RegisterFileListener(IFileListener fileListener)
         {
-            _database.RegisterFileListeners(fileListener);
+            _dataStorageProcessor.RegisterFileListeners(fileListener);
         }
 
-        public static void ResetApplication()
+        public void ResetApplication()
         {
-            _database.ResetApplication();
+            _dataStorageProcessor.ResetApplication();
         }
 
-        public static void UpdateAllLists()
+        public void UpdateAllLists()
         {
-            _database.UpdateAllLists();
+            _dataStorageProcessor.UpdateAllLists();
         }
 
         #endregion File Functions
 
         #region Wallpaper Functions
-        public static void UpdateWallpaper(string url)
+        public void UpdateWallpaper(string url)
         {
-            IFileCollection fileCollection = GetFileSnapShot();
+            IFileCollection fileCollection = GetFreshFileSnapShot();
             List<ImageModel> images = fileCollection.AllImages;
             ImageModel image = images.FirstOrDefault(x => x.LocalUrl == url);
             if (image != null)
             {
-                _database.ImageFileProcessor.UpdateWallPaper(image, fileCollection.CurrentWallpaper);
+                _dataStorageProcessor.ImageFileProcessor.UpdateWallPaper(image, fileCollection.CurrentWallpaper);
             }
             else
             {

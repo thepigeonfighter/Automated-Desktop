@@ -15,7 +15,7 @@ namespace AutomatedDesktopBackgroundLibrary
 
         void DeleteEntry(ImageModel entry);
 
-        void RemoveAllImagesByInterest(InterestModel interest);
+        void RemoveAllImagesByInterest(InterestModel interest, IFileCollection fileCollection);
 
         void UpdateWallPaper(ImageModel entry, ImageModel oldWallpaper = null);
     }

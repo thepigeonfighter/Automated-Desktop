@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="AutomatedDesktopBackgroundUI.Views.InterestInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AutomatedDesktopBackgroundUI.Views"
+             
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="476.829">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="4*"/>
+        </Grid.RowDefinitions>
+        <!--Info Card Header-->
+        <Viewbox  Grid.Row="0" HorizontalAlignment="Left">
+            <TextBlock FontFamily="Tahoma" Foreground="{StaticResource fontColor}" Padding="2,5">
+                Info
+            </TextBlock>
+
+        </Viewbox>
+        <!--Info Card-->
+        <Grid  Grid.Row="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Column="0" Grid.Row="0"  BorderBrush="{StaticResource fontColor}" BorderThickness="1" CornerRadius="6">
+                <Viewbox x:Name="InterestResults"  VerticalAlignment="Top" HorizontalAlignment="Left" >
+                    <TextBlock Padding="3,4,30,1" FontFamily="Tahoma" Foreground="{StaticResource fontColor}" Text="{Binding Path=InterestInfo}">
+                    </TextBlock>
+                </Viewbox>
+            </Border>
+            <!--Download/ Remove Interest Buttons-->
+            <Grid Grid.Column="0" Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="8*"/>
+                    <ColumnDefinition Width="*"/>
+
+                </Grid.ColumnDefinitions>
+                <Button x:Name="DownloadImages" Style="{StaticResource simpleButtonStyle}" Grid.Row="1" Grid.Column="1"
+                        Visibility="{Binding Path=IsVisible, Converter={StaticResource ResourceKey=BoolToVisibility}, Mode=OneWay}"
+                        ContentStringFormat="Download New Collection"></Button>
+                <Viewbox Grid.Row="1" Grid.Column="1">
+                    <TextBlock x:Name="DownloadInfo">
+                        
+                    </TextBlock>
+                </Viewbox>
+                <Button x:Name="RemoveInterest" Style="{StaticResource simpleButtonStyle}" Grid.Row="3" Grid.Column="1" 
+                       IsEnabled="{Binding Path=RemoveInterestButton}" ContentStringFormat="Remove Interest"></Button>
+            </Grid>
+
+        </Grid>
+    </Grid>
+
+</UserControl>

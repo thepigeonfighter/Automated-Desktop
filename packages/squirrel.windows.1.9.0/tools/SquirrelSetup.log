@@ -46,3 +46,68 @@
 2018-11-17 16:27:19> ReleasePackage: Removing unnecessary data
 2018-11-17 16:27:19> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempc\AutomatedDesktop.nuspec
 2018-11-17 16:27:19> Program: Building embedded zip file for Setup.exe
+2018-12-05 16:56:24> Program: Starting Squirrel Updater: --releasify C:\TempRelease\AutomatedDesktop.1.5.0.nupkg
+2018-12-05 16:56:24> Program: Bootstrapper EXE found at:F:\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-12-05 16:56:24> Program: Creating release package: F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.5.0.nupkg
+2018-12-05 16:56:24> ReleasePackage: Creating release package: F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.5.0.nupkg => F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop-1.5.0-full.nupkg
+2018-12-05 16:56:25> ReleasePackage: Extracting dependent packages: []
+2018-12-05 16:56:25> ReleasePackage: Removing unnecessary data
+2018-12-05 16:56:25> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempc\AutomatedDesktop.nuspec
+2018-12-05 16:56:26> Program: Building embedded zip file for Setup.exe
+2018-12-05 17:25:04> Program: Starting Squirrel Updater: --releasify C:\TempRelease\AutomatedDesktop.1.5.0.nupkg
+2018-12-05 17:25:04> Program: Bootstrapper EXE found at:F:\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-12-05 17:25:04> Program: Creating release package: F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.5.0.nupkg
+2018-12-05 17:25:04> ReleasePackage: Creating release package: F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.5.0.nupkg => F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop-1.5.0-full.nupkg
+2018-12-05 17:25:05> ReleasePackage: Extracting dependent packages: []
+2018-12-05 17:25:05> ReleasePackage: Removing unnecessary data
+2018-12-05 17:25:05> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempc\AutomatedDesktop.nuspec
+2018-12-05 17:25:05> Program: Building embedded zip file for Setup.exe
+2018-12-05 18:40:26> Program: Starting Squirrel Updater: --releasify C:\TempRelease\AutomatedDesktop.1.5.0.nupkg
+2018-12-05 18:40:26> Program: Bootstrapper EXE found at:F:\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-12-05 18:40:26> Program: Creating release package: F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.5.0.nupkg
+2018-12-05 18:40:26> ReleasePackage: Creating release package: F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.5.0.nupkg => F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop-1.5.0-full.nupkg
+2018-12-05 18:40:27> ReleasePackage: Extracting dependent packages: []
+2018-12-05 18:40:27> ReleasePackage: Removing unnecessary data
+2018-12-05 18:40:27> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempc\AutomatedDesktop.nuspec
+2018-12-05 18:40:28> Program: Building embedded zip file for Setup.exe
+2018-12-05 20:37:25> Program: Starting Squirrel Updater: --releasify C:\TempRelease\AutomatedDesktop.1.5.0.nupkg
+2018-12-05 20:37:25> Program: Bootstrapper EXE found at:F:\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-12-05 20:37:25> Program: Creating release package: F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.5.0.nupkg
+2018-12-05 20:37:26> ReleasePackage: Creating release package: F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.5.0.nupkg => F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop-1.5.0-full.nupkg
+2018-12-05 20:37:27> ReleasePackage: Extracting dependent packages: []
+2018-12-05 20:37:27> ReleasePackage: Removing unnecessary data
+2018-12-05 20:37:27> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempc\AutomatedDesktop.nuspec
+2018-12-05 20:37:27> Program: Building embedded zip file for Setup.exe
+2018-12-05 20:37:28> Program: Failed to update Setup.exe with new Zip file: System.Exception: Failed to write Zip to Setup.exe!
+
+Setup: F:\source\repos\AutomatedDesktopBackground\Releases\Setup.exe, Zip: C:\Users\thepigeonfighter\AppData\Local\Temp\tmpEA7C.tmp
+Starting to read in Zip file!
+Updating Resource!
+Finished!
+Failed to update resource
+Usage: WriteZipToSetup [Setup.exe template] [Zip File]
+   at Squirrel.Update.Program.Releasify(String package, String targetDir, String packagesDir, String bootstrapperExe, String backgroundGif, String signingOpts, String baseUrl, String setupIcon, Boolean generateMsi, String frameworkVersion, Boolean generateDeltas)
+2018-12-05 20:50:38> Program: Starting Squirrel Updater: --releasify C:\TempRelease\AutomatedDesktop.1.5.0.nupkg
+2018-12-05 20:50:38> Program: Bootstrapper EXE found at:F:\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-12-05 20:50:38> Program: Creating release package: F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.5.0.nupkg
+2018-12-05 20:50:38> ReleasePackage: Creating release package: F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.5.0.nupkg => F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop-1.5.0-full.nupkg
+2018-12-05 20:50:39> ReleasePackage: Extracting dependent packages: []
+2018-12-05 20:50:39> ReleasePackage: Removing unnecessary data
+2018-12-05 20:50:39> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempc\AutomatedDesktop.nuspec
+2018-12-05 20:50:40> Program: Building embedded zip file for Setup.exe
+2018-12-05 21:03:03> Program: Starting Squirrel Updater: --releasify C:\TempRelease\AutomatedDesktop.1.5.0.nupkg
+2018-12-05 21:03:03> Program: Bootstrapper EXE found at:F:\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-12-05 21:03:03> Program: Creating release package: F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.5.0.nupkg
+2018-12-05 21:03:03> ReleasePackage: Creating release package: F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.5.0.nupkg => F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop-1.5.0-full.nupkg
+2018-12-05 21:03:04> ReleasePackage: Extracting dependent packages: []
+2018-12-05 21:03:04> ReleasePackage: Removing unnecessary data
+2018-12-05 21:03:04> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempc\AutomatedDesktop.nuspec
+2018-12-05 21:03:05> Program: Building embedded zip file for Setup.exe
+2018-12-06 20:09:23> Program: Starting Squirrel Updater: --releasify C:\TempRelease\AutomatedDesktop.1.5.0.nupkg
+2018-12-06 20:09:23> Program: Bootstrapper EXE found at:F:\source\repos\AutomatedDesktopBackground\packages\squirrel.windows.1.9.0\tools\Setup.exe
+2018-12-06 20:09:23> Program: Creating release package: F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.5.0.nupkg
+2018-12-06 20:09:23> ReleasePackage: Creating release package: F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop.1.5.0.nupkg => F:\source\repos\AutomatedDesktopBackground\Releases\AutomatedDesktop-1.5.0-full.nupkg
+2018-12-06 20:09:24> ReleasePackage: Extracting dependent packages: []
+2018-12-06 20:09:24> ReleasePackage: Removing unnecessary data
+2018-12-06 20:09:24> ReleasePackage: No release notes found in C:\Users\thepigeonfighter\AppData\Local\SquirrelTemp\tempc\AutomatedDesktop.nuspec
+2018-12-06 20:09:24> Program: Building embedded zip file for Setup.exe

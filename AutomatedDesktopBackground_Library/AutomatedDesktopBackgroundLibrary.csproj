@@ -61,8 +61,10 @@
   <ItemGroup>
     <Compile Include="API Classes\APICaller.cs" />
     <Compile Include="API Classes\APIResult.cs" />
+    <Compile Include="Data Storage\IDataKeeper.cs" />
     <Compile Include="DataConnection\FileRequest.cs" />
     <Compile Include="DataConnection\FileRequestsManager.cs" />
+    <Compile Include="DataConnection\IAPIManager.cs" />
     <Compile Include="DataConnection\ImageGetterBase.cs" />
     <Compile Include="DataConnection\LocalImageGetter.cs" />
     <Compile Include="Data Storage\DataStorage.cs" />
@@ -70,7 +72,7 @@
     <Compile Include="Data Storage\DataKeeper.cs" />
     <Compile Include="File Management\DirectoryNavigator.cs" />
     <Compile Include="File Management\FileCollection.cs" />
-    <Compile Include="API Classes\IAPIManager.cs" />
+    <Compile Include="API Classes\IAPICaller.cs" />
     <Compile Include="API Classes\IAPIResult.cs" />
     <Compile Include="API Classes\IAPIResultConverter.cs" />
     <Compile Include="Data Storage\IDataStorage.cs" />
@@ -79,6 +81,7 @@
     <Compile Include="File Management\IFileListener.cs" />
     <Compile Include="File Management\WallpaperChangeWatcher.cs" />
     <Compile Include="ImageFileProcessing\ImageModelExtensions.cs" />
+    <Compile Include="Jobs\JobResult.cs" />
     <Compile Include="Model\ImageModelBuilder.cs" />
     <Compile Include="Model\InterestBuilder.cs" />
     <Compile Include="File Management\InternalFileDirectorySystem.cs" />
@@ -88,7 +91,6 @@
     <Compile Include="ImageFileProcessing\ImageFileProcessor.cs" />
     <Compile Include="Model\ISaveable.cs" />
     <Compile Include="InterestFileProcessing\InterestFileProcessor.cs" />
-    <Compile Include="Model\SettingsModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -99,8 +101,6 @@
     <Compile Include="Data Storage\JsonDataConnector.cs" />
     <Compile Include="API Classes\UnsplashUrlBuilder.cs" />
     <Compile Include="Data Storage\TextFileConnector.cs" />
-    <Compile Include="Utility\ChangeOnceProgramDownloader.cs" />
-    <Compile Include="Utility\CustomMessageBox.cs" />
     <Compile Include="Utility\EnumHolder.cs" />
     <Compile Include="DataConnection\InterenetConnectionChecker.cs" />
     <Compile Include="Jobs\CollectionRefresher.cs" />
@@ -108,19 +108,17 @@
     <Compile Include="Jobs\ChangeBackgroundJob.cs" />
     <Compile Include="DataConnection\APIManager.cs" />
     <Compile Include="ResponseClasses\LiteImageResponseModel.cs" />
+    <Compile Include="Utility\IShellExtension.cs" />
     <Compile Include="Utility\ReaderWriterLockSlimExtensions.cs" />
     <Compile Include="Utility\StringExtensions.cs" />
     <Compile Include="Utility\EventSystem.cs" />
     <Compile Include="Jobs\JobManager.cs" />
-    <Compile Include="Jobs\ScheduleManager.cs" />
-    <Compile Include="Model\TimeModel.cs" />
     <Compile Include="Jobs\BackGroundPicker.cs" />
     <Compile Include="Utility\GlobalConfig.cs" />
     <Compile Include="DataConnection\ImageGetter.cs" />
     <Compile Include="Model\ImageModel.cs" />
     <Compile Include="Model\InterestModel.cs" />
     <Compile Include="Utility\WindowsShellExtension.cs" />
-    <Compile Include="ViewController\MainViewController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResponseClasses\Links.cs" />
     <Compile Include="ResponseClasses\Links2.cs" />
@@ -131,10 +129,8 @@
     <Compile Include="ResponseClasses\Tag.cs" />
     <Compile Include="ResponseClasses\Urls.cs" />
     <Compile Include="ResponseClasses\User.cs" />
-    <Compile Include="ViewController\SettingsViewController.cs" />
     <Compile Include="DataConnection\ObjectToTextProcessor.cs" />
     <Compile Include="Jobs\WallpaperSetter.cs" />
-    <Compile Include="ViewController\WarningWindowController.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
